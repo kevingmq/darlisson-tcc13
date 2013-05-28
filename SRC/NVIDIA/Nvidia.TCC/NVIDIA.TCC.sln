@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nvidia.FFT", "Nvidia.FFT\Nvidia.FFT.vcxproj", "{91B6559F-154E-4644-8E70-23D50EE9A1C6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nvidia.Sobel", "Nvidia.Sobel\Nvidia.Sobel.vcxproj", "{3A16BCBF-A2DD-4072-A5A8-C52ACCB033B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91B6559F-154E-4644-8E70-23D50EE9A1C6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{91B6559F-154E-4644-8E70-23D50EE9A1C6}.Debug|Win32.Build.0 = Debug|Win32
+		{91B6559F-154E-4644-8E70-23D50EE9A1C6}.Release|Win32.ActiveCfg = Release|Win32
+		{91B6559F-154E-4644-8E70-23D50EE9A1C6}.Release|Win32.Build.0 = Release|Win32
+		{3A16BCBF-A2DD-4072-A5A8-C52ACCB033B7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3A16BCBF-A2DD-4072-A5A8-C52ACCB033B7}.Debug|Win32.Build.0 = Debug|Win32
+		{3A16BCBF-A2DD-4072-A5A8-C52ACCB033B7}.Release|Win32.ActiveCfg = Release|Win32
+		{3A16BCBF-A2DD-4072-A5A8-C52ACCB033B7}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

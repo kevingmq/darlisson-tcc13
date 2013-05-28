@@ -1,0 +1,1 @@
+Aqui encontram-se as imagem em escala de cinza e no formato .pgm com codificação binaria (P5)
