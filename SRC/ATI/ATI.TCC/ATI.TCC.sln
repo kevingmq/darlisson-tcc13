@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ati.FFT", "ATI.TCC\ATI.TCC.vcxproj", "{68B353E6-D387-4AC9-BDA0-5F005F823A6E}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ati.Sobel", "Ati.Sobel\Ati.Sobel.vcxproj", "{EC6628F9-542F-4C57-B6D1-F21031AC12A2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ati.FFT", "Ati.FFT\Ati.FFT.vcxproj", "{4C72B1F9-664D-4374-B6E0-5BBBCC26F7AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,14 +11,14 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{68B353E6-D387-4AC9-BDA0-5F005F823A6E}.Debug|Win32.ActiveCfg = Debug|Win32
-		{68B353E6-D387-4AC9-BDA0-5F005F823A6E}.Debug|Win32.Build.0 = Debug|Win32
-		{68B353E6-D387-4AC9-BDA0-5F005F823A6E}.Release|Win32.ActiveCfg = Release|Win32
-		{68B353E6-D387-4AC9-BDA0-5F005F823A6E}.Release|Win32.Build.0 = Release|Win32
 		{EC6628F9-542F-4C57-B6D1-F21031AC12A2}.Debug|Win32.ActiveCfg = Debug|Win32
 		{EC6628F9-542F-4C57-B6D1-F21031AC12A2}.Debug|Win32.Build.0 = Debug|Win32
 		{EC6628F9-542F-4C57-B6D1-F21031AC12A2}.Release|Win32.ActiveCfg = Release|Win32
 		{EC6628F9-542F-4C57-B6D1-F21031AC12A2}.Release|Win32.Build.0 = Release|Win32
+		{4C72B1F9-664D-4374-B6E0-5BBBCC26F7AE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4C72B1F9-664D-4374-B6E0-5BBBCC26F7AE}.Debug|Win32.Build.0 = Debug|Win32
+		{4C72B1F9-664D-4374-B6E0-5BBBCC26F7AE}.Release|Win32.ActiveCfg = Release|Win32
+		{4C72B1F9-664D-4374-B6E0-5BBBCC26F7AE}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

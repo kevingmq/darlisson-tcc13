@@ -33,17 +33,17 @@ int main(void){
 	ImageIn_h = LerPGM(InputFName, &Largura, &Altura);
 
 
-	// Alloca espaço em memória para guardar imagem invertida
+	// Alloca espaÃ§o em memÃ³ria para guardar imagem invertida
 	ImageOut_h = MallocImage(Largura,Altura);
 
-	// Obtém lista de plataformas OpenCL
+	// ObtÃ©m lista de plataformas OpenCL
 	CL_CHECK(clGetPlatformIDs(MaxPltformas,Pltformas_V,&NumPltformas));
 	if( NumPltformas == 0 ){
-		fprintf(stderr,"[Erro] Não existem plataformas OpenCL\n");
+		fprintf(stderr,"[Erro] NÃ£o existem plataformas OpenCL\n");
 		exit(2);
 	}
 
-	// Mostra informação a respeito das plataformas OpenCL encontradas
+	// Mostra informaÃ§Ã£o a respeito das plataformas OpenCL encontradas
 	printf("=== %d plataformas OpenCL ===\n", NumPltformas);
 	for (i=0; i<NumPltformas; i++){
 		char S[8192];
@@ -65,13 +65,12 @@ int main(void){
 		printf("  EXTENSIONS = %s\n", S);
 	}
 	printf("====================================\n");
-
 	// Procura dispositivo OpenCL do tipo GPU
-	CL_CHECK(clGetDeviceIDs(Pltformas_V[1], CL_DEVICE_TYPE_GPU, 1, 
+	CL_CHECK(clGetDeviceIDs(Pltformas_V[0], CL_DEVICE_TYPE_GPU, 1, 
 		&DeviceID, &NumDevices));
 
-	// Vetor com propriedades para criação de contexto 
-	// (último elemento deve obrigatoriamente conter 0)
+	// Vetor com propriedades para criaÃ§Ã£o de contexto 
+	// (Ãºltimo elemento deve obrigatoriamente conter 0)
 	Props_V[0]= CL_CONTEXT_PLATFORM;
 	Props_V[1]= (cl_context_properties) Pltformas_V[1];
 	Props_V[2]= 0;
@@ -85,7 +84,7 @@ int main(void){
 	// Cria vetor de string KernelStr contendo o ficheiro do kernel // FIXME - melhorar isso
 	KernelStr = FichParaVetorStr(KernelNomeFich,&NumLinhas);
 
-	// Cria o programa a partir do código fonte
+	// Cria o programa a partir do cÃ³digo fonte
 	Programa =  clCreateProgramWithSource(Contexto, NumLinhas, (const char**)KernelStr, NULL, NULL);
 
 	// Compila o programa
@@ -94,11 +93,10 @@ int main(void){
 		char Build_S[4096];
 		fprintf(stderr, "[ERRO] clBuildProgram '%s' (code: %d)\n", 
 			ErroCLtoStr(RetCode), RetCode );
-		// solicita log da compilação
+		// solicita log da compilaÃ§Ã£o
 		clGetProgramBuildInfo( Programa, DeviceID, 
 			CL_PROGRAM_BUILD_LOG, sizeof(Build_S), Build_S, NULL);
 		fprintf(stderr, "[ERRO] log: '%s'\n", Build_S);
-		system("pause");
 		exit(4);
 	}
 
@@ -106,16 +104,16 @@ int main(void){
 	kernel = clCreateKernel(Programa,"sobel_kernel",NULL);
 
 	// Cria os vetores input (imagem a inverter) e 
-	// output (imagem invertida) na memória do dispositivo 
+	// output (imagem invertida) na memÃ³ria do dispositivo 
 	TamImagem = Largura * Altura * sizeof(unsigned char);
 	input = clCreateBuffer(Contexto,CL_MEM_READ_ONLY,TamImagem,NULL,NULL);
 	output = clCreateBuffer(Contexto, CL_MEM_WRITE_ONLY,TamImagem,NULL,NULL);
 
-	// Carrega imagem a inverter na memória input
+	// Carrega imagem a inverter na memÃ³ria input
 	CL_CHECK(clEnqueueWriteBuffer(FilaComandos, input, 
 		CL_TRUE, 0, TamImagem, ImageIn_h, 0, NULL, NULL));
 
-	// Especifica os parâmetros a serem passados ao kernel
+	// Especifica os parÃ¢metros a serem passados ao kernel
 	CL_CHECK( clSetKernelArg(kernel, 0, sizeof(cl_mem), &input) );
 	CL_CHECK( clSetKernelArg(kernel, 1, sizeof(cl_mem), &output) );
 	CL_CHECK( clSetKernelArg(kernel, 2, sizeof(cl_int), &Largura) );
@@ -125,8 +123,8 @@ int main(void){
 
 	CL_CHECK( clFinish(FilaComandos) );
 
-	// Copia a imagem invertida da memória do dispositivo para 
-	// a memória do programa hospedeiro
+	// Copia a imagem invertida da memÃ³ria do dispositivo para 
+	// a memÃ³ria do programa hospedeiro
 	CL_CHECK( clEnqueueReadBuffer(FilaComandos, output, CL_TRUE, 0, TamImagem, ImageOut_h, 0, NULL, NULL) );
 	// Grava a imagem invertida para o respetivo ficheiro
 	GravarPGM(OutputFName, Largura, Altura, ImageOut_h);
@@ -141,13 +139,13 @@ int main(void){
 	CL_CHECK( clReleaseCommandQueue(FilaComandos) );
 	CL_CHECK( clReleaseContext(Contexto) );
 
-	// Liberta o vetor de string que continha o código fonte do kernel
+	// Liberta o vetor de string que continha o cÃ³digo fonte do kernel
 	free(KernelStr[0]);
 	free(KernelStr);
 
-	// Liberta as zonas de memória 
+	// Liberta as zonas de memÃ³ria 
 	free(ImageIn_h);
 	free(ImageOut_h);
-
+	system("pause");
 	return 0;
 }

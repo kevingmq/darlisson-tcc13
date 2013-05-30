@@ -1,0 +1,16 @@
+ATI/AMD
+
+C++/C -> General->Additional Directories
+
+	"C:\Program Files (x86)\AMD APP\include"
+or	"$(AMDAPPSDKROOT)\include"
+
+
+Linker->General->  Additional Library Directories
+	"C:\Program Files (x86)\AMD APP\lib\x86"
+
+
+Linker-Input-> Additional Dependencies
+	Append "OpenCL.lib"	
+
+
