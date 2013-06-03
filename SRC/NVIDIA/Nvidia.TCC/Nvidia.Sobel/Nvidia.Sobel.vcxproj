@@ -67,10 +67,11 @@
     <ClCompile Include="nvidia.sobel.c" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="kernel_sobel.cl" />
+    <None Include="sobel_kernel.cl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl_utils.h" />
+    <ClInclude Include="pgm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

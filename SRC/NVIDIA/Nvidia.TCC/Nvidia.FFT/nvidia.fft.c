@@ -160,8 +160,8 @@ int main()
 	readPGM(&ipgm, "lena.pgm");
 
 	n = ipgm.width;
-	//radius = n/8;
-	radius = n/6;
+	radius = n/8;
+	//radius = n/6;
 
 	m = (cl_int)(log((double)n)/log(2.0)); 
 
@@ -177,7 +177,7 @@ int main()
 	}  
 
 	/* Get platform/device  */ 
-	ret = clGetPlatformIDs(2, &platform_id, &ret_num_platforms);   
+	ret = clGetPlatformIDs(2, platform_id, &ret_num_platforms);   
 	ret = clGetDeviceIDs( platform_id[1],CL_DEVICE_TYPE_GPU, 1, &device_id, &ret_num_devices);   
 
 	clGetPlatformInfo(platform_id[1],
@@ -263,15 +263,14 @@ int main()
 
 	// ---------ate aqui
 	/* Read data from memory buffer */ 
-	ret = clEnqueueReadBuffer(queue, xmobj, CL_TRUE, 0, n*n*sizeof(cl_float2), xm, 0, NULL, NULL); 
+	ret = clEnqueueReadBuffer(queue, rmobj, CL_TRUE, 0, n*n*sizeof(cl_float2), rm, 0, NULL, NULL); 
 
 	ampd = (float*)malloc(n*n*sizeof(float));  
 	for (i=0; i < n; i++) { 
 		for (j=0; j < n; j++) { 
-			ampd[n*((i))+((j))] = (AMP(((float*)xm)[(2*n*i)+2*j], ((float*)xm)[(2*n*i)+2*j+1]));   
+			ampd[n*((i))+((j))] = (AMP(((float*)rm)[(2*n*i)+2*j], ((float*)rm)[(2*n*i)+2*j+1]));   
 		}  
 	} 
-
 
 	opgm.width = n;
 	opgm.height = n;   

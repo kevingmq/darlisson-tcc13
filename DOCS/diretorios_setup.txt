@@ -1,3 +1,18 @@
+NVIDIA
+C++/C -> General->Additional Directories
+
+	"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.0\include\"
+	RuntimeLibrary>MultiThreadedDebug
+
+Linker->General->  Additional Library Directories
+	"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.0\lib\Win32\"
+
+
+Linker-Input-> Additional Dependencies
+	Append "OpenCL.lib"	
+
+
+
 ATI/AMD
 
 C++/C -> General->Additional Directories
