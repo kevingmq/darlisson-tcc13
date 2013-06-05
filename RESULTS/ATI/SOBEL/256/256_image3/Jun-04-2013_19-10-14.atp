@@ -1,0 +1,71 @@
+TraceFileVersion=2.6
+ProfilerVersion=2.6.2235
+Application=C:/PROJETOS/darlisson-tcc13/SRC/ATI/ATI.TCC/Debug/Ati.Sobel.exe
+ApplicationArgs=
+UserTimer=Not set
+Device Caicos Platform Vendor=Advanced Micro Devices, Inc.
+Device Caicos Platform Name=AMD Accelerated Parallel Processing
+Device Caicos Platform Version=OpenCL 1.2 AMD-APP (1124.2)
+Device Caicos CLDriver Version=1124.2 (VM)
+Device Caicos CLRuntime Version=OpenCL 1.2 AMD-APP (1124.2)
+Device Caicos NumberAppAddressBits=32
+Device Intel(R) Core(TM)2 Duo CPU     E7400  @ 2.80GHz Platform Vendor=Advanced Micro Devices, Inc.
+Device Intel(R) Core(TM)2 Duo CPU     E7400  @ 2.80GHz Platform Name=AMD Accelerated Parallel Processing
+Device Intel(R) Core(TM)2 Duo CPU     E7400  @ 2.80GHz Platform Version=OpenCL 1.2 AMD-APP (1124.2)
+Device Intel(R) Core(TM)2 Duo CPU     E7400  @ 2.80GHz CLDriver Version=1124.2 (sse2)
+Device Intel(R) Core(TM)2 Duo CPU     E7400  @ 2.80GHz CLRuntime Version=OpenCL 1.2 AMD-APP (1124.2)
+Device Intel(R) Core(TM)2 Duo CPU     E7400  @ 2.80GHz NumberAppAddressBits=32
+OS Version=Windows 7 Build 7601 Service pack 1
+DisplayName=Jun 04, 2013 19:10:14
+=====AMD CodeXL ocl API Trace Output=====
+3964
+23
+CL_SUCCESS = clGetPlatformInfo ( 0x5EF5B864;CL_PLATFORM_ICD_SUFFIX_KHR;0;NULL;[4] )
+CL_SUCCESS = clGetPlatformInfo ( 0x5EF5B864;CL_PLATFORM_ICD_SUFFIX_KHR;4;["AMD"];NULL )
+CL_SUCCESS = clGetDeviceIDs ( 0x5EF5B864;CL_DEVICE_TYPE_GPU;1;[0x026E8C28];[1] )
+0x0358E0A0 = clCreateContext ( NULL;1;[0x026E8C28];NULL;NULL;[CL_SUCCESS] )
+0x0358F0A0 = clCreateCommandQueue ( 0x0358E0A0;0x026E8C28;0;[CL_SUCCESS] )
+0x035C7280 = clCreateProgramWithSource ( 0x0358E0A0;1;0x0021F660;0x0021F66C;NULL )
+CL_SUCCESS = clBuildProgram ( 0x035C7280;0;NULL;NULL;NULL;NULL )
+0x026ECC80 = clCreateKernel ( 0x035C7280;"sobel_kernel";NULL )
+0x0358CA50 = clCreateBuffer ( 0x0358E0A0;CL_MEM_READ_ONLY;65536;NULL;NULL )
+0x0358CD38 = clCreateBuffer ( 0x0358E0A0;CL_MEM_WRITE_ONLY;65536;NULL;NULL )
+CL_SUCCESS = clEnqueueWriteBuffer ( 0x0358F0A0;0x0358CA50;CL_TRUE;0;65536;0x008E00A8;0;NULL;NULL )
+CL_SUCCESS = clSetKernelArg ( 0x026ECC80;0;4;[0x0358CA50] )
+CL_SUCCESS = clSetKernelArg ( 0x026ECC80;1;4;[0x0358CD38] )
+CL_SUCCESS = clSetKernelArg ( 0x026ECC80;2;4;[0x00000100] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x0358F0A0;0x026ECC80;1;NULL;[64];NULL;0;NULL;NULL )
+CL_SUCCESS = clFinish ( 0x0358F0A0 )
+CL_SUCCESS = clEnqueueReadBuffer ( 0x0358F0A0;0x0358CD38;CL_TRUE;0;65536;0x008F00D8;0;NULL;NULL )
+CL_SUCCESS = clReleaseMemObject ( 0x0358CA50 )
+CL_SUCCESS = clReleaseMemObject ( 0x0358CD38 )
+CL_SUCCESS = clReleaseProgram ( 0x035C7280 )
+CL_SUCCESS = clReleaseKernel ( 0x026ECC80 )
+CL_SUCCESS = clReleaseCommandQueue ( 0x0358F0A0 )
+CL_SUCCESS = clReleaseContext ( 0x0358E0A0 )
+=====AMD CodeXL ocl Timestamp Output=====
+3964
+23
+1    clGetPlatformInfo                            3667730599174        3667730601369        
+1    clGetPlatformInfo                            3667730610146        3667730610511        
+2    clGetDeviceIDs                               3667731317432        3667731321821        
+4    clCreateContext                              3667731324015        3667731326209        
+9    clCreateCommandQueue                         3667731334255        3667742807364        
+27   clCreateProgramWithSource                    3667742833329        3667742841741        
+31   clBuildProgram                               3667742846495        3667825866352        
+35   clCreateKernel                               3667825893415        3667825895975        
+13   clCreateBuffer                               3667825899266        3667825905483        
+13   clCreateBuffer                               3667825908409        3667825909141        
+54   clEnqueueWriteBuffer                         3667825912066        3667828150954        4596    CL_COMMAND_WRITE_BUFFER                 3667826009346        3667826018855        3667826995233        3667827559233        0         0x0358F0A0               0         0x0358E0A0               Caicos                        65536               
+39   clSetKernelArg                               3667828200325        3667828201056        
+39   clSetKernelArg                               3667828204348        3667828204348        
+39   clSetKernelArg                               3667828205079        3667828205445        
+66   clEnqueueNDRangeKernel                       3667828210930        3667828421215        4592    CL_COMMAND_NDRANGE_KERNEL               3667828394518        3667828435843        3667829220238        3667934275016        0         0x0358F0A0               0         0x0358E0A0               Caicos                        0x026ECC80               sobel_kernel      {64}     {NULL}        
+51   clFinish                                     3667828429260        3667934295496        
+52   clEnqueueReadBuffer                          3667934304639        3667934741299        4595    CL_COMMAND_READ_BUFFER                  3667934308662        3667934320730        3667934587471        3667934730693        0         0x0358F0A0               0         0x0358E0A0               Caicos                        65536               
+18   clReleaseMemObject                           3667943585671        3667943611271        
+18   clReleaseMemObject                           3667943615660        3667943624437        
+30   clReleaseProgram                             3667943625900        3667943626266        
+38   clReleaseKernel                              3667943628094        3667943714036        
+11   clReleaseCommandQueue                        3667943716231        3667956872711        
+7    clReleaseContext                             3667956880391        3667956881488        

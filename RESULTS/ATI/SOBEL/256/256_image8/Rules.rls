@@ -1,0 +1,7 @@
+APITrace.APIRules.RefTracker=True
+APITrace.APIRules.DeprecatedFunctionAnalyzer=True
+APITrace.APIRules.BlockingWrite=True
+APITrace.APIRules.BadWorkGroupSize=True
+APITrace.APIRules.DataTransferAnalyzer=True
+APITrace.APIRules.SyncAnalyzer=True
+APITrace.APIRules.RetCodeAnalyzer=True

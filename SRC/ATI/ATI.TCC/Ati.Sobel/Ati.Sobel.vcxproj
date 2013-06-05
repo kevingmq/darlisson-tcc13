@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl_utils.h" />
+    <ClInclude Include="pgm.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sobel_kernel.cl" />

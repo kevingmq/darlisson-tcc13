@@ -23,6 +23,9 @@
     <ClInclude Include="cl_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="pgm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="sobel_kernel.cl" />
