@@ -8,8 +8,8 @@
   
 #define MAX_SOURCE_SIZE 		(0x100000) 
 #define C_NOME_ARQ_KERNEL		"sobel_kernel.cl"
-#define C_NOME_ARQ_IMAGEM_IN	"lena.pgm"
-#define C_NOME_ARQ_IMAGEM_OUT	"lena.sobel.pgm"
+#define C_NOME_ARQ_IMAGEM_IN	"2048_image8.pgm"
+#define C_NOME_ARQ_IMAGEM_OUT	"2048_image8.sobel.pgm"
 #define MAX_PLATFORM_ID			2
 int main(void){
 	
@@ -92,7 +92,7 @@ int main(void){
 	 * caso contrario retorna codigo de erro.  
 	 ***************************************************/	
 	 
-	CL_CHECK(clGetDeviceIDs(platform_ids[1], CL_DEVICE_TYPE_GPU, 1, &device_id, &ret_num_devices));
+	CL_CHECK(clGetDeviceIDs(platform_ids[0], CL_DEVICE_TYPE_GPU, 1, &device_id, &ret_num_devices));
 	
 	/* Retorna sucesso se consegui criar um contexto para
 	 * o device id escolhido, caso contrario retorna codigo de erro.  
