@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_DEPRECATE
 #include <stdio.h>   
 #include <stdlib.h>  
 #include <math.h>
@@ -6,8 +7,11 @@
 
 #include "pgm.h"   
 
-#define PI 3.14159265358979
+#define C_NOME_ARQ_IMAGEM_IN	"256_image1.pgm"
+#define C_NOME_ARQ_IMAGEM_OUT	"256_image1.fft.pgm"
+#define MAX_PLATFORM_ID			2
 
+#define PI 3.14159265358979
 #define MAX_SOURCE_SIZE (0x100000) 
 
 #define AMP(a, b) (sqrt((a)*(a)+(b)*(b)))  
@@ -28,15 +32,15 @@ int setWorkSize(size_t* gws, size_t* lws, cl_int x, cl_int y)
 	switch(y) {
 	case 1:
 		gws[0] = x;
-		gws[1] = 1;
-		lws[0] = 1;
-		lws[1] = 1;
+		gws[1] = 64;
+		lws[0] = 64;
+		lws[1] = 64;
 		break; 
 	default:   
 		gws[0] = x;
 		gws[1] = y;
-		lws[0] = 1;
-		lws[1] = 1;
+		lws[0] = 64;
+		lws[1] = 64;
 		break; 
 	}  
 
@@ -157,7 +161,7 @@ int main()
 	fclose( fp );  
 
 	/* Read image */   
-	readPGM(&ipgm, "lena.pgm");
+	readPGM(&ipgm, C_NOME_ARQ_IMAGEM_IN);
 
 	n = ipgm.width;
 	radius = n/8;
@@ -177,22 +181,28 @@ int main()
 	}  
 
 	/* Get platform/device  */ 
-	ret = clGetPlatformIDs(2, platform_id, &ret_num_platforms);   
-	ret = clGetDeviceIDs( platform_id[1],CL_DEVICE_TYPE_GPU, 1, &device_id, &ret_num_devices);   
+	ret = clGetPlatformIDs(MAX_PLATFORM_ID, platform_id, &ret_num_platforms);
+	
+	if( ret_num_platforms == 0 ){
+		fprintf(stderr,"[Erro] Não existem plataformas OpenCL\n");
+		exit(2);
+	}
 
-	clGetPlatformInfo(platform_id[1],
+	ret = clGetDeviceIDs( platform_id[0],CL_DEVICE_TYPE_GPU, 1, &device_id, &ret_num_devices);   
+/*
+	clGetPlatformInfo(platform_id[0],
 		CL_PLATFORM_PROFILE, sizeof(S), S, NULL);
 	printf("  PROFILE = %s\n", S);
-	clGetPlatformInfo(platform_id[1],CL_PLATFORM_VERSION, sizeof(S), S, NULL);
+	clGetPlatformInfo(platform_id[0],CL_PLATFORM_VERSION, sizeof(S), S, NULL);
 	printf("  VERSION = %s\n", S);
-	clGetPlatformInfo(platform_id[1], CL_PLATFORM_NAME, sizeof(S), S, NULL);
+	clGetPlatformInfo(platform_id[0], CL_PLATFORM_NAME, sizeof(S), S, NULL);
 	printf("  NAME = %s\n", S);
-	clGetPlatformInfo(platform_id[1], CL_PLATFORM_VENDOR, sizeof(S), S, NULL);
+	clGetPlatformInfo(platform_id[0], CL_PLATFORM_VENDOR, sizeof(S), S, NULL);
 	printf("  VENDOR = %s\n", S);
-	clGetPlatformInfo(platform_id[1], CL_PLATFORM_EXTENSIONS, sizeof(S), S, NULL);
+	clGetPlatformInfo(platform_id[0], CL_PLATFORM_EXTENSIONS, sizeof(S), S, NULL);
 	printf("  EXTENSIONS = %s\n", S);
 
-
+*/
 	/* Create OpenCL context */
 	context = clCreateContext(NULL, 1, &device_id, NULL, NULL, &ret);  
 
@@ -237,33 +247,30 @@ int main()
 	/* Butterfly Operation */  
 	fftCore(rmobj, xmobj, wmobj, m, forward);  
 
-	// 	-------a partir
-	// 
-	//         /* Apply high-pass filter */   
-	//           
-	//         ret = clSetKernelArg(hpfl, 0, sizeof(cl_mem), (void *)&rmobj); 
-	//         ret = clSetKernelArg(hpfl, 1, sizeof(cl_int), (void *)&n); 
-	//         ret = clSetKernelArg(hpfl, 2, sizeof(cl_int), (void *)&radius);
-	//         setWorkSize(gws, lws, n, n);   
-	//         ret = clEnqueueNDRangeKernel(queue, hpfl, 2, NULL, gws, lws, 0, NULL, NULL);   
-	// 
-	//         /* Inverse FFT */  
-	// 
-	//         /* Butterfly Operation */  
-	//         fftCore(xmobj, rmobj, wmobj, m, inverse);  
-	// 
-	//         /* Transpose matrix */ 
-	//         ret = clSetKernelArg(trns, 0, sizeof(cl_mem), (void *)&rmobj); 
-	//         ret = clSetKernelArg(trns, 1, sizeof(cl_mem), (void *)&xmobj); 
-	//         setWorkSize(gws, lws, n, n);   
-	//         ret = clEnqueueNDRangeKernel(queue, trns, 2, NULL, gws, lws, 0, NULL, NULL);   
-	// 
-	//         /* Butterfly Operation */  
-	//         fftCore(xmobj, rmobj, wmobj, m, inverse);  
+	         /* Apply high-pass filter */   
+	           
+	         ret = clSetKernelArg(hpfl, 0, sizeof(cl_mem), (void *)&rmobj); 
+	         ret = clSetKernelArg(hpfl, 1, sizeof(cl_int), (void *)&n); 
+	         ret = clSetKernelArg(hpfl, 2, sizeof(cl_int), (void *)&radius);
+	         setWorkSize(gws, lws, n, n);   
+	         ret = clEnqueueNDRangeKernel(queue, hpfl, 2, NULL, gws, lws, 0, NULL, NULL);   
+	 
+	         /* Inverse FFT */  
+	 
+	         /* Butterfly Operation */  
+	         fftCore(xmobj, rmobj, wmobj, m, inverse);  
+	 
+	         /* Transpose matrix */ 
+	         ret = clSetKernelArg(trns, 0, sizeof(cl_mem), (void *)&rmobj); 
+	         ret = clSetKernelArg(trns, 1, sizeof(cl_mem), (void *)&xmobj); 
+	         setWorkSize(gws, lws, n, n);   
+	         ret = clEnqueueNDRangeKernel(queue, trns, 2, NULL, gws, lws, 0, NULL, NULL);   
+	 
+	         /* Butterfly Operation */  
+	         fftCore(xmobj, rmobj, wmobj, m, inverse);  
 
-	// ---------ate aqui
 	/* Read data from memory buffer */ 
-	ret = clEnqueueReadBuffer(queue, rmobj, CL_TRUE, 0, n*n*sizeof(cl_float2), rm, 0, NULL, NULL); 
+	ret = clEnqueueReadBuffer(queue, xmobj, CL_TRUE, 0, n*n*sizeof(cl_float2), rm, 0, NULL, NULL); 
 
 	ampd = (float*)malloc(n*n*sizeof(float));  
 	for (i=0; i < n; i++) { 
@@ -278,7 +285,7 @@ int main()
 	free(ampd);
 
 	/* Write out image */  
-	writePGM(&opgm, "output.pgm"); 
+	writePGM(&opgm, C_NOME_ARQ_IMAGEM_OUT); 
 
 	/* Finalizations*/ 
 	ret = clFlush(queue);  
