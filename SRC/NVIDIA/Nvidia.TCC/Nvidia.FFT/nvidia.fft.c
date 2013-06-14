@@ -7,10 +7,8 @@
 
 #include "pgm.h"   
 
-
-
-#define C_NOME_ARQ_IMAGEM_IN	"256_image1.pgm"
-#define C_NOME_ARQ_IMAGEM_OUT	"256_image1.fft.pgm"
+#define C_NOME_ARQ_IMAGEM_IN	"2048_image8.pgm"
+#define C_NOME_ARQ_IMAGEM_OUT	"2048_image8.fft.pgm"
 #define MAX_PLATFORM_ID			2
 
 #define PI 3.14159265358979
@@ -34,15 +32,15 @@ int setWorkSize(size_t* gws, size_t* lws, cl_int x, cl_int y)
 	switch(y) {
 	case 1:
 		gws[0] = x;
-		gws[1] = 64;
-		lws[0] = 64;
-		lws[1] = 64;
+		gws[1] = 1;
+		lws[0] = 16;
+		lws[1] = 16;
 		break; 
 	default:   
 		gws[0] = x;
 		gws[1] = y;
-		lws[0] = 64;
-		lws[1] = 64;
+		lws[0] = 16;
+		lws[1] = 16;
 		break; 
 	}  
 
