@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AnalysisReport Version="1.0">
+  <ProcessId>272</ProcessId>
+  <ReportCreationTime>2013-06-13T21:23:04.2930739-04:00</ReportCreationTime>
+  <ReportDirectory>C:\Users\Raimundo\Documents\Nsight\Nvidia.Sobel130613_014\Nvidia.Sobel130613_014_Capture_000</ReportDirectory>
+  <ReportFile>C:\Users\Raimundo\Documents\Nsight\Nvidia.Sobel130613_014\Nvidia.Sobel130613_014_Capture_000\Nvidia.Sobel130613_014_Capture_000.nvreport</ReportFile>
+  <CaptureStartQpcTimestamp>5456144640</CaptureStartQpcTimestamp>
+  <CaptureStartNveTimestamp>5587092112382</CaptureStartNveTimestamp>
+  <CaptureStartNveFrequency>2800000000</CaptureStartNveFrequency>
+  <CaptureEndQpcTimestamp>5458228021</CaptureEndQpcTimestamp>
+  <CaptureEndNveTimestamp>5589225497785</CaptureEndNveTimestamp>
+  <CaptureStartRdtscTimestamp>5587092112602</CaptureStartRdtscTimestamp>
+  <CaptureEndRdtscTimestamp>5589225498541</CaptureEndRdtscTimestamp>
+  <CaptureStartFileTimeTimestamp>130156465844646742</CaptureStartFileTimeTimestamp>
+  <CaptureEndFileTimeTimestamp>130156465852290755</CaptureEndFileTimeTimestamp>
+</AnalysisReport>
