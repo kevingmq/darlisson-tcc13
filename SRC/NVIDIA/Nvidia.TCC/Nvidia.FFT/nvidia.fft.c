@@ -7,6 +7,8 @@
 
 #include "pgm.h"   
 
+
+
 #define C_NOME_ARQ_IMAGEM_IN	"256_image1.pgm"
 #define C_NOME_ARQ_IMAGEM_OUT	"256_image1.fft.pgm"
 #define MAX_PLATFORM_ID			2
@@ -165,8 +167,7 @@ int main()
 
 	n = ipgm.width;
 	radius = n/8;
-	//radius = n/6;
-
+	
 	m = (cl_int)(log((double)n)/log(2.0)); 
 
 	xm = (cl_float2 *)malloc(n * n * sizeof(cl_float2));   
@@ -182,6 +183,8 @@ int main()
 
 	/* Get platform/device  */ 
 	ret = clGetPlatformIDs(MAX_PLATFORM_ID, platform_id, &ret_num_platforms);
+
+
 	
 	if( ret_num_platforms == 0 ){
 		fprintf(stderr,"[Erro] Não existem plataformas OpenCL\n");
@@ -201,6 +204,7 @@ int main()
 	printf("  VENDOR = %s\n", S);
 	clGetPlatformInfo(platform_id[0], CL_PLATFORM_EXTENSIONS, sizeof(S), S, NULL);
 	printf("  EXTENSIONS = %s\n", S);
+
 
 */
 	/* Create OpenCL context */
@@ -247,6 +251,7 @@ int main()
 	/* Butterfly Operation */  
 	fftCore(rmobj, xmobj, wmobj, m, forward);  
 
+
 	         /* Apply high-pass filter */   
 	           
 	         ret = clSetKernelArg(hpfl, 0, sizeof(cl_mem), (void *)&rmobj); 
@@ -268,6 +273,7 @@ int main()
 	 
 	         /* Butterfly Operation */  
 	         fftCore(xmobj, rmobj, wmobj, m, inverse);  
+
 
 	/* Read data from memory buffer */ 
 	ret = clEnqueueReadBuffer(queue, xmobj, CL_TRUE, 0, n*n*sizeof(cl_float2), rm, 0, NULL, NULL); 
@@ -307,6 +313,7 @@ int main()
 	free(wm);  
 	free(rm);  
 	free(xm);  
+
 
 	return 0;  
 }  
