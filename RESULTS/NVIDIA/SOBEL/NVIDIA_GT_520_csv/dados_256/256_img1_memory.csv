@@ -1,0 +1,15 @@
+﻿"Command
+ID","Type","Latency
+(μs)","Start Time
+(μs)","Run Time
+(μs)","Size
+(bytes)","Rate
+(MB/s)","Source
+ID","Destination
+ID","Blocking","API
+Call ID","Context
+ID","Queue
+ID","Process
+ID"
+"1","CL_COMMAND_WRITE_BUFFER","175.778","26,073.219","24.833","65536","2516.8","0","1","True","10","1","2","2596"
+"3","CL_COMMAND_READ_BUFFER","254.779","54,232.658","47.710","65536","1310.0","2","0","True","16","1","2","2596"

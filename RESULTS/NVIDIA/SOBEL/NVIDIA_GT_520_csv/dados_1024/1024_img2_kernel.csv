@@ -1,0 +1,15 @@
+﻿"Kernel
+ID","Creation Time
+(μs)","Lifetime
+(μs)","Kernel Name","Program
+ID","Count","Device
+%","Device Time
+(μs)","Min
+(μs)","Avg
+(μs)","Max
+(μs)","#
+Arguments","#
+WorkGroup Infos","Context
+ID","Process
+ID"
+"1","23,562.716","541,369.314","sobel_kernel","1","1","77.97","444,643.975","444,643.975","444,643.975","444,643.975","3","1","1","2676"

@@ -1,0 +1,21 @@
+﻿"Memory
+ID","Creation Time
+(μs)","Lifetime
+(μs)","Type","Flags","Size
+(bytes)","Host
+Address","Sub-Buffer
+Count","Channel
+Order","Channel
+Data Type","Element
+Size","Row
+Pitch","Slice
+Pitch","Width","Height","Depth","Share
+Type","Shared
+Resource","Shared
+Sub-resource","Callback","Callback Call
+Time (μs)","Callback
+Duration (μs)","Context
+ID","Process
+ID"
+"1","62,716.538","9,011,395.256","CL_MEM_OBJECT_BUFFER","CL_MEM_READ_ONLY","4194304","0x0","0","","","","","","","","","NOT_SHARED","0x0","","0x0","","","1","2232"
+"2","62,722.047","9,011,541.198","CL_MEM_OBJECT_BUFFER","CL_MEM_WRITE_ONLY","4194304","0x0","0","","","","","","","","","NOT_SHARED","0x0","","0x0","","","1","2232"
