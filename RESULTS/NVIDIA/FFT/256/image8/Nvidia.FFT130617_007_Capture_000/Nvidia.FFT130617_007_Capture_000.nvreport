@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AnalysisReport Version="1.0">
+  <ProcessId>2096</ProcessId>
+  <ReportCreationTime>2013-06-17T20:56:37.9521966-04:00</ReportCreationTime>
+  <ReportDirectory>C:\Users\Pesquisador\Documents\Nsight\Nvidia.FFT130617_007\Nvidia.FFT130617_007_Capture_000</ReportDirectory>
+  <ReportFile>C:\Users\Pesquisador\Documents\Nsight\Nvidia.FFT130617_007\Nvidia.FFT130617_007_Capture_000\Nvidia.FFT130617_007_Capture_000.nvreport</ReportFile>
+  <CaptureStartQpcTimestamp>27165819920</CaptureStartQpcTimestamp>
+  <CaptureStartNveTimestamp>27815349039426</CaptureStartNveTimestamp>
+  <CaptureStartNveFrequency>2800000000</CaptureStartNveFrequency>
+  <CaptureEndQpcTimestamp>27166366556</CaptureEndQpcTimestamp>
+  <CaptureEndNveTimestamp>27815908798636</CaptureEndNveTimestamp>
+  <CaptureStartRdtscTimestamp>27815349039646</CaptureStartRdtscTimestamp>
+  <CaptureEndRdtscTimestamp>27815908799371</CaptureEndRdtscTimestamp>
+  <CaptureStartFileTimeTimestamp>130159905981342070</CaptureStartFileTimeTimestamp>
+  <CaptureEndFileTimeTimestamp>130159905983342184</CaptureEndFileTimeTimestamp>
+</AnalysisReport>
