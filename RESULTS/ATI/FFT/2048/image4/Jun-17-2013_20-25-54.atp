@@ -1,0 +1,429 @@
+TraceFileVersion=2.6
+ProfilerVersion=2.6.2235
+Application=C:/PROJETOS/darlisson-tcc13/SRC/ATI/ATI.TCC/Debug/Ati.FFT.exe
+ApplicationArgs=
+UserTimer=Not set
+Device Caicos Platform Vendor=Advanced Micro Devices, Inc.
+Device Caicos Platform Name=AMD Accelerated Parallel Processing
+Device Caicos Platform Version=OpenCL 1.2 AMD-APP (1124.2)
+Device Caicos CLDriver Version=1124.2 (VM)
+Device Caicos CLRuntime Version=OpenCL 1.2 AMD-APP (1124.2)
+Device Caicos NumberAppAddressBits=32
+Device Intel(R) Core(TM)2 Duo CPU     E7400  @ 2.80GHz Platform Vendor=Advanced Micro Devices, Inc.
+Device Intel(R) Core(TM)2 Duo CPU     E7400  @ 2.80GHz Platform Name=AMD Accelerated Parallel Processing
+Device Intel(R) Core(TM)2 Duo CPU     E7400  @ 2.80GHz Platform Version=OpenCL 1.2 AMD-APP (1124.2)
+Device Intel(R) Core(TM)2 Duo CPU     E7400  @ 2.80GHz CLDriver Version=1124.2 (sse2)
+Device Intel(R) Core(TM)2 Duo CPU     E7400  @ 2.80GHz CLRuntime Version=OpenCL 1.2 AMD-APP (1124.2)
+Device Intel(R) Core(TM)2 Duo CPU     E7400  @ 2.80GHz NumberAppAddressBits=32
+OS Version=Windows 7 Build 7601 Service pack 1
+DisplayName=Jun 17, 2013 20:25:54
+=====AMD CodeXL ocl API Trace Output=====
+3612
+202
+CL_SUCCESS = clGetPlatformInfo ( 0x6352B864;CL_PLATFORM_ICD_SUFFIX_KHR;0;NULL;[4] )
+CL_SUCCESS = clGetPlatformInfo ( 0x6352B864;CL_PLATFORM_ICD_SUFFIX_KHR;4;["AMD"];NULL )
+CL_SUCCESS = clGetDeviceIDs ( 0x6352B864;CL_DEVICE_TYPE_GPU;1;[0x06EA8C28];[1] )
+0x07D5E0A0 = clCreateContext ( NULL;1;[0x06EA8C28];NULL;NULL;[CL_SUCCESS] )
+0x08686A58 = clCreateCommandQueue ( 0x07D5E0A0;0x06EA8C28;0;[CL_SUCCESS] )
+0x0869FBC8 = clCreateBuffer ( 0x07D5E0A0;CL_MEM_READ_WRITE;33554432;NULL;[CL_SUCCESS] )
+0x0869FCC0 = clCreateBuffer ( 0x07D5E0A0;CL_MEM_READ_WRITE;33554432;NULL;[CL_SUCCESS] )
+0x0869FDB8 = clCreateBuffer ( 0x07D5E0A0;CL_MEM_READ_WRITE;8192;NULL;[CL_SUCCESS] )
+CL_SUCCESS = clEnqueueWriteBuffer ( 0x08686A58;0x0869FBC8;CL_TRUE;0;33554432;0x01300040;0;NULL;NULL )
+0x0896F2B8 = clCreateProgramWithSource ( 0x07D5E0A0;1;0x002BFA1C;0x002BFA28;[CL_SUCCESS] )
+CL_SUCCESS = clBuildProgram ( 0x0896F2B8;1;[0x06EA8C28];NULL;NULL;NULL )
+0x06EAD240 = clCreateKernel ( 0x0896F2B8;"spinFact";[CL_SUCCESS] )
+0x06EACC40 = clCreateKernel ( 0x0896F2B8;"transpose";[CL_SUCCESS] )
+0x06EAD000 = clCreateKernel ( 0x0896F2B8;"highPassFilter";[CL_SUCCESS] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD240;0;4;[0x0869FDB8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD240;1;4;[0x00000800] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD240;1;NULL;[1024];[16];0;NULL;NULL )
+0x06EACF00 = clCreateKernel ( 0x0896F2B8;"bitReverse";[CL_SUCCESS] )
+0x06EACF40 = clCreateKernel ( 0x0896F2B8;"butterfly";[CL_SUCCESS] )
+0x06EAC8C0 = clCreateKernel ( 0x0896F2B8;"norm";[CL_SUCCESS] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF00;0;4;[0x0869FCC0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF00;1;4;[0x0869FBC8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF00;2;4;[0x0000000B] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF00;3;4;[0x00000800] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF40;0;4;[0x0869FCC0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF40;1;4;[0x0869FDB8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF40;2;4;[0x0000000B] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF40;3;4;[0x00000800] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF40;5;4;[0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAC8C0;0;4;[0x0869FCC0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAC8C0;1;4;[0x00000800] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF00;2;NULL;[2048,2048];[16,16];0;NULL;NULL )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF40;4;4;[0x00000001] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF40;2;NULL;[1024,2048];[16,16];0;NULL;[0x0962E9C0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF40;4;4;[0x00000002] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF40;2;NULL;[1024,2048];[16,16];0;NULL;[0x088F3F90] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF40;4;4;[0x00000003] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF40;2;NULL;[1024,2048];[16,16];0;NULL;[0x086EBE58] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF40;4;4;[0x00000004] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF40;2;NULL;[1024,2048];[16,16];0;NULL;[0x086EBF78] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF40;4;4;[0x00000005] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF40;2;NULL;[1024,2048];[16,16];0;NULL;[0x086D7708] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF40;4;4;[0x00000006] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF40;2;NULL;[1024,2048];[16,16];0;NULL;[0x086D7828] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF40;4;4;[0x00000007] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF40;2;NULL;[1024,2048];[16,16];0;NULL;[0x08917198] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF40;4;4;[0x00000008] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF40;2;NULL;[1024,2048];[16,16];0;NULL;[0x089172B8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF40;4;4;[0x00000009] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF40;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E4888] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF40;4;4;[0x0000000A] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF40;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E49B0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF40;4;4;[0x0000000B] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF40;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E4AD8] )
+CL_SUCCESS = clReleaseKernel ( 0x06EACF40 )
+CL_SUCCESS = clReleaseKernel ( 0x06EACF00 )
+CL_SUCCESS = clReleaseKernel ( 0x06EAC8C0 )
+CL_SUCCESS = clSetKernelArg ( 0x06EACC40;0;4;[0x0869FBC8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACC40;1;4;[0x0869FCC0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACC40;2;4;[0x00000800] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACC40;2;NULL;[2048,2048];[16,16];0;NULL;NULL )
+0x06EAC8C0 = clCreateKernel ( 0x0896F2B8;"bitReverse";[CL_SUCCESS] )
+0x06EAD340 = clCreateKernel ( 0x0896F2B8;"butterfly";[CL_SUCCESS] )
+0x06EAD440 = clCreateKernel ( 0x0896F2B8;"norm";[CL_SUCCESS] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAC8C0;0;4;[0x0869FCC0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAC8C0;1;4;[0x0869FBC8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAC8C0;2;4;[0x0000000B] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAC8C0;3;4;[0x00000800] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD340;0;4;[0x0869FCC0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD340;1;4;[0x0869FDB8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD340;2;4;[0x0000000B] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD340;3;4;[0x00000800] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD340;5;4;[0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD440;0;4;[0x0869FCC0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD440;1;4;[0x00000800] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAC8C0;2;NULL;[2048,2048];[16,16];0;NULL;NULL )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD340;4;4;[0x00000001] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD340;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E4E50] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD340;4;4;[0x00000002] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD340;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E4F78] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD340;4;4;[0x00000003] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD340;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E50A0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD340;4;4;[0x00000004] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD340;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E51C8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD340;4;4;[0x00000005] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD340;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E52F0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD340;4;4;[0x00000006] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD340;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E5418] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD340;4;4;[0x00000007] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD340;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E5540] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD340;4;4;[0x00000008] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD340;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E5668] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD340;4;4;[0x00000009] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD340;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E5790] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD340;4;4;[0x0000000A] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD340;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E58B8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD340;4;4;[0x0000000B] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD340;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E59E0] )
+CL_SUCCESS = clReleaseKernel ( 0x06EAD340 )
+CL_SUCCESS = clReleaseKernel ( 0x06EAC8C0 )
+CL_SUCCESS = clReleaseKernel ( 0x06EAD440 )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD000;0;4;[0x0869FCC0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD000;1;4;[0x00000800] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD000;2;4;[0x00000100] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD000;2;NULL;[2048,2048];[16,16];0;NULL;NULL )
+0x06EAD440 = clCreateKernel ( 0x0896F2B8;"bitReverse";[CL_SUCCESS] )
+0x06EACF80 = clCreateKernel ( 0x0896F2B8;"butterfly";[CL_SUCCESS] )
+0x06EAC880 = clCreateKernel ( 0x0896F2B8;"norm";[CL_SUCCESS] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD440;0;4;[0x0869FBC8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD440;1;4;[0x0869FCC0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD440;2;4;[0x0000000B] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD440;3;4;[0x00000800] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF80;0;4;[0x0869FBC8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF80;1;4;[0x0869FDB8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF80;2;4;[0x0000000B] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF80;3;4;[0x00000800] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF80;5;4;[0x80000000] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAC880;0;4;[0x0869FBC8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAC880;1;4;[0x00000800] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD440;2;NULL;[2048,2048];[16,16];0;NULL;NULL )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF80;4;4;[0x00000001] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF80;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E5D58] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF80;4;4;[0x00000002] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF80;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E5E80] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF80;4;4;[0x00000003] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF80;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E5FA8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF80;4;4;[0x00000004] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF80;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E60D0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF80;4;4;[0x00000005] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF80;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E61F8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF80;4;4;[0x00000006] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF80;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E6320] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF80;4;4;[0x00000007] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF80;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E6448] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF80;4;4;[0x00000008] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF80;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E6570] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF80;4;4;[0x00000009] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF80;2;NULL;[1024,2048];[16,16];0;NULL;[0x096E6698] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF80;4;4;[0x0000000A] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF80;2;NULL;[1024,2048];[16,16];0;NULL;[0x09788798] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACF80;4;4;[0x0000000B] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACF80;2;NULL;[1024,2048];[16,16];0;NULL;[0x097888C0] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAC880;2;NULL;[2048,2048];[16,16];0;NULL;[0x097889E8] )
+CL_SUCCESS = clReleaseKernel ( 0x06EACF80 )
+CL_SUCCESS = clReleaseKernel ( 0x06EAD440 )
+CL_SUCCESS = clReleaseKernel ( 0x06EAC880 )
+CL_SUCCESS = clSetKernelArg ( 0x06EACC40;0;4;[0x0869FCC0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACC40;1;4;[0x0869FBC8] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACC40;2;NULL;[2048,2048];[16,16];0;NULL;NULL )
+0x06EACD40 = clCreateKernel ( 0x0896F2B8;"bitReverse";[CL_SUCCESS] )
+0x06EAD200 = clCreateKernel ( 0x0896F2B8;"butterfly";[CL_SUCCESS] )
+0x06EACD80 = clCreateKernel ( 0x0896F2B8;"norm";[CL_SUCCESS] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACD40;0;4;[0x0869FBC8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACD40;1;4;[0x0869FCC0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACD40;2;4;[0x0000000B] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACD40;3;4;[0x00000800] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD200;0;4;[0x0869FBC8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD200;1;4;[0x0869FDB8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD200;2;4;[0x0000000B] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD200;3;4;[0x00000800] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD200;5;4;[0x80000000] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACD80;0;4;[0x0869FBC8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EACD80;1;4;[0x00000800] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACD40;2;NULL;[2048,2048];[16,16];0;NULL;NULL )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD200;4;4;[0x00000001] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD200;2;NULL;[1024,2048];[16,16];0;NULL;[0x09788D60] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD200;4;4;[0x00000002] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD200;2;NULL;[1024,2048];[16,16];0;NULL;[0x09788E88] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD200;4;4;[0x00000003] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD200;2;NULL;[1024,2048];[16,16];0;NULL;[0x09788FB0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD200;4;4;[0x00000004] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD200;2;NULL;[1024,2048];[16,16];0;NULL;[0x097890D8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD200;4;4;[0x00000005] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD200;2;NULL;[1024,2048];[16,16];0;NULL;[0x09789200] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD200;4;4;[0x00000006] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD200;2;NULL;[1024,2048];[16,16];0;NULL;[0x09789328] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD200;4;4;[0x00000007] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD200;2;NULL;[1024,2048];[16,16];0;NULL;[0x09789450] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD200;4;4;[0x00000008] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD200;2;NULL;[1024,2048];[16,16];0;NULL;[0x09789578] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD200;4;4;[0x00000009] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD200;2;NULL;[1024,2048];[16,16];0;NULL;[0x097896A0] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD200;4;4;[0x0000000A] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD200;2;NULL;[1024,2048];[16,16];0;NULL;[0x097897C8] )
+CL_SUCCESS = clSetKernelArg ( 0x06EAD200;4;4;[0x0000000B] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EAD200;2;NULL;[1024,2048];[16,16];0;NULL;[0x097898F0] )
+CL_SUCCESS = clEnqueueNDRangeKernel ( 0x08686A58;0x06EACD80;2;NULL;[2048,2048];[16,16];0;NULL;[0x09789A18] )
+CL_SUCCESS = clReleaseKernel ( 0x06EAD200 )
+CL_SUCCESS = clReleaseKernel ( 0x06EACD40 )
+CL_SUCCESS = clReleaseKernel ( 0x06EACD80 )
+CL_SUCCESS = clEnqueueReadBuffer ( 0x08686A58;0x0869FBC8;CL_TRUE;0;33554432;0x03310040;0;NULL;NULL )
+CL_SUCCESS = clFlush ( 0x08686A58 )
+CL_SUCCESS = clFinish ( 0x08686A58 )
+CL_SUCCESS = clReleaseKernel ( 0x06EAD000 )
+CL_SUCCESS = clReleaseKernel ( 0x06EACC40 )
+CL_SUCCESS = clReleaseKernel ( 0x06EAD240 )
+CL_SUCCESS = clReleaseProgram ( 0x0896F2B8 )
+CL_SUCCESS = clReleaseMemObject ( 0x0869FBC8 )
+CL_SUCCESS = clReleaseMemObject ( 0x0869FCC0 )
+CL_SUCCESS = clReleaseMemObject ( 0x0869FDB8 )
+CL_SUCCESS = clReleaseCommandQueue ( 0x08686A58 )
+CL_SUCCESS = clReleaseContext ( 0x07D5E0A0 )
+=====AMD CodeXL ocl Timestamp Output=====
+3612
+202
+1    clGetPlatformInfo                            7495250979738        7495250981932        
+1    clGetPlatformInfo                            7495250992172        7495250992172        
+2    clGetDeviceIDs                               7495251658862        7495251663616        
+4    clCreateContext                              7495251665810        7495251668005        
+9    clCreateCommandQueue                         7495251675319        7495265947533        
+13   clCreateBuffer                               7495265968744        7495265972402        
+13   clCreateBuffer                               7495265976059        7495265976790        
+13   clCreateBuffer                               7495265977521        7495265978253        
+54   clEnqueueWriteBuffer                         7495265981544        7495289716515        4596    CL_COMMAND_WRITE_BUFFER                 7495266072972        7495266080287        7495267120536        7495289700425        0         0x08686A58               0         0x07D5E0A0               Caicos                        33554432            
+27   clCreateProgramWithSource                    7495289765521        7495289777955        
+31   clBuildProgram                               7495289782343        7495519944017        
+35   clCreateKernel                               7495519973639        7495519976199        
+35   clCreateKernel                               7495519979125        7495519979490        
+35   clCreateKernel                               7495519980953        7495519981319        
+39   clSetKernelArg                               7495519983148        7495519983879        
+39   clSetKernelArg                               7495519986439        7495519986805        
+66   clEnqueueNDRangeKernel                       7495519992290        7495520148449        4592    CL_COMMAND_NDRANGE_KERNEL               7495520117363        7495520129065        7495525529040        7495525556374        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD240               spinFact      {1024}     {16}        
+35   clCreateKernel                               7495520153203        7495520154300        
+35   clCreateKernel                               7495520155763        7495520156129        
+35   clCreateKernel                               7495520157591        7495520157957        
+39   clSetKernelArg                               7495520159054        7495520159420        
+39   clSetKernelArg                               7495520160151        7495520160151        
+39   clSetKernelArg                               7495520160883        7495520161249        
+39   clSetKernelArg                               7495520161614        7495520161980        
+39   clSetKernelArg                               7495520162711        7495520162711        
+39   clSetKernelArg                               7495520163443        7495520163443        
+39   clSetKernelArg                               7495520164174        7495520164540        
+39   clSetKernelArg                               7495520165271        7495520165271        
+39   clSetKernelArg                               7495520166003        7495520166003        
+39   clSetKernelArg                               7495520166734        7495520166734        
+39   clSetKernelArg                               7495520176243        7495520176243        
+66   clEnqueueNDRangeKernel                       7495520177340        7495520265842        4592    CL_COMMAND_NDRANGE_KERNEL               7495520258528        7495520411760        7495525556009        7495574176231        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF00               bitReverse      {2048,2048}     {16,16}        
+39   clSetKernelArg                               7495520268767        7495520268767        
+66   clEnqueueNDRangeKernel                       7495520269865        7495520277179        4592    CL_COMMAND_NDRANGE_KERNEL               7495520272790        7495520673609        7495574188786        7495589988898        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF40               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520279007        7495520279007        
+66   clEnqueueNDRangeKernel                       7495520279739        7495520285224        4592    CL_COMMAND_NDRANGE_KERNEL               7495520281567        7495520961423        7495590001009        7495605574675        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF40               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520287053        7495520287053        
+66   clEnqueueNDRangeKernel                       7495520289247        7495520295464        4592    CL_COMMAND_NDRANGE_KERNEL               7495520291076        7495521101490        7495605715342        7495621422120        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF40               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520297293        7495520297293        
+66   clEnqueueNDRangeKernel                       7495520301681        7495520307533        4592    CL_COMMAND_NDRANGE_KERNEL               7495520303876        7495521212301        7495621911708        7495637452264        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF40               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520314481        7495520314481        
+66   clEnqueueNDRangeKernel                       7495520315578        7495520321795        4592    CL_COMMAND_NDRANGE_KERNEL               7495520317773        7495521319088        7495637464930        7495652179486        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF40               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520323258        7495520323258        
+66   clEnqueueNDRangeKernel                       7495520324355        7495520329475        4592    CL_COMMAND_NDRANGE_KERNEL               7495520326184        7495521638719        7495652191675        7495665210564        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF40               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520330938        7495520330938        
+66   clEnqueueNDRangeKernel                       7495520332035        7495520337521        4592    CL_COMMAND_NDRANGE_KERNEL               7495520333864        7495521928361        7495665223120        7495679548564        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF40               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520338618        7495520338984        
+66   clEnqueueNDRangeKernel                       7495520339715        7495520344835        4592    CL_COMMAND_NDRANGE_KERNEL               7495520341544        7495522212884        7495679560930        7495692823597        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF40               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520346298        7495520346298        
+66   clEnqueueNDRangeKernel                       7495520347029        7495520352149        4592    CL_COMMAND_NDRANGE_KERNEL               7495520348492        7495522572743        7495692836342        7495707294786        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF40               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520353612        7495520353612        
+66   clEnqueueNDRangeKernel                       7495520355806        7495520360561        4592    CL_COMMAND_NDRANGE_KERNEL               7495520357269        7495574296263        7495707307675        7495723454453        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF40               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520362024        7495520362024        
+66   clEnqueueNDRangeKernel                       7495520362755        7495520370801        4592    CL_COMMAND_NDRANGE_KERNEL               7495520363852        7495590108850        7495723471675        7495739796675        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF40               butterfly      {1024,2048}     {16,16}        
+38   clReleaseKernel                              7495520373361        7495520373726        
+38   clReleaseKernel                              7495520374458        7495520374458        
+38   clReleaseKernel                              7495520375189        7495520375921        
+39   clSetKernelArg                               7495520376286        7495520376652        
+39   clSetKernelArg                               7495520377018        7495520377018        
+39   clSetKernelArg                               7495520377383        7495520377383        
+66   clEnqueueNDRangeKernel                       7495520378481        7495520389452        4592    CL_COMMAND_NDRANGE_KERNEL               7495520380309        7495605702741        7495739810898        7495790911786        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACC40               transpose      {2048,2048}     {16,16}        
+35   clCreateKernel                               7495520392012        7495520392743        
+35   clCreateKernel                               7495520394206        7495520394937        
+35   clCreateKernel                               7495520395669        7495520396400        
+39   clSetKernelArg                               7495520397132        7495520397132        
+39   clSetKernelArg                               7495520397863        7495520397863        
+39   clSetKernelArg                               7495520398229        7495520398229        
+39   clSetKernelArg                               7495520398595        7495520398960        
+39   clSetKernelArg                               7495520399326        7495520399326        
+39   clSetKernelArg                               7495520399692        7495520399692        
+39   clSetKernelArg                               7495520400423        7495520400423        
+39   clSetKernelArg                               7495520400789        7495520400789        
+39   clSetKernelArg                               7495520401155        7495520401155        
+39   clSetKernelArg                               7495520401520        7495520401886        
+39   clSetKernelArg                               7495520402252        7495520402252        
+66   clEnqueueNDRangeKernel                       7495520402983        7495520416880        4592    CL_COMMAND_NDRANGE_KERNEL               7495520408469        7495621548242        7495790925819        7495834535152        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAC8C0               bitReverse      {2048,2048}     {16,16}        
+39   clSetKernelArg                               7495520418709        7495520418709        
+66   clEnqueueNDRangeKernel                       7495520419806        7495520424560        4592    CL_COMMAND_NDRANGE_KERNEL               7495520421269        7495637572940        7495834546898        7495850674453        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD340               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520427120        7495520427120        
+66   clEnqueueNDRangeKernel                       7495520427851        7495520437726        4592    CL_COMMAND_NDRANGE_KERNEL               7495520434068        7495637876114        7495850674453        7495866446120        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD340               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520440651        7495520440651        
+66   clEnqueueNDRangeKernel                       7495520446503        7495520456011        4592    CL_COMMAND_NDRANGE_KERNEL               7495520447965        7495652274133        7495866459009        7495882023453        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD340               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520457840        7495520457840        
+66   clEnqueueNDRangeKernel                       7495520458571        7495520462594        4592    CL_COMMAND_NDRANGE_KERNEL               7495520459668        7495652397378        7495882023786        7495897553231        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD340               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520464057        7495520464057        
+66   clEnqueueNDRangeKernel                       7495520464788        7495520468445        4592    CL_COMMAND_NDRANGE_KERNEL               7495520465885        7495652589375        7495897553231        7495912248009        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD340               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520469542        7495520469542        
+66   clEnqueueNDRangeKernel                       7495520470274        7495520473931        4592    CL_COMMAND_NDRANGE_KERNEL               7495520471371        7495665317195        7495912260342        7495925271786        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD340               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520475394        7495520475394        
+66   clEnqueueNDRangeKernel                       7495520476125        7495520479782        4592    CL_COMMAND_NDRANGE_KERNEL               7495520477222        7495665458725        7495925271786        7495939727342        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD340               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520480879        7495520480879        
+66   clEnqueueNDRangeKernel                       7495520481611        7495520486731        4592    CL_COMMAND_NDRANGE_KERNEL               7495520482708        7495665621100        7495939727453        7495953027342        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD340               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520488194        7495520488194        
+66   clEnqueueNDRangeKernel                       7495520488925        7495520492582        4592    CL_COMMAND_NDRANGE_KERNEL               7495520490022        7495665708871        7495953027342        7495967748120        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD340               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520493679        7495520493679        
+66   clEnqueueNDRangeKernel                       7495520494411        7495520498068        4592    CL_COMMAND_NDRANGE_KERNEL               7495520495508        7495679644266        7495967761231        7495983779453        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD340               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520499531        7495520499531        
+66   clEnqueueNDRangeKernel                       7495520499896        7495520503919        4592    CL_COMMAND_NDRANGE_KERNEL               7495520501359        7495679940490        7495983780151        7496000156707        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD340               butterfly      {1024,2048}     {16,16}        
+38   clReleaseKernel                              7495520505748        7495520505748        
+38   clReleaseKernel                              7495520506479        7495520506479        
+38   clReleaseKernel                              7495520506845        7495520507576        
+39   clSetKernelArg                               7495520508308        7495520508308        
+39   clSetKernelArg                               7495520513428        7495520513428        
+39   clSetKernelArg                               7495520516719        7495520517085        
+66   clEnqueueNDRangeKernel                       7495520517450        7495520522570        4592    CL_COMMAND_NDRANGE_KERNEL               7495520518913        7495680023142        7496000156453        7496014105009        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD000               highPassFilter      {2048,2048}     {16,16}        
+35   clCreateKernel                               7495520524399        7495520525496        
+35   clCreateKernel                               7495520526228        7495520526959        
+35   clCreateKernel                               7495520528056        7495520528422        
+39   clSetKernelArg                               7495520529519        7495520529519        
+39   clSetKernelArg                               7495520529885        7495520529885        
+39   clSetKernelArg                               7495520530250        7495520530250        
+39   clSetKernelArg                               7495520530982        7495520530982        
+39   clSetKernelArg                               7495520531347        7495520531347        
+39   clSetKernelArg                               7495520532079        7495520532079        
+39   clSetKernelArg                               7495520532445        7495520532445        
+39   clSetKernelArg                               7495520532810        7495520532810        
+39   clSetKernelArg                               7495520533542        7495520533542        
+39   clSetKernelArg                               7495520533907        7495520533907        
+39   clSetKernelArg                               7495520534273        7495520534273        
+66   clEnqueueNDRangeKernel                       7495520536467        7495520540856        4592    CL_COMMAND_NDRANGE_KERNEL               7495520537930        7495680222088        7496014105120        7496063012009        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD440               bitReverse      {2048,2048}     {16,16}        
+39   clSetKernelArg                               7495520542684        7495520542684        
+66   clEnqueueNDRangeKernel                       7495520543050        7495520547073        4592    CL_COMMAND_NDRANGE_KERNEL               7495520544147        7495692923576        7496063024898        7496078808564        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF80               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520548536        7495520548536        
+66   clEnqueueNDRangeKernel                       7495520548902        7495520552559        4592    CL_COMMAND_NDRANGE_KERNEL               7495520549999        7495693038775        7496078808564        7496094755675        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF80               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520554022        7495520554022        
+66   clEnqueueNDRangeKernel                       7495520554387        7495520558410        4592    CL_COMMAND_NDRANGE_KERNEL               7495520555484        7495693117037        7496094755675        7496109324675        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF80               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520559507        7495520559507        
+66   clEnqueueNDRangeKernel                       7495520560239        7495520563896        4592    CL_COMMAND_NDRANGE_KERNEL               7495520561336        7495693283070        7496109324675        7496124789231        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF80               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520564993        7495520564993        
+66   clEnqueueNDRangeKernel                       7495520566821        7495520570844        4592    CL_COMMAND_NDRANGE_KERNEL               7495520567919        7495693360600        7496124789342        7496139369453        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF80               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520572307        7495520572307        
+66   clEnqueueNDRangeKernel                       7495520572673        7495520576330        4592    CL_COMMAND_NDRANGE_KERNEL               7495520573770        7495693436302        7496139369564        7496152410786        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF80               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520577793        7495520577793        
+66   clEnqueueNDRangeKernel                       7495520578158        7495520581816        4592    CL_COMMAND_NDRANGE_KERNEL               7495520579256        7495693576735        7496152411009        7496166839898        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF80               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520583278        7495520583278        
+66   clEnqueueNDRangeKernel                       7495520584010        7495520587667        4592    CL_COMMAND_NDRANGE_KERNEL               7495520585107        7495707389252        7496166853041        7496180096486        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF80               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520588764        7495520588764        
+66   clEnqueueNDRangeKernel                       7495520589495        7495520593153        4592    CL_COMMAND_NDRANGE_KERNEL               7495520590593        7495707547970        7496180096120        7496194665786        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF80               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520594615        7495520594615        
+66   clEnqueueNDRangeKernel                       7495520594981        7495520600467        4592    CL_COMMAND_NDRANGE_KERNEL               7495520597907        7495707706323        7496194666152        7496210790930        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF80               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520601930        7495520601930        
+66   clEnqueueNDRangeKernel                       7495520602661        7495520608147        4592    CL_COMMAND_NDRANGE_KERNEL               7495520603758        7495707788607        7496210790675        7496227009231        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACF80               butterfly      {1024,2048}     {16,16}        
+66   clEnqueueNDRangeKernel                       7495520609975        7495520613632        4592    CL_COMMAND_NDRANGE_KERNEL               7495520611072        7495707879303        7496227009818        7496240982707        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAC880               norm      {2048,2048}     {16,16}        
+38   clReleaseKernel                              7495520615461        7495520615461        
+38   clReleaseKernel                              7495520619118        7495520619118        
+38   clReleaseKernel                              7495520619849        7495520619849        
+39   clSetKernelArg                               7495520620215        7495520620581        
+39   clSetKernelArg                               7495520620947        7495520620947        
+66   clEnqueueNDRangeKernel                       7495520621678        7495520626432        4592    CL_COMMAND_NDRANGE_KERNEL               7495520623141        7495708123232        7496240982708        7496291572486        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACC40               transpose      {2048,2048}     {16,16}        
+35   clCreateKernel                               7495520628261        7495520628992        
+35   clCreateKernel                               7495520630089        7495520630821        
+35   clCreateKernel                               7495520631918        7495520632284        
+39   clSetKernelArg                               7495520633381        7495520633381        
+39   clSetKernelArg                               7495520633746        7495520633746        
+39   clSetKernelArg                               7495520635575        7495520635575        
+39   clSetKernelArg                               7495520636306        7495520636306        
+39   clSetKernelArg                               7495520636672        7495520636672        
+39   clSetKernelArg                               7495520637038        7495520637403        
+39   clSetKernelArg                               7495520637769        7495520637769        
+39   clSetKernelArg                               7495520642523        7495520642523        
+39   clSetKernelArg                               7495520643986        7495520643986        
+39   clSetKernelArg                               7495520644352        7495520644352        
+39   clSetKernelArg                               7495520645083        7495520645083        
+66   clEnqueueNDRangeKernel                       7495520645449        7495520650203        4592    CL_COMMAND_NDRANGE_KERNEL               7495520646912        7495708208808        7496291572231        7496337049898        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACD40               bitReverse      {2048,2048}     {16,16}        
+39   clSetKernelArg                               7495520784785        7495520785150        
+66   clEnqueueNDRangeKernel                       7495520908029        7495520917172        4592    CL_COMMAND_NDRANGE_KERNEL               7495520910955        7495708289630        7496337049898        7496352847786        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD200               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520919732        7495520920098        
+66   clEnqueueNDRangeKernel                       7495520920463        7495520924852        4592    CL_COMMAND_NDRANGE_KERNEL               7495520921926        7495708440303        7496352847786        7496368603342        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD200               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520926315        7495520926315        
+66   clEnqueueNDRangeKernel                       7495520927046        7495520931069        4592    CL_COMMAND_NDRANGE_KERNEL               7495520928143        7495723557309        7496369200786        7496384815675        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD200               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520932532        7495520932532        
+66   clEnqueueNDRangeKernel                       7495520933263        7495520936920        4592    CL_COMMAND_NDRANGE_KERNEL               7495520934360        7495723690061        7496384815675        7496400343675        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD200               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520938383        7495520938383        
+66   clEnqueueNDRangeKernel                       7495520939115        7495520942772        4592    CL_COMMAND_NDRANGE_KERNEL               7495520940212        7495724610189        7496400344041        7496414901930        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD200               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520944235        7495520944235        
+66   clEnqueueNDRangeKernel                       7495520944600        7495520948257        4592    CL_COMMAND_NDRANGE_KERNEL               7495520945697        7495724701616        7496414901786        7496427842342        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD200               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520949720        7495520949720        
+66   clEnqueueNDRangeKernel                       7495520950086        7495520954109        4592    CL_COMMAND_NDRANGE_KERNEL               7495520951183        7495724780610        7496427842342        7496442367453        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD200               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520957034        7495520957034        
+66   clEnqueueNDRangeKernel                       7495520957766        7495520961789        4592    CL_COMMAND_NDRANGE_KERNEL               7495520958863        7495724930551        7496442367453        7496455633120        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD200               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520963251        7495520963251        
+66   clEnqueueNDRangeKernel                       7495520963617        7495520967640        4592    CL_COMMAND_NDRANGE_KERNEL               7495520964714        7495725009910        7496455633231        7496470224675        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD200               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520969103        7495520969103        
+66   clEnqueueNDRangeKernel                       7495520969469        7495520973126        4592    CL_COMMAND_NDRANGE_KERNEL               7495520970566        7495725090367        7496470224675        7496486366231        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD200               butterfly      {1024,2048}     {16,16}        
+39   clSetKernelArg                               7495520974588        7495520974588        
+66   clEnqueueNDRangeKernel                       7495520981903        7495520986657        4592    CL_COMMAND_NDRANGE_KERNEL               7495520983366        7495725245062        7496486366342        7496502682342        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EAD200               butterfly      {1024,2048}     {16,16}        
+66   clEnqueueNDRangeKernel                       7495520988120        7495520993605        4592    CL_COMMAND_NDRANGE_KERNEL               7495520989583        7495725325884        7496502682819        7496516664708        0         0x08686A58               0         0x07D5E0A0               Caicos                        0x06EACD80               norm      {2048,2048}     {16,16}        
+38   clReleaseKernel                              7495520995434        7495520995434        
+38   clReleaseKernel                              7495520996165        7495520996165        
+38   clReleaseKernel                              7495520996897        7495520996897        
+52   clEnqueueReadBuffer                          7495521003480        7496540241310        4595    CL_COMMAND_READ_BUFFER                  7495521004577        7495725408535        7496516664453        7496540076009        0         0x08686A58               0         0x07D5E0A0               Caicos                        33554432            
+50   clFlush                                      7497090988017        7497091022394        
+51   clFinish                                     7497091028611        7497091047994        
+38   clReleaseKernel                              7497091050554        7497091052017        
+38   clReleaseKernel                              7497091053480        7497091053845        
+38   clReleaseKernel                              7497091067377        7497091068108        
+30   clReleaseProgram                             7497091068839        7497091258277        
+18   clReleaseMemObject                           7497091260472        7497091283146        
+18   clReleaseMemObject                           7497091284243        7497091298871        
+18   clReleaseMemObject                           7497091299603        7497091414070        
+11   clReleaseCommandQueue                        7497091415533        7497105152713        
+7    clReleaseContext                             7497105165147        7497105166610        
