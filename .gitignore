@@ -146,3 +146,17 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
+
+# Java Project
+.classpath
+.project
+.settings/
+target/
+build/
+.ruleset
+.checkstyle
+.pmd
+.db
+velocity.log
+*.orig
+
