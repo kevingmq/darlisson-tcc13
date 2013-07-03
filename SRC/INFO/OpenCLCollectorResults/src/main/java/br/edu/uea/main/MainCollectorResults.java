@@ -31,7 +31,7 @@ public class MainCollectorResults {
 
 	private static APPLICATION  appType;
 	private static String 		kernelHeader;
-	private static final boolean onDebug = true;
+	private static final boolean onDebug = false;
 
 
 	public static void main(String[] args) throws IOException {
@@ -43,10 +43,10 @@ public class MainCollectorResults {
 
 			/* Setup Data Collector */
 			/* GPU_VENDOR  = NVIDIA || ATI */ 
-			gpuVendor = GPU_VENDOR.NVIDIA;
+			gpuVendor = GPU_VENDOR.ATI;
 			
 			/* GPU_MODEL   - GT_520,GT_210 || HD_6450*/
-			gpuModel = GPU_MODEL.GT_210;
+			gpuModel = GPU_MODEL.HD_6450;
 			
 			/* APPLICATION - SOBEL, FFT*/
 			appType = APPLICATION.SOBEL;
@@ -63,10 +63,12 @@ public class MainCollectorResults {
 
 			kernelFileName = getKernelFilename(gpuModel, appType, IMG_TAM_256, 1);
 
-				if(gpuVendor == GPU_VENDOR.NVIDIA)
+				if(gpuVendor == GPU_VENDOR.NVIDIA){
 					kernelHeader=arrayListToString(getKernelHeader(kernelFileName), true,gpuVendor);
+				    System.out.println(kernelHeader);
+				    }
 
-			System.out.println(kernelHeader);
+			
 
 			for(int i = 1; i <=8;i++){
 				kernelFileName = getKernelFilename(gpuModel, appType, IMG_TAM_256, i);

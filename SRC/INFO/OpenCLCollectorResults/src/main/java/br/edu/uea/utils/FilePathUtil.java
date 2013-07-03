@@ -14,7 +14,9 @@ public class FilePathUtil {
 	private static final String FFT_PATH			= "FFT/";
 
 	private static final String NVIDIA_520_CSV_PATH = "NVIDIA_GT_520_csv/"; 
-	private static final String NVIDIA_210_CSV_PATH = "NVIDIA_GeForce_210_csv/"; 
+	private static final String NVIDIA_210_CSV_PATH = "NVIDIA_GeForce_210_csv/";
+	private static final String ATI_HTML_DATA_PATH = "data_html/";
+	
 
 
 	private static final String ATI_IMG_BASE_PATH 	= "image"; 
@@ -49,7 +51,7 @@ public class FilePathUtil {
 				break;
 
 			case HD_6450:
-				kernelFilename = BASE_PATH + ATI_HD_6450_PATH + SOBEL_PATH + imgTam +"/"+ imgTam + "_" + ATI_IMG_BASE_PATH +
+				kernelFilename = BASE_PATH + ATI_HD_6450_PATH + SOBEL_PATH + ATI_HTML_DATA_PATH + imgTam +"/"+ imgTam + "_" + ATI_IMG_BASE_PATH +
 				imgID +"/"+ imgTam +IMG_SHORT_NAME +imgID + KERNEL_HTML_EXT;
 				break;
 			}
@@ -72,7 +74,7 @@ public class FilePathUtil {
 				break;
 
 			case HD_6450:
-				kernelFilename = BASE_PATH + ATI_HD_6450_PATH + FFT_PATH + imgTam +"/"+ ATI_IMG_BASE_PATH +
+				kernelFilename = BASE_PATH + ATI_HD_6450_PATH + FFT_PATH + ATI_HTML_DATA_PATH + imgTam +"/"+ ATI_IMG_BASE_PATH +
 				imgID +"/"+ imgTam +IMG_SHORT_NAME +imgID + KERNEL_HTML_EXT;
 				
 				break;
@@ -103,7 +105,7 @@ public class FilePathUtil {
 				break;
 
 			case HD_6450:
-				memoryFilename = BASE_PATH + ATI_HD_6450_PATH + SOBEL_PATH + imgTam +"/"+ imgTam + "_" + ATI_IMG_BASE_PATH +
+				memoryFilename = BASE_PATH + ATI_HD_6450_PATH + SOBEL_PATH + ATI_HTML_DATA_PATH + imgTam +"/"+ imgTam + "_" + ATI_IMG_BASE_PATH +
 				imgID +"/"+ imgTam +IMG_SHORT_NAME +imgID + MEMORY_HTML_EXT;
 				break;
 			}
@@ -124,7 +126,7 @@ public class FilePathUtil {
 				break;
 
 			case HD_6450:
-				memoryFilename = BASE_PATH + ATI_HD_6450_PATH + FFT_PATH + imgTam +"/"+ ATI_IMG_BASE_PATH +
+				memoryFilename = BASE_PATH + ATI_HD_6450_PATH + FFT_PATH + ATI_HTML_DATA_PATH + imgTam +"/"+ ATI_IMG_BASE_PATH +
 						imgID +"/"+ imgTam +IMG_SHORT_NAME +imgID + MEMORY_HTML_EXT;
 				break;
 			}
