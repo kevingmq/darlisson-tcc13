@@ -1,0 +1,1115 @@
+% Darlisson Marinho de Jesus
+
+\documentclass[10pt]{beamer}
+\newtheorem{proposition}{Proposi\c{c}\~{a}o}  %%
+
+%% comente a linha acima e descomente a debaixo para gerar
+%% lâminas para serem impressas
+% \documentclass[handout]{beamer}
+
+% Outras classes: [notes], [notes=only], [trans], [handout],
+% [red], [compress], [draft], [class=article]
+
+\mode<presentation>{
+  %% Temas
+\usepackage{beamerthemeshadow}
+\usepackage[portuguese,algoruled,longend,linesnumbered]{algorithm2e}
+\usepackage{graphicx}
+\usepackage{graphics}
+%\usepackage{epsfig}
+%\usepackage{beamerthemebars}
+%\usepackage[headheight=12pt,footheight=12pt]{beamerthemeboxes}
+%\usepackage{beamerthemeclassic}
+%\usepackage{beamerthemelined}
+%\usepackage{beamerthemeplain}
+%\usepackage[width=12pt,dark,tab]{beamerthemesidebar}
+%\usepackage{beamerthemesplit}
+%\usepackage{beamerthemetree}
+%\usepackage[bar]{beamerthemetree}
+  
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\beamertemplatetransparentcovereddynamic
+\beamertemplateballitem
+%\beamertemplatefootpagenumber
+\setbeamerfont{fonteMenor}{size=\scriptsize}
+\setbeamerfont{fonteMenor1}{size=\tiny}
+\setbeamerfont{fonteNormal}{size=\normal}
+  
+}
+
+\mode<handout>{
+% tema simples para ser impresso
+\usepackage[bar]{beamerthemetree}
+ % Colocando um fundo cinza quando for gerar transparências para serem impressas
+
+% mais de uma transparência por página
+  \beamertemplatesolidbackgroundcolor{black!5}
+}
+
+\usepackage{amsmath,amssymb}
+\usepackage[brazil]{varioref}
+\usepackage[english,brazil]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{colortbl}
+\usepackage{color}
+\usepackage[brazil]{babel}
+
+\definecolor{Blue}{rgb}{0,0,255}
+\definecolor{Red}{rgb}{255,0,0}
+% um outro tipo de fonte
+% \usepackage{pslatex}
+
+\beamertemplatetransparentcovereddynamic
+
+\title{}
+\author{Darlisson Marinho de Jesus}
+\institute{Universidade do Estado do Amazonas - UEA}
+\title[Analise comparativa com OpenCL na GPU Nvidia e ATI]{Análise comparativa do desempenho de filtros digitais de imagens com a linguagem OpenCL na GPU Nvidia e ATI}
+\author[Jesus D.M.]{%
+  Darlisson Marinho de Jesus\inst{1}\\
+  Raimundo Corrêa de Oliveira\inst{1} }
+
+\institute[UEA]{
+ \inst{1}%
+  	 Engenharia da Computação\\
+     Universidade do Estado do Amazonas - UEA}
+
+% Se comentar a linha abaixo, irá aparecer a data quando foi compilada a apresentação  
+\date{Julho - 2013}
+
+%\pgfdeclareimage[height=0.4cm]{das}{figs/ufpe.jpg}
+\pgfdeclareimage[height=1cm]{uea}{logo_uea.png}
+
+% pode-se colocar o LOGO assim
+%\logo{\pgfuseimage{ufpe}}
+
+% ou...
+\logo{\vbox{\hbox to 1cm{\hfil\pgfuseimage{uea}}}}
+
+\begin{document}
+\frame{\titlepage}
+\frame
+{
+	\frametitle{Sumário}
+	\begin{itemize}
+		\item Introdução
+		\begin{itemize}
+			\item Descrição do Problema
+			\item Justificativa
+			\item Objetivo Geral
+			\item Objetivos Específicos
+		\end{itemize}
+		\item Metodologia
+		\begin{itemize}
+			\item Metodologia de Projeto
+			\item Arquitetura Geral
+			\item Cronograma
+		\end{itemize}
+		\item Desenvolvimento
+		\begin{itemize}
+			\item Módulo Embarcado
+			\item Módulo Servidor
+			\item Módulo Cliente Android
+			\item Integração dos Módulos
+		\end{itemize}
+		\item Resultados
+		\item Conclusão
+	\end{itemize}
+}
+
+% inicio da Introdução
+
+\section{Introdução}
+\subsection{Descrição do Problema}
+\frame
+{
+	\frametitle{Descrição do Problema}
+	\begin{itemize}
+		\item O \textbf{\textcolor{Blue}{transporte coletivo}} têm fundamental importância no cotidiano da população.
+		\begin{itemize}
+			\pause
+			\item Mais econômico.
+			\pause
+			\item Contribui com a diminuição da poluição do ar e sonora.
+			\pause						
+			\item Solução para problemas de congestionamento de veículos.
+		\end{itemize}
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Descrição do Problema}
+	\begin{itemize}
+		\item A \textbf{\textcolor{Red}{falta de informação}} sobre o transporte público ainda é um grande problema.
+		\begin{itemize}
+			\pause
+			\item Afeta os \textbf{\textcolor{Blue}{moradores}} da cidade.
+			\pause
+			\item Afeta os \textbf{\textcolor{Blue}{turistas}} que pretendem utilizar o transporte coletivo.
+		\end{itemize}
+		\vskip10pt
+		\pause
+		\item Expectativa de 200 mil turistas durante a Copa em Manaus. (Bernardo Monteiro, coordenador da UGP Copa)
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Descrição do Problema}
+	\begin{itemize}
+		\item \textbf{\textcolor{Red}{Não}} há um lugar onde o usuário possa ter informações básicas sobre o percurso de um ônibus.
+		\pause
+		\item Paradas de ônibus \textbf{\textcolor{Red}{não}} informam as linhas de ônibus que passam por ela.
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Descrição do Problema}
+%	\begin{figure}[!htb]
+%  		\centering
+%   		\includegraphics[width=0.7\textwidth]{parada1.jpg}
+%			\caption{Paradas de Ônibus}
+%	\end{figure}
+}
+
+\frame
+{
+	\frametitle{Descrição do Problema}
+	\begin{itemize}
+		\item O usuário não sabe ao certo o horário em que deve chegar às paradas e nem os horários exatos dos ônibus.
+		\pause
+		\item Muito tempo é \textbf{\textcolor{Red}{perdido}} diariamente esperando um determinado ônibus.
+		\begin{itemize}
+			\pause
+			\item Média de 1 hora e 30 minutos (Pesquisa com 11 usuários de transporte coletivo)
+		\end{itemize}
+	\end{itemize}
+}
+
+\subsection{Justificativa}
+\frame
+{
+	\frametitle{Justificativa}
+	\begin{itemize}
+		\item Contribuir para a criação de um modelo de transporte mais eficiente e de melhor \textbf{\textcolor{Blue}{qualidade}}, uma vez que o transporte público está passando por um processo de \textbf{\textcolor{Red}{descrédito}} cada vez maior junto ao público alvo.
+	\end{itemize}
+}
+
+\subsection{Objetivo Geral}
+\frame
+{
+	\frametitle{Objetivo Geral}
+	\begin{itemize}
+		\item Desenvolver um sistema \textit{back-end} e \textit{front-end} que permita a visualização das informações do transporte coletivo em um aplicativo para plataforma Android.
+		\begin{itemize}
+				\pause
+				\item Percusos das linhas de ônibus da cidade.
+				\pause
+				\item Visualização em tempo real de uma determinada linha de ônibus.
+		\end{itemize}
+	\end{itemize}
+}
+
+\subsection{Objetivos Específicos}
+\frame
+{
+	\frametitle{Objetivos Específicos}
+	\begin{itemize}
+		\item Desenvolver um \textbf{\textcolor{Blue}{Sistema Embarcado}}, no qual irá utilizar as tecnologias GPS e GSM/GPRS com o objetivo de enviar informações em tempo real da localização do ônibus para um serviço web.
+		\pause
+		\item Desenvolver um \textbf{\textcolor{Blue}{Aplicativo Android}} que fornecerá informações detalhadas do percurso de determinada linha de ônibus e sua posição em tempo real para o usuário.
+		\pause
+		\item Desenvolver um \textbf{\textcolor{Blue}{Serviço Web}} que irá gerenciar as requisições provenientes dos módulos embarcados e módulos clientes.
+	\end{itemize}
+}
+
+\section{Metodologia}
+\subsection{Metodologia de Projeto}
+\frame
+{
+	\frametitle{Metodologia de Projeto}
+	\begin{itemize}
+		\item Observação e Análise
+		\pause
+		\begin{itemize}
+			\item Descrição do Problema.
+			\pause
+			\item Verificar a viabilidade de desenvolvimento do projeto no prazo estabelecido (4 meses).
+			\pause
+			\item Definição do Cronograma.
+		\end{itemize}
+		\pause
+		\item Planejamento
+		\begin{itemize}
+			\pause
+			\item Definir a arquitetura do Sistema.
+			\pause
+			\item Definir as tecnologias que serão utilizadas.
+		\end{itemize}
+		\pause
+		\item Execução
+		\begin{itemize}
+			\pause
+			\item Desenvolver e testar os módulos separados.
+			\pause
+			\item Integrar os módulos desenvolvidos.
+		\end{itemize}
+	\end{itemize}
+}
+
+\subsection{Arquitetura Geral}
+\frame
+{
+	\frametitle{Arquitetura Geral}
+%	\begin{figure}[h]
+%  		\centering
+%   		\includegraphics[width=0.9\textwidth]{arquitetura.jpg}
+%			\caption{Arquitetura Geral}
+%			\label{1}
+%	\end{figure}
+}
+
+\subsection{Cronograma}
+\frame
+{
+	\frametitle{Cronograma}
+%	\begin{figure}[h]
+%  		\centering
+%   		\includegraphics[width=1.0\textwidth]{cronograma.png}
+%	\end{figure}
+}
+
+\section{Desenvolvimento}
+\frame
+{		
+		\frametitle{Desenvolvimento}		
+		\begin{itemize}
+			\item A concretização do projeto consiste no desenvolvimento dos seguintes módulos:
+			\begin{itemize}
+				\pause
+				\item Módulo Embarcado
+				\pause
+				\item Módulo Servidor
+				\pause
+				\item Módulo Cliente Android
+				\pause
+				\item Integração dos Módulos
+			\end{itemize}
+		\end{itemize}
+}
+
+\subsection{Módulo Embarcado}
+\frame
+{
+	\frametitle{Definição}
+	\begin{itemize}
+			\item É qualquer dispositivo que inclui um computador programável que é utilizado para desempenhar uma tarefa específica.
+		\vskip13pt		
+	\end{itemize}
+%	\begin{figure}[h]
+%			\centering
+%			\includegraphics[width=0.4\textwidth]{computacao_embarcada.png}
+%			\caption{Exemplos de Sistemas Embarcados}
+%			\label{1}
+%	\end{figure}
+}
+
+\frame
+{
+	\frametitle{Histórico}
+	\begin{itemize}
+			\item WhirlWind: Desenvolvido pelo MIT entre 1940 e 1950, foi o primeiro computador designado para uma operação em tempo real.
+			\item Originalmente desenvolvido para controlar um simulador de aeronaves.				
+	\end{itemize}
+	\vskip13pt
+%	\begin{figure}[h]
+%			\centering
+%			\includegraphics[width=0.4\textwidth]{primeiro_computador.png}
+%			\caption{Primeiro Computador Embarcado}
+%			\label{1}
+%	\end{figure}
+}
+
+\frame
+{
+	\frametitle{Histórico}
+	\begin{itemize}
+			\item Intel 4004 (1971): O primeiro chip a conter em si todos os componentes de uma CPU: nascia o microprocessador.						
+	\end{itemize}
+	\vskip13pt	
+%	\begin{figure}[h]
+%			\centering
+%			\includegraphics[width=0.9\textwidth]{4004.png}
+%			\caption{Intel 4004}
+%			\label{1}
+%	\end{figure}
+}
+
+\frame
+{
+	\frametitle{Microcontrolador}
+	\vskip13pt	
+	\begin{itemize}
+			\item Os Microcontroladores integram elementos adicionais em sua estrutura interna.
+			\begin{itemize}
+				\pause
+				\item Memória de leitura e escrita para armazenamento de dados.
+				\pause
+				\item Memória somente de leitura para armazenamento de programas.
+				\pause
+				\item EEPROM para armazenamento permanente de dados.
+				\pause
+				\item Conversores A/D e D/A
+				\pause
+				\item Interfaces de entrada e saída de dados.
+			\end{itemize}
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Microcontrolador Atmega328}
+	\vskip13pt	
+	\begin{itemize}
+			\item O microcontrolador utilizado foi o ATMEGA328 da fabricante ATMEL.
+			\item Características
+			\begin{itemize}
+				\item CPU: 8-bit
+				\item Flash: 32Kb
+				\item SRAM: 2Kb
+				\item Pinos de I/O: 32
+				\item Interfaces de entrada e saída de dados.
+				\item Máxima frequência: 20MHz
+			\end{itemize}
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Microcontrolador Atmega328}
+	\begin{itemize}
+			\item Vantagens
+			\begin{itemize}
+				\pause
+				\item Popular em plataformas de código aberto.
+				\pause
+				\item Baixo Custo.
+			\end{itemize}
+			\pause
+			\item Desvantagens
+			\begin{itemize}
+				\pause
+				\item Baixa capacidade de processamento.
+			\end{itemize}
+	\end{itemize}
+}
+
+
+\frame
+{
+	\frametitle{GPS - Funcionamento}
+	\begin{itemize}
+				\item O segmento espacial é constituido por 24 satélites distribuidos em 6 planos orbitais.
+				\item Garantia de no mínimo 4 satélites visíveis em qualquer ponto da superfície terrestre.
+				\vskip13pt	
+%				\begin{figure}[h]
+%					\centering
+%					\includegraphics[width=0.3\textwidth]{constelacao.jpg}
+%					\caption{Constelação de Satélites GPS}
+%					\label{1}
+%				\end{figure}
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{GPS - Funcionamento}
+%				\begin{figure}[h]
+%					\centering
+%					\includegraphics[width=0.9\textwidth]{gps_funcionamento1.png}
+%					\label{1}
+%				\end{figure}
+}
+
+\frame
+{
+	\frametitle{GPS - Funcionamento}
+%				\begin{figure}[h]
+%					\centering
+%					\includegraphics[width=0.9\textwidth]{gps_funcionamento2.png}
+%					\label{1}
+%				\end{figure}
+}
+
+\frame
+{
+	\frametitle{GPS - Funcionamento}
+%				\begin{figure}[h]
+%					\centering
+%					\includegraphics[width=0.9\textwidth]{gps_funcionamento3.png}
+%					\label{1}
+%				\end{figure}
+}
+
+\frame
+{
+	\frametitle{GPS - Funcionamento}
+%				\begin{figure}[h]
+%					\centering
+%					\includegraphics[width=0.9\textwidth]{gps_funcionamento4.png}
+%					\label{1}
+%				\end{figure}
+}
+
+\frame
+{
+	\frametitle{GPS - Funcionamento}
+%				\begin{figure}[h]
+%					\centering
+%					\includegraphics[width=0.9\textwidth]{gps_funcionamento5.png}
+%					\label{1}
+%				\end{figure}
+}
+
+\frame
+{
+	\frametitle{Funcionamento}
+%				\begin{figure}[h]
+%					\centering
+%					\includegraphics[width=0.9\textwidth]{gps_funcionamento6.png}
+%					\label{1}
+%				\end{figure}
+}
+
+\frame
+{
+	\frametitle{GPS - Funcionamento}
+%				\begin{figure}[h]
+%					\centering
+%					\includegraphics[width=0.9\textwidth]{gps_funcionamento7.png}
+%					\label{1}
+%				\end{figure}
+}
+
+\frame
+{
+	\frametitle{Módulo GPS ME-1000RW}
+	\begin{itemize}
+				\item O módulo GPS utilizado foi o ME-1000RW.
+				\item Características.
+				\begin{itemize}
+					\item 65 canais de aquisição
+					\item	Precisão de 5 metros
+					\item	Antena Embutida
+					\item Start-up a frio em 29 seg. 
+					\item Baixo Consumo de Energia (23mA @ 3.3V)
+					\item Interface serial RS232 e LVTTL
+				\end{itemize}
+	\end{itemize}
+	\vskip13pt	
+%	\begin{figure}[h]
+%		\centering
+%		\includegraphics[width=0.2\textwidth]{modulo_gps.jpg}
+%		\caption{Módulo ME-1000RW}
+%		\label{1}
+%	\end{figure}
+}
+
+\frame
+{
+	\frametitle{Módulo GPS ME-1000RW}
+	\begin{itemize}
+				\item O protocolo transmitido pela interface serial é baseado na interface \textit{National Marine Eletronics Association's} NMEA 0183 ACII, versão 3.01.
+				\vskip13pt	
+				\item GPGSA - GPS DOP AND ACTIVE SATELLITES
+				\item	GPGGA - GLOBAL POSITIONING SYSTEM FIX DATA
+				\item \textbf{\textcolor{Blue}{GPRMC - RECOMMANDED MINIMUM SPECIFIC GPS/TRANSIT DATA}}
+				\item GPVT  - COURSE OVER GROUND AND GROUND SPEED
+				\item GPGSV - GPS SATELLITE IN VIEW
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Módulo GPS ME-1000RW}
+	\begin{itemize}
+				\item Mensagem GPRMC
+%				\begin{figure}[h]
+%					\centering
+%					\includegraphics[width=0.9\textwidth]{gprmc.png}
+%				\end{figure}			
+	\end{itemize}
+	
+	\begin{tabular}{|c|c|c|c|}
+		{\scriptsize \textbf{Campo}} &	{\scriptsize \textbf{Nome}} & {\scriptsize \textbf{Exemplo}} & {\scriptsize \textbf{Descrição}}\\
+		\hline
+		1 & {\scriptsize Tempo UTC} & {\scriptsize 060932.448} & {\scriptsize Horário UTC no formato hhmmss.sss}\\
+		\hline
+		2 & {\scriptsize Status} & {\scriptsize A} & {\scriptsize 'V' = GPS Aquecendo; 'A' = Dados Válidos}\\
+		\hline
+		3 & {\scriptsize Latitude} & {\scriptsize 2447.0959} & {\scriptsize Latitude no formato ddmm.mmmm}\\
+		\hline
+		4 & {\scriptsize Indicador N/S} & {\scriptsize N} & {\scriptsize Hemisfério, 'N' = Norte, 'S' = Sul}\\
+		\hline
+		5 & {\scriptsize Longitude} & {\scriptsize 12100.5204} & {\scriptsize Longitude no formato dddmm.mmmm} \\
+		\hline
+		6 & {\scriptsize Indicador E/W}  & {\scriptsize E} & {\scriptsize Hemisfério, 'E' = Leste, 'W' = Oeste} \\
+		\hline
+		7 & {\scriptsize Velocidade}  & {\scriptsize 000.0} & {\scriptsize Velocidade em nós (000.0 ~ 999.9)} \\
+		\hline
+		8 & {\scriptsize Data UTC} & {\scriptsize 211200} & {\scriptsize Data UTC de uma posição fixa no formato, ddmmyy}\\
+	\end{tabular}
+}
+
+\frame
+{
+	\frametitle{Módulo GSM/GPRS}
+	\begin{itemize}
+				\item O GPRS ({\it General Packet Radio Service}) é uma tecnologia de transferência de dados nas redes de celulares GSM({\it Global System for Mobile Communications})
+				\begin{itemize}
+					\item 56Kbps para transmissão \\
+					\item 28Kbps para recepção \\
+				\end{itemize}
+				\pause
+				\item Recursos somente serão utilizados quando for necessário enviar ou receber dados.
+				\pause
+				\item Vantagens
+				\begin{itemize}
+					\item Utilização de voz e dados ao mesmo tempo.
+					\item Ampla Cobertura
+					\item Redução de Custos. Com apenas o GSM a tarifação seria efetuada por tempo de conexão.
+				\end{itemize}
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Módulo SIM900}
+	\begin{itemize}
+		\item O módulo GSM/GPRS utilizado foi o SIM900, fabricado pela SIMCom Wireless Solutions.
+		\pause
+		\item Características:
+		\begin{itemize}
+			\item Quad-Band 850/900/1800/1900 MHz
+			\item Controle via comandos AT
+			\item Alimentação: 3,2 .. 4,8V
+			\item Baixo consumo: 1, 0mA (\textit{sleep} mode)
+		\end{itemize}
+		\pause
+		\item A motivação para o uso do modulo:
+		\begin{itemize}
+			\item Interface Serial
+			\item Alta Gama de frequências de operação
+		\end{itemize}
+	\end{itemize}
+	
+}
+
+\frame
+{
+	\frametitle{Módulo SIM900}
+%				\begin{figure}[h]
+%					\centering
+%					\includegraphics[width=0.7\textwidth]{sim900.jpg}
+%					\caption{Módulo SIM900}
+%					\label{1}
+%				\end{figure}
+}
+
+\frame
+{
+	\frametitle{Diagrama em Blocos}
+	\vskip13pt	
+%	\begin{figure}[h]
+%			\centering
+%			\includegraphics[width=0.6\textwidth]{arquitetura_embarcada.png}
+%			\caption{Arquitetura do Módulo Embarcado}
+%			\label{1}
+%	\end{figure}
+}
+
+\frame
+{
+	\frametitle{Módulo Embarcado - Esquema Elétrico}
+%				\begin{figure}[h]
+%					\centering
+%					\includegraphics[width=0.5\textwidth]{esquema_atmega.png}
+%					  \caption{{\scriptsize Esquema Elétrico do Microcontrolador ATMEGA328}}
+%					\label{1}
+%				\end{figure}
+}
+
+\frame
+{
+	\frametitle{Módulo Embarcado - Esquema Elétrico}
+%				\begin{figure}[h]
+%					\centering
+%					\includegraphics[width=0.8\textwidth]{esquema_sim900.png}
+%					  \caption{{\scriptsize Esquema Elétrico SIM900 e ME-1000RW}}
+%					\label{1}
+%				\end{figure}
+}
+
+\frame
+{
+	\frametitle{Módulo Embarcado - Firmware}
+%				\begin{figure}[h]
+%					\centering
+%					\includegraphics[width=0.9\textwidth]{diagrama_estados.png}
+%					  \caption{{\scriptsize Diagrama de Estados}}
+%					\label{1}
+%				\end{figure}
+}
+
+\frame
+{
+	\frametitle{Módulo Embarcado - Firmware}
+%				\begin{figure}[h]
+%					\centering
+%					\includegraphics[width=0.8\textwidth]{firmware_diagrama.jpg}
+%					  \caption{{\scriptsize Diagrama de classes}}
+%					\label{1}
+%				\end{figure}
+}
+
+\frame
+{
+	\frametitle{Interface Módulo Embarcado - Servidor}
+	\begin{itemize}
+		\item Os módulos embarcado se comunicam com o servidor através do método GET especificado no HTTP.
+		\item Motivação:
+		\begin{itemize}
+			\item Cabeçalhos opcionais
+			\item Parâmetros são enviados para o servidor através da URL.
+		\end{itemize}
+	\end{itemize}
+%	\begin{figure}[h]
+%		\centering
+%		\includegraphics[width=0.7\textwidth]{requisicao_http.png}
+%			\caption{{\scriptsize Requisição HTTP}}
+%		  \label{1}
+%	\end{figure}
+		
+}
+
+\subsection{Módulo Servidor}
+\frame
+{
+	\frametitle{Definição WebService}
+	\begin{itemize}
+			\item Solução utilizada na integração de sistemas e na comunicação entre aplicações diferentes
+			\item O objetivo dos webservices é a comunicação de aplicações através da internet.
+			\begin{itemize}
+				\item Formato dos dados:  \textbf{\textcolor{Blue}{JSON}} ou XML
+				\item Mecanismo de transporte: HTTP
+			\end{itemize}
+			\item Linguagem e banco de dados utilizados
+			\begin{itemize}
+				\item PHP
+				\item MySQL
+			\end{itemize}
+			
+	\end{itemize}
+}
+
+
+
+\frame
+{
+	\frametitle{Modelo em Camadas}
+%		\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=0.9\textwidth]{camadas_2.png}
+%		\end{figure}
+}
+
+\frame
+{
+	\frametitle{Modelo em Camadas}
+%		\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=0.9\textwidth]{camadas_3.png}
+%		\end{figure}
+}
+
+\frame
+{
+	\frametitle{Modelo em Camadas}
+%		\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=0.9\textwidth]{camadas_4.png}
+%	\end{figure}
+}
+
+\frame
+{
+	\frametitle{Modelo em Camadas}
+%		\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=0.9\textwidth]{camadas_5.png}
+%		\end{figure}
+}
+
+\subsection{Módulo Cliente}
+\frame
+{
+	\frametitle{Módulo Cliente}
+	\begin{itemize}
+			\item O módulo cliente é a interface para que o usuário possa visualizar as informações
+			\begin{itemize}
+				\item Visualização em tempo real das linhas de ônibus.
+				\item Itinerários das linhas de ônibus selecionadas.
+			\end{itemize}
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Plataforma}
+	\begin{itemize}
+			\item O módulo cliente foi desenvolvido para a o sistema operacional Android a partir da versão 2.3
+			\pause
+			\item Tecnologias utilizadas:
+			\begin{itemize}
+				\pause
+				\item SDK oficial da plataforma.
+				\pause
+				\item IDE Eclipse Juno.
+				\pause
+				\item API Google Maps.
+				\pause
+				\item Banco de Dados SQLite.
+			\end{itemize}
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Plataforma}
+%		\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=0.8\textwidth]{ios_android.png}
+%							\caption{{\scriptsize iOS vs Android}}
+%						\label{1}
+%		\end{figure}
+}
+
+\frame
+{
+	\frametitle{Vantagens Android}
+	\begin{itemize}
+			\item As vantagens da utilização da plataforma Android para o projeto foram:
+			\pause
+			\begin{itemize}
+				\pause
+				\item Sistema operacional móvel mais popular.
+				\pause
+				\item Ferramentas opensource para desenvolvimento.
+			\end{itemize}
+		\end{itemize}		
+}
+
+\frame
+{
+	\frametitle{Plataforma}
+%		\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=0.7\textwidth]{grafico_android.jpg}
+%							\caption{{\scriptsize S.O Móveis}}
+%						\label{1}
+%		\end{figure}
+}
+
+\frame
+{
+	\frametitle{Arquitetura Android}
+	\begin{itemize}
+			\item A arquitetura do sistema operacional Android é dividida em camadas, onde cada parte é reponsável por gerenciar os seus respectivos processos.
+		\end{itemize}		
+}
+
+\frame
+{
+	\frametitle{Arquitetura Android}
+%		\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=0.7\textwidth]{arquitetura_android.png}
+%							\caption{{\scriptsize Arquitetura Android}}
+%						\label{1}
+%		\end{figure}
+}
+
+\frame
+{
+	\frametitle{Aplicativo Cliente}
+	\begin{itemize}
+			\item Funcionalidades
+			\vskip9pt	
+			\begin{itemize}
+				\pause
+				\item Itinerário Completo
+				\vskip9pt	
+				\pause
+				\item Qual ônibus pegar?
+				\vskip9pt	
+				\pause
+				\item Visualização em tempo real das linhas de ônibus no mapa
+			\end{itemize}
+	\end{itemize}		
+}
+
+\frame
+{
+	\frametitle{Aplicativo Cliente}
+	\begin{itemize}
+			\item Funcionalidades
+			\vskip9pt	
+			\begin{itemize}
+				\item \textbf{\textcolor{Blue}{Itinerário Completo}}
+				\vskip9pt	
+				\item \textbf{\textcolor{Blue}{Qual ônibus pegar?}}
+				\vskip9pt	
+				\item \textbf{\textcolor{Blue}{Diferentes tipos de busca}}
+				\begin{itemize}
+					\item \textbf{\textcolor{Blue}{Através de uma Linha específica}}
+					\item \textbf{\textcolor{Blue}{Por origem e destino}}
+				\end{itemize}	
+				\vskip9pt	
+				\item \textbf{\textcolor{Red}{Visualização em tempo real das linhas de ônibus no mapa}}
+			\end{itemize}
+	\end{itemize}		
+}
+
+\frame
+{
+	\frametitle{Banco de Dados SQLite}
+%		\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=0.7\textwidth]{modelo_relacional_sqlite.png}
+%							\caption{{\scriptsize Modelo Relacional banco SQLite}}
+%						\label{1}
+%		\end{figure}
+}
+
+\frame
+{
+	\frametitle{Diagrama de Caso de Uso}
+%		\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=0.7\textwidth]{caso_uso_android.png}
+%							\caption{{\scriptsize Diagrama de Caso de Uso do módulo Cliente}}
+%						\label{1}
+%		\end{figure}
+}
+
+\frame
+{
+	\frametitle{Diagrama de Classes}
+		\begin{itemize}
+			\item O diagrama está contido na página 12 do Artigo Proposta.
+		\end{itemize}
+%		\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=0.6\textwidth]{classe_android.png}
+%							\caption{{\scriptsize Diagrama de Classes do módulo Cliente}}
+%						\label{1}
+%		\end{figure}
+		
+}
+
+\subsection{Integração dos Módulos}
+\frame
+{
+	\frametitle{Integração dos Módulos}
+%		\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=0.7\textwidth]{integracao.png}
+%							\caption{{\scriptsize Integração dos Módulos}}
+%						\label{1}
+%		\end{figure}
+}
+
+\frame
+{
+	\frametitle{Placa GBoard}
+	\begin{itemize}
+			\item Para validar a idéia utilizamos a placa GBoard.
+			\item Contém os principais componentes utilizados no módulo embarcado
+			\begin{itemize}
+				\item Atmega328 (Compatível com Arduino Duemilanove)
+				\item Chip SIM900
+			\end{itemize}
+	\end{itemize}
+%	\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=0.4\textwidth]{gboard.png}
+%							\caption{{\scriptsize Placa GBoard}}
+%						\label{1}
+%		\end{figure}
+}
+
+\frame
+{
+	\frametitle{Integração com o módulo Servidor}
+%		\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=0.7\textwidth]{integracao_embarcado.png}
+%							\caption{{\scriptsize Integração dos Módulos}}
+%						\label{1}
+%		\end{figure}
+}
+
+\frame
+{
+	\frametitle{Servidor Web}
+		\begin{itemize}
+			\item A aplicação web foi hospedada provisoriamente em um computador doméstico.
+			\begin{itemize}
+				\item Ubuntu 13.04
+				\item Apache HTTP WebServer 2.4
+				\item MySQL 5.5
+				\item \textbf{\textcolor{Blue}{No-IP Dynamic DNS}}
+			\end{itemize}
+			\item Endereço do servidor: \textbf{\textcolor{Blue}{http://whatbus.no-ip.org:8185/apimobile}}
+	\end{itemize}
+}
+
+\section{Resultados}
+\frame
+{
+	\frametitle{Resultados Obtidos}
+	\begin{itemize}
+		\item Será apresentada as principais telas do aplicativo cliente android desenvolvido.
+		\item Os resultados obtidos a partir de um teste de campo.		
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Telas do Aplicativo}
+%	\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=1.0\textwidth]{telas.png}
+%							\caption{{\scriptsize Telas do Aplicativo Android}}
+%						\label{1}
+%		\end{figure}
+}
+
+\subsection{Testes de Campo}
+\frame
+{
+	\frametitle{Testes Realizados em Campo}
+	\begin{itemize}
+		\item Com base em testes realizados em campo, foroam feitos percursos com o módulo rastreador embarcado em um veículo.
+	\end{itemize}
+%		\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=0.5\textwidth]{modulo_campo.jpg}
+%							\caption{{\scriptsize Protótipo do Módulo Embarcado}}
+%						\label{1}
+%		\end{figure}
+}
+
+\frame
+{
+	\frametitle{Dados Coletados}
+	\begin{itemize}
+		\item Após os testes de campo, foram coletadas amostras das coordenadas enviadas para o servidor web.
+	\end{itemize}
+%		\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=0.5\textwidth]{amostra_dados.png}
+%							\caption{{\scriptsize Amostra de coordenadas armazenadas}}
+%						\label{1}
+%		\end{figure}
+}
+
+\frame
+{
+	\frametitle{Amostragem dos dados coletados}
+%		\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=1.0\textwidth]{grafico.png}
+%							\caption{{\scriptsize Gráfico dos dados coletados}}
+%						\label{1}
+%		\end{figure}
+}
+
+\frame
+{
+	\frametitle{Amostra de percurso}
+	\begin{itemize}
+		\item O trajeto equivalente aos dados coletados foi traçado a fim de verificar se os dados foram enviados corretamente. 
+	\end{itemize}
+%		\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=0.3\textwidth]{percurso.png}
+%							\caption{{\scriptsize Percurso gerado através das coordenadas coletadas}}
+%						\label{1}
+%		\end{figure}
+}
+
+\frame
+{
+	\frametitle{Vídeo Demonstrativo}
+%		\begin{figure}[h]
+%						\centering
+%						\includegraphics[width=0.7\textwidth]{video.jpg}
+%		\end{figure}
+}
+
+\section{Conclusão}
+\frame
+{
+	\frametitle{Conclusão}
+	\begin{itemize}
+		\item O projeto aqui apresentado foi capaz de mostrar a viabilidade de se implementar uma \textbf{\textcolor{Blue}{solução tecnológica}} que permite apresentar ao usuário o posicionamento da rota em tempo real e também informações básicas do \textbf{\textcolor{Blue}{transporte coletivo}}.
+
+	\end{itemize}
+}
+
+\section{Referências}
+\frame
+{
+	\frametitle{Referências}
+	[1] Page, A. H Arduino. Link de acesso referente ao site do fabricante sobre arduino. Acessado em 16/05/2012. Disponível em http://www.arduino.cc.
+	\newline
+	[2] WAYNE WOLF. Computer as Components. 2nd Edition. Burlington: Elsevier Inc; 2008.
+	\newline
+	[3] HENGMING, Fang; IIA, Chen; BIN, Xu. The Interaction Mechanism based on JSON for Android Database Application. Information Technology Journal, v. 12, n. 1, p. 224-228, 2013.
+	\newline
+	[4] NURSEITOV, Nurzhan et al. Comparison of JSON and XML data interchange formats: A case study. In: ISCA 22nd International Conference on Computers and Their Applications in Industry and Engineering. 2009. p. 157-62.
+	\newline
+	[5] Lecheta, Ricardo R. Google Android-aprenda a criar aplicações para dispositivos móveis com o Android SDK. NovatecEditora, 2009.
+
+}
+
+\frame
+{
+	\frametitle{Referências}
+	[6] THONSON, Laura; WELLING, Luke. PHP e MySQL: Desenvolvimento Web. 2005.
+	\newline
+	[7] COMACHIO, Vanderson. Funcionamento de banco de dados em Android: um estudo experimental utilizando SQlite. 2012.
+	\newline
+	[8] MARTINS, Leandro Borges. Sistema antifurto integrado ao monitoramento de presença de crianças no interior de veículos utilizando GPRS. 2010.
+	\newline
+	[9] ATMEL INC. Atmel Microcontroller with 4/8/16/32K Bytes In-Stytem Programmable Flash ATMEGA328P-P. Atmel, 2011. 567
+	\newline
+	[10] ME Componentes eletrônicos, 2009. MÓDULO GPS COM ANTENA ACOPLADA ROM ME-1000RW. 14 p.
+}
+
+\frame
+{
+	\frametitle{Frase Final}
+		"Uma cidade desenvolvida não é aquela que o pobre anda de carro, mas onde o rico anda de ônibus."
+(Enrique Peñalosa, ex-prefeito de Bogotá)
+}
+
+
+\end{document}
+
