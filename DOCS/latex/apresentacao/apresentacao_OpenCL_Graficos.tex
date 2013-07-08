@@ -1,0 +1,219 @@
+% Darlisson Marinho de Jesus
+
+\documentclass[10pt]{beamer}
+\newtheorem{proposition}{Proposi\c{c}\~{a}o}  %%
+
+%% comente a linha acima e descomente a debaixo para gerar
+%% lâminas para serem impressas
+% \documentclass[handout]{beamer}
+
+% Outras classes: [notes], [notes=only], [trans], [handout],
+% [red], [compress], [draft], [class=article]
+
+\mode<presentation>{
+  %% Temas
+\usepackage{beamerthemeshadow}
+\usepackage[portuguese,algoruled,longend,linesnumbered]{algorithm2e}
+\usepackage{graphicx}
+\usepackage{graphics}
+%\usepackage{epsfig}
+%\usepackage{beamerthemebars}
+%\usepackage[headheight=12pt,footheight=12pt]{beamerthemeboxes}
+%\usepackage{beamerthemeclassic}
+%\usepackage{beamerthemelined}
+%\usepackage{beamerthemeplain}
+%\usepackage[width=12pt,dark,tab]{beamerthemesidebar}
+%\usepackage{beamerthemesplit}
+%\usepackage{beamerthemetree}
+%\usepackage[bar]{beamerthemetree}
+  
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\beamertemplatetransparentcovereddynamic
+\beamertemplateballitem
+%\beamertemplatefootpagenumber
+\setbeamerfont{fonteMenor}{size=\scriptsize}
+\setbeamerfont{fonteMenor1}{size=\tiny}
+\setbeamerfont{fonteNormal}{size=\normal}
+  
+}
+
+\mode<handout>{
+% tema simples para ser impresso
+\usepackage[bar]{beamerthemetree}
+ % Colocando um fundo cinza quando for gerar transparências para serem impressas
+
+% mais de uma transparência por página
+  \beamertemplatesolidbackgroundcolor{black!5}
+}
+
+\usepackage{amsmath,amssymb}
+\usepackage[brazil]{varioref}
+\usepackage[english,brazil]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{colortbl}
+\usepackage{color}
+\usepackage[brazil]{babel}
+
+\definecolor{Blue}{rgb}{0,0,255}
+\definecolor{Red}{rgb}{255,0,0}
+% um outro tipo de fonte
+% \usepackage{pslatex}
+
+\beamertemplatetransparentcovereddynamic
+
+\title{}
+\author{Darlisson Marinho de Jesus}
+\institute{Universidade do Estado do Amazonas - UEA}
+\title[Analise comparativa com OpenCL na GPU Nvidia e ATI]{Análise comparativa do desempenho de filtros digitais de imagens com a linguagem OpenCL na GPU Nvidia e ATI}
+\author[Jesus D.M.]{%
+  Darlisson Marinho de Jesus\inst{1}\\
+  Raimundo Corrêa de Oliveira\inst{1} }
+
+\institute[UEA]{
+ \inst{1}%
+  	 Engenharia da Computação\\
+     Universidade do Estado do Amazonas - UEA}
+
+% Se comentar a linha abaixo, irá aparecer a data quando foi compilada a apresentação  
+\date{Julho - 2013}
+
+%\pgfdeclareimage[height=0.4cm]{das}{figs/ufpe.jpg}
+
+% pode-se colocar o LOGO assim
+%\logo{\pgfuseimage{ufpe}}
+
+% ou...
+
+\begin{document}
+\frame{\titlepage}
+\section{Imagens}
+
+\frame
+{
+	\frametitle{Sobel - Tempo Médio de Execução}
+	\begin{figure}[!htb]
+ 		\centering
+   		\includegraphics[width=0.7\textwidth]{sobel.pdf}
+			\caption{Sobel - Tempo Médio de execução}
+	\end{figure}
+}
+
+\frame
+{
+	\frametitle{Sobel - Desvio Padrão do Tempo de Execução}
+	\begin{figure}[!htb]
+ 		\centering
+   		\includegraphics[width=0.7\textwidth]{sobel2.pdf}
+			\caption{Sobel - Desvio Padrão do Tempo de Execução}
+	\end{figure}
+}
+
+
+\frame
+{
+	\frametitle{Sobel - Taxa Média de Transferência na Escrita}
+	\begin{figure}[!htb]
+ 		\centering
+   		\includegraphics[width=0.7\textwidth]{sobelbar1.pdf}
+			\caption{Sobel ? Taxa Média de Transferência na Escrita}
+	\end{figure}
+}
+
+\frame
+{
+	\frametitle{Sobel - Desvio Padrão da Taxa de Transferência de Escrita}
+	\begin{figure}[!htb]
+ 		\centering
+   		\includegraphics[width=0.7\textwidth]{sobel3.pdf}
+			\caption{Sobel- Desvio Padrão da Taxa de Transferência de Escrita}
+	\end{figure}
+}
+
+
+
+\frame
+{
+	\frametitle{Sobel - Taxa Média de Transferência na Leitura}
+	\begin{figure}[!htb]
+ 		\centering
+   		\includegraphics[width=0.7\textwidth]{sobelbar2.pdf}
+			\caption{Sobel ? Taxa Média de Transferência na Leitura}
+	\end{figure}
+}
+
+\frame
+{
+	\frametitle{Sobel - Desvio Padrão da Taxa de Transferência de Leitura}
+	\begin{figure}[!htb]
+ 		\centering
+   		\includegraphics[width=0.7\textwidth]{sobel4.pdf}
+			\caption{Sobel - Desvio Padrão da Taxa de Transferência de Leitura}
+	\end{figure}
+}
+
+
+\frame
+{
+	\frametitle{FFT - Tempo Médio de Execução}
+	\begin{figure}[!htb]
+ 		\centering
+   		\includegraphics[width=0.7\textwidth]{fft.pdf}
+			\caption{FFT - Tempo Médio de execução}
+	\end{figure}
+}
+
+\frame
+{
+	\frametitle{FFT - Desvio Padrão do Tempo de Execução}
+	\begin{figure}[!htb]
+ 		\centering
+   		\includegraphics[width=0.7\textwidth]{fft2.pdf}
+			\caption{FFT - Desvio Padrão do Tempo de Execução}
+	\end{figure}
+}
+
+\frame
+{
+	\frametitle{FFT - Taxa Média de Transferência na Escrita}
+	\begin{figure}[!htb]
+ 		\centering
+   		\includegraphics[width=0.7\textwidth]{fftbar1.pdf}
+			\caption{FFT ? Taxa Média de Transferência na Escrita}
+	\end{figure}
+}
+
+\frame
+{
+	\frametitle{FFT - Desvio Padrão da Taxa de Transferência de Escrita}
+	\begin{figure}[!htb]
+ 		\centering
+   		\includegraphics[width=0.7\textwidth]{fft3.pdf}
+			\caption{FFT - Desvio Padrão da Taxa de Transferência de Escrita}
+	\end{figure}
+}
+
+
+\frame
+{
+	\frametitle{FFT- Taxa Média de Transferência na Leitura}
+	\begin{figure}[!htb]
+ 		\centering
+   		\includegraphics[width=0.7\textwidth]{fftbar2.pdf}
+			\caption{FFT ? Taxa Média de Transferência na Leitura}
+	\end{figure}
+}
+
+\frame
+{
+	\frametitle{FFT - Desvio Padrão da Taxa de Transferência de Leitura}
+	\begin{figure}[!htb]
+ 		\centering
+   		\includegraphics[width=0.7\textwidth]{fft4.pdf}
+			\caption{FFT - Desvio Padrão da Taxa de Transferência de Leitura}
+	\end{figure}
+}
+\end{document}
+
