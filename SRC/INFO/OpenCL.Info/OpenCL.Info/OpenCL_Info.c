@@ -26,7 +26,7 @@ int main() {
 	// get all platforms
 	platforms = (cl_platform_id*) malloc(sizeof(cl_platform_id) * platformCount);
 	clGetPlatformIDs(platformCount, platforms, NULL);
-	
+
 // 	clGetDeviceIDs(platforms[1],CL_DEVICE_TYPE_ALL,,NULL);
 // 	clGetDeviceInfo();
 
