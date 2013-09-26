@@ -1,0 +1,155 @@
+tccs
+13-11.pdf
+Tempo de Execucao
+Tranferencia de memoria
+
+
+
+eventos
+http://www.ipdps.org/
+links
+http://cienciapratica.wordpress.com/2011/11/02/o-que-escrever-na-metodologia/
+http://cienciapratica.wordpress.com/2011/06/09/resultados-e-discussao-qual-a-diferenca/
+http://cienciapratica.wordpress.com/2012/11/08/estrutura-de-um-artigo-cientifico/
+
+-------------------------------------------------------------------------------------------------------------------------
+Caracterizacao de desempenho do OpenCL nas placas gráficas da NVIDIA e ATI
+
+Resumo
+
+Plataformas de computação paralela heterogêneas, que são composto por processadores diferentes (por exemplo, CPUs, GPUs, FP-gás, e DSPs), estão aumentando sua base de usuários em todos os domínios da computação. Com esta tendência, os modelos de programação paralela precisam alcançar a portabilidade entre diferentes processadores, bem como de alto desempenho com razoável esforço de programação. OpenCL (Open Computing Language) é uma modelo de programação paralela padrão e emergentes aberto
+para escrever aplicações paralelas para tais plataformas heterogêneas formas de. Neste artigo, caracterizar o desempenho de uma implementação OpenCL do paralelo de Referência NAS
+suite (NPB) em uma plataforma paralela heterogênea que consiste de CPUs de uso geral e uma GPU. Acreditamos que compreender as características de cargas de trabalho convencionais, tais como a NPB, com um modelo de programação emergentes (ie, OpenCL) de desempenho é importante para desenvolver-res e pesquisadores a adotar o modelo de programação. nós comparar também o desempenho do NPB em OpenCL para
+de que a versão de OpenMP. Nós descrevemos o processo de im-aplica o NPB em OpenCL e otimizações aplicadas em nossa implementação. Resultados experimentais e análise
+mostram que a versão OpenCL tem características diferentes a partir da versão OpenMP em CPUs multicore e exposições características de desempenho diferentes, dependendo de dispositivos de computação OpenCL diferente. Os resultados também indicam que
+o aplicativo precisa ser reescrita ou re-otimizado para melhor desempenho em um dispositivo de computação diferentes, embora OpenCL fornece portabilidade de código-fonte
+
+
+TCC Notas
+
+Introducao
+
+Conclusoes
+
+Referencias
+
+
+
+
+
+
+Os resultados também indicam que as aplicações precisam ser reescrita ou otimizadas para um melhor desempenho em um dispositivo de computação diferente embora OpenCL fornece portabilidade de código-fonte
+
+
+
+
+-----------------------
+NOTAS TCC
+
+Durante a execucao do experimento a ferramenta de profile alertou sobre boas praticas para
+o desenvolvimento para gpu ATI de que a era desnecessario usar o Escrita e Leitura Bloqueante,
+o seja ..
+
+Porem, a ferramenta da Nvidia nao alertou em nenhum momento, o que pode ser considerado tambem ..
+
+limitações do trabalho, como tamanho pequeno da amostra por exemplo.
+
+
+--------------------------------
+
+Experimento5 - sobel 2048 parece errado, devido a taxa de transferencia de escrita de uma amostra
+
+
+=================================================================================================
+Introdução
+
+
+
+Metodologia
+ - Materiais
+ - Preparacao das amostras
+ - Equipamentos CPUs GPUS
+ - Aplicações implementadas
+ - Coleta de dados
+ - Analise de Dados
+
+ 
+ =====================================================================================================
+ 
+ ======================================================================================================
+ 
+ 
+ 
+ 
+Resultados
+	- Sobel, FFT
+	- Tempo medio de execução
+	- Taxa média de transferencia
+	- 
+Discussao
+
+Conclusoes
+
+===============================
+
+===============================
+
+
+======== Resumo
+
+O resumo deve representar de forma fiel o conteúdo do trabalho.
+Apresente o objetivo do trabalho de forma clara e suscinta.
+Inclua as informações de maior relevância sobre o escopo, métodos, descobertas, resultados, conclusões e recomendações.
+Não inclua citações ou referências a figuras e tabelas.
+Defina símbolos que não são comuns e abreviações.
+Não inclua tabelas ou ilustrações.
+O resumo deve ser escrito de forma a poder ser lido independentemente.
+
+===== Introdução
+
+Introduza o assunto e a informação necessária para o leitor entender o resto do artigo.
+Defina o objetivo e o escopo do trabalho. (O que distingue este trabalho dos outros?)
+Não apresente descobertas ou conclusões.
+Explique a organização do artigo quando o artigo é longo ou complexo.
+Escrever o objetivo do estudo primeiro ajuda a focar o artigo.
+Exceto pelo objetivo, o resumo e a introdução devem ser escritos depois do resto do artigo.
+
+==== Materiais e métodos | Metodologia
+
+Descreva os métodos, hipóteses e procedimentos usados.
+Apresente os equipamentos usados, arranjo experimental e principais componentes, e discuta sua precisão. Quando equipamento é comercial, apresente o fabricante e modelo.
+Apresente reagentes usados e fabricantes.
+Discuta como os dados foram analisados e como as incertezas foram consideradas.
+Mesmo quando os detalhes foram publicados anteriormente, apresente uma breve descrição que permita ao leitor avaliar os resultados sem consultar as referências de forma excessiva.
+Apresente detalhes suficientes sobre o procedimento, equipamento e análise que permitam a replicação dos resultados.
+Apresente apenas detalhes pertinentes ao presente estudo; não apresente informação introdutória e geral.
+
+========= Resultados e discussão
+
+Apresente as descobertas do estudo.
+Na discussão, apresente a acurácia dos resultados e sua significância.
+Detalhes que não são essenciais para o entendimento dos resultados devem ser incluidos no apêndice.
+A discussão explica os resultados mas não os interpreta.
+
+========= Conclusões
+
+Interprete os resultados e discuta suas implicações.
+Não apresente material novo.
+As conclusões podem incluir deduções que são independente das condições específicas do estudo em questão, descobertas específicas do estudo, e opinião ou recomendação dos autores (por exemplo, outros estudos que podem ser realizados ou possíveis areas de investigação).
+Escreva essa seção de forma a poder ser lida independentemente.
+Agradecimentos
+
+Agradeça às agências de fomento que financiaram o estudo.
+Se necessário, agradeça àqueles que contribuíram para o estudo, mas não a ponto de merecer inclusão como co-autores (e.g., colaboradores, oficina mecânica, etc.).
+
+========= Referências
+
+
+
+
+Experimento5 - sobel 2048 parece errado, devido a taxa de transferencia de escrita de uma amostra
+
+
+===== Melhorias grafico
+
+
