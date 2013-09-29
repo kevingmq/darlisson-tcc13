@@ -1,6 +1,0 @@
-# ProfilerVersion=2.6.2235
-# Application=C:/PROJETOS/darlisson-tcc13/SRC/ATI/ATI.TCC/Debug/Ati.Sobel.exe
-# ApplicationArg=
-# ListSeparator=;
-Thread ID;Kernel Name;Device Name;Number of compute units;Max. number of wavefronts per CU;Max. number of work-group per CU;Max. number of VGPR;Max. number of SGPR;Max. amount of LDS;Number of VGPR used;Number of SGPR used;Amount of LDS used;Size of wavefront;Work-group size;Wavefronts per work-group;Max work-group size;Max wavefronts per work-group;Global work size;Maximum global work size;Nbr VGPR-limited waves;Nbr SGPR-limited waves;Nbr LDS-limited waves;Nbr of WG limited waves;Kernel occupancy
-1268;sobel_kernel;Caicos;2;32;8;248;0;32768;17;0;0;64;256;4;256;4;64;16777216;12;0;32;32;37.5
