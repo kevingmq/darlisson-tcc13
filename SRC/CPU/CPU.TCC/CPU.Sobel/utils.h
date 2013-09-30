@@ -1,13 +1,12 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <windows.h>
 #define SEPARADOR	'.'
+#define BARRA	'/'
 #define EXTENSAO "pgm"
-#define CPU_TYPE "CPU"
-#define GPU_TYPE "GPU"
-#define DEV_TYPE(x) ((x == 1) ? (CPU_TYPE) : (GPU_TYPE))
-#define APP_TYPE(x) ((x == 1) ? ("sobel") : ("lowpass"))
+#define ENV_TYPE "CPU"
+#define APP_TYPE "sobel"
 #define LOG_NAME "global.log"
 
 typedef struct _imageFile_t
@@ -30,16 +29,27 @@ void saveOnLog(imageFile_t* imgFile, double interval){
 
 void splitImageFileName(imageFile_t * imgFile, char *in)
 {
-    int i, j, sep_1, sep_2, total_sep, lenght;
+    int i, j, bar, sep_1, sep_2, total_sep, lenght;
     char *temp, *temp2;
     total_sep = 0;
     sep_1 = 0;
     sep_2 = 0;
     j = 0;
+	bar = 0;
+
 
     lenght = strlen(in);
 
-    for (i = 0; i < lenght; i++)
+	for (i = lenght; i > 0; i--)
+	{
+        if (in[i] == BARRA)
+        {
+			bar = i;
+			break;	
+        }
+    }
+
+    for (i = bar; i < lenght; i++)
     {
         if (in[i] == SEPARADOR)
         {
@@ -56,16 +66,17 @@ void splitImageFileName(imageFile_t * imgFile, char *in)
         }
     }
 
-    temp = (char *) malloc(sep_1*sizeof(char));
+    temp = (char *) malloc((sep_1-bar)*sizeof(char));
     temp2 = (char *) malloc((sep_2-sep_1)*sizeof(char));
 
-    for (i = 0; i < sep_1; i++)
+    for (i = bar + 1 ; i < sep_1; i++)
     {
-        temp[i] = in[i];
+		temp[j] = in[i];
+		j++;
     }
 
     imgFile->res = atoi(temp);
-
+	j = 0;
     for (i = sep_1 + 1; i < sep_2; i++)
     {
         temp2[j] = in[i];

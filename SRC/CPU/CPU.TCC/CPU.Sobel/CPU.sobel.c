@@ -32,9 +32,10 @@ int main(int argc, char *argv[])
     image = (imageFile_t *) malloc(sizeof(imageFile_t));
     splitImageFileName(image, argv[1]);
     output_filename = (char *) malloc(40*sizeof(char));
-    sprintf(output_filename, "%d.%d.%s.%s.%s", image->res, image->num, APP_TYPE(argv[2]), DEV_TYPE(argv[3]), EXTENSAO);
+    sprintf(output_filename, "%d.%d.%s.%s.%s", image->res, image->num, ENV_TYPE, APP_TYPE, EXTENSAO);
 
-    readPGM(&ipgm, argv[1]);
+    if( readPGM(&ipgm, argv[1]) == -1)
+		exit(EXIT_FAILURE);
     image_width = ipgm.width;
     image_height = ipgm.height;
     image_size = image_width * image_height * sizeof(unsigned char);
