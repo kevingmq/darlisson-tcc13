@@ -41,7 +41,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\AMD APP\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\AMD APP\include; ../../../utils/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -64,13 +64,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ati.fft.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="fft_kernel.cl" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="cl_utils.h" />
-    <ClInclude Include="pgm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
