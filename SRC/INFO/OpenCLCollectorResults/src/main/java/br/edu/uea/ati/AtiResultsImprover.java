@@ -1,7 +1,11 @@
 package br.edu.uea.ati;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +26,7 @@ public class AtiResultsImprover {
 
 	private static final String FULL_SOBEL_PATH = "C:/PROJETOS/darlisson-tcc13/RESULTS/ATI/SOBEL/";
 	private static final String FULL_FFT_PATH = "C:/PROJETOS/darlisson-tcc13/RESULTS/ATI/FFT/";
+	private static final String ATI_HTML_DATA_PATH = "data_html2";
 	private static final String IMG_BASE_PATH = "image";
 	private static File fileAti;
 	private static File newKernelFile;
@@ -31,7 +36,20 @@ public class AtiResultsImprover {
 		String filesPath = "";
 		
 		System.out.println("Removing and renaming files..." );
-
+		
+		filesPath = FULL_SOBEL_PATH + ATI_HTML_DATA_PATH ;
+		File file = new File(filesPath);
+		file.mkdir();
+		
+		String filesPath2 = FULL_SOBEL_PATH + IMG_TAM_256 +"/" + IMG_TAM_256 + "_" + IMG_BASE_PATH + 2;
+		
+		File file2 = new File(filesPath2);
+		File[] files = file2.listFiles();
+		
+		newKernelFile = new File(filesPath + "/" + 256 + IMG_SHORT_NAME+ 1 + KERNEL_HTML_EXT);
+		/* modificacao*/
+		copia(file2, newKernelFile);
+		
 		for(int i = 1; i <=8; i++){
 			filesPath = FULL_SOBEL_PATH + IMG_TAM_256 +"/" + IMG_TAM_256 + "_" + IMG_BASE_PATH + i;
 			deleteAllFiles(filesPath);
@@ -94,7 +112,6 @@ public class AtiResultsImprover {
 		
 		File[] files = fileAti.listFiles();
 		
-		
 		if(StringUtils.substringAfter(files[0].getName(), ".").equals(FILTER_KERNEL_FILE_NAME)){
 			files[0].renameTo(newKernelFile);
 			files[1].renameTo(newMemoryFile);
@@ -104,9 +121,30 @@ public class AtiResultsImprover {
 		} 			
 	}	
 
+	public static void copyFiles(String filesPath, String imgTam, int imgID){
+
+		fileAti = new File(filesPath);
+		newKernelFile = new File(filesPath + "/" + 256 + IMG_SHORT_NAME+ 1 + KERNEL_HTML_EXT);
+		/* temp */
+		copia(fileAti, newKernelFile);
+			
+		newKernelFile = new File(filesPath + "/" + imgTam + IMG_SHORT_NAME+imgID + KERNEL_HTML_EXT);
+		newMemoryFile = new File(filesPath + "/" + imgTam + IMG_SHORT_NAME+imgID + MEMORY_HTML_EXT);
+		
+		File[] files = fileAti.listFiles();
+		
+		if(StringUtils.substringAfter(files[0].getName(), ".").equals(FILTER_KERNEL_FILE_NAME)){
+			files[0].renameTo(newKernelFile);
+			files[1].renameTo(newMemoryFile);
+		} else {
+			files[0].renameTo(newMemoryFile);
+			files[1].renameTo(newKernelFile);
+		} 			
+	}	
+		
 	public static void deleteAllFiles(String filesPath) {
 		fileAti = new File(filesPath);
-		deleteFile(filterFilesToDelete(fileAti.listFiles()));  
+	//	deleteFile(filterFilesToDelete(fileAti.listFiles()));  
 	}
 
 	public static void printFileName(ArrayList<File> listFiles){
@@ -121,16 +159,16 @@ public class AtiResultsImprover {
 		}
 	}
 
-	public static ArrayList<File> filterFilesToDelete(File[] files){
+	public static ArrayList<File> filterFilesToCopy(File[] files){
 
-		ArrayList<File> filesToDelete = new ArrayList<File>();
+		ArrayList<File> filesToCopy = new ArrayList<File>();
 
 		for (File f : files) {
-			if(!(StringUtils.substringAfter(f.getName(), ".").equals(FILTER_KERNEL_FILE_NAME)
+			if((StringUtils.substringAfter(f.getName(), ".").equals(FILTER_KERNEL_FILE_NAME)
 					|| StringUtils.substringAfter(f.getName(), ".").equals(FILTER_DATA_TRANSFER_FILE_NAME)))
-				filesToDelete.add(f);
+				filesToCopy.add(f);
 		}
-		return filesToDelete;
+		return filesToCopy;
 	}
 
 	public static void deleteFile(ArrayList<File> files){
@@ -148,4 +186,49 @@ public class AtiResultsImprover {
 		}
 
 	}
+	
+	public static boolean copia( File srcDir, File dstDir ){
+	    
+        try{
+
+            if( srcDir.isDirectory() ){
+
+                if( !dstDir.exists() ){
+
+                    dstDir.mkdir();
+                }
+
+                String[] children = srcDir.list();
+
+                for (int i=0; i<children.length; i++){
+
+                    copia( new File( srcDir, children[i] ), new File( dstDir, children[i] ) );
+                }
+            } 
+            else{
+
+                InputStream in = new FileInputStream( srcDir );
+                OutputStream out = new FileOutputStream( dstDir );
+
+                byte[] buf = new byte[1024];
+                int len;
+
+                while( (len = in.read( buf ) ) > 0 ) {
+
+                    out.write( buf, 0, len );
+                }
+
+                in.close();
+                out.close();
+            }
+        }
+        catch( IOException ioex ){
+
+            ioex.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
 }
