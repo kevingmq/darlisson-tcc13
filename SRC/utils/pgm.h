@@ -1,6 +1,8 @@
 #ifndef _PGM_H_
 #define _PGM_H_
 
+#include <stdlib.h>
+#include <stdio.h>
 #include <math.h>
 #include <string.h>
 
@@ -19,7 +21,7 @@ typedef struct _pgm_t
     unsigned char *buf;
 } pgm_t;
 
-int readPGM(pgm_t *pgm, const char *filename)
+int ler_pgm(pgm_t *pgm, const char *filename)
 {
     char *token, *pc, *saveptr;
     char *buf;
@@ -85,10 +87,11 @@ int readPGM(pgm_t *pgm, const char *filename)
     pgm->width = w;
     pgm->height = h;
 
+    free(buf);
     return 0;
 }
 
-int writePGM(pgm_t *pgm, const char *filename)
+int escrever_pgm(pgm_t *pgm, const char *filename)
 {
     int i, w, h, pixs;
     FILE *fp;
@@ -118,7 +121,7 @@ int writePGM(pgm_t *pgm, const char *filename)
     return 0;
 }
 
-int writeFLOAT(pgm_t *pgm, float *x)
+int escrever_float(pgm_t *pgm, float *x)
 {
     int i, j, w, h;
     FILE *fp;
@@ -146,7 +149,7 @@ int writeFLOAT(pgm_t *pgm, float *x)
     return 0;
 }
 
-int normalizeF2PGM(pgm_t *pgm, float *x)
+int normalizar_pgm(pgm_t *pgm, float *x)
 {
     int i, j, w, h;
     float min = 0;
@@ -183,68 +186,7 @@ int normalizeF2PGM(pgm_t *pgm, float *x)
     return 0;
 }
 
-int sobelOnCPU(pgm_t *ipgm, pgm_t* opgm)
-{
-
-    int i, j, w, h, sum;
-    unsigned char gx, gy;
-    w = ipgm->width;
-    h = ipgm->height;
-
-	opgm->buf = malloc(w*h*(sizeof(unsigned char)));
-
-    for (i = 0; i < w; i++)
-    {
-        for (j = 0; j < h; j++)
-        {
-			gx = 0;
-
-			gx = ( ipgm->buf[(i - 1) * w + (j + 1)] + 2 * ipgm->buf[(i) * w + (j + 1)] + ipgm->buf[(i + 1) * w + (j + 1)])
-                 - ( ipgm->buf[(i - 1) * w + (j - 1)] + 2 * ipgm->buf[(i) * w + (j - 1)] + ipgm->buf[(i + 1) * w + (j + 1)]);
-			
-			gy = 0;
-            gy = ( ipgm->buf[(i - 1) * w + (j - 1)] + 2 * ipgm->buf[(i - 1) * w + j] + ipgm->buf[(i - 1) * w + (j + 1)])
-                  - ( ipgm->buf[(i + 1) * w + (j - 1)] + 2 * ipgm->buf[(i + 1) * w + (j)] + ipgm->buf[(i + 1) * w + (j + 1)]);
-
-			
-			sum = abs(gx)+abs(gy);
-           sum=abs(gx)+abs(gx);
-			opgm->buf[i*w+j]=(sum>255)?255:sum;
-	
-        }
-    }
-
-    return 0;
-}
-
-int sobelOnCPU2(pgm_t *ipgm, pgm_t* opgm)
-{
-	int dx[3][3] = {{1,0,-1},{2,0,-2},{1,0,-1}};
-	int dy[3][3] = {{1,2,1},{0,0,0},{-1,-2,-1}};
-	int i, j, step, h,s, sum, sum_x,sum_y, m,n,x;
-    step = ipgm->width;
-    h = ipgm->height;
-
-	opgm->buf = malloc(step*h*(sizeof(unsigned char)));
-
-    for ( i=1; i < ipgm->height-2; i++)
-        for ( j=1; j < ipgm->width-2; j++)
-        {
-            sum_x=0;
-            sum_y=0;
-            for(m=-1; m<=1; m++)
-                for(n=-1; n<=1; n++)
-                {
-                    s=ipgm->buf[(i+m)*step+j+n]; 
-                    sum_x+=s*dx[m+1][n+1];
-                    sum_y+=s*dy[m+1][n+1];
-                }
-            sum=abs(sum_x)+abs(sum_y);
-			opgm->buf[i*step+j]=(sum>255)?255:sum;
-        }
-}
-
-int destroyPGM(pgm_t *pgm)
+int destruir_pgm(pgm_t *pgm)
 {
     if (pgm->buf)
     {

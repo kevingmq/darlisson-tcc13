@@ -5,10 +5,6 @@
 #include <math.h>
 
 #define C_NUM_DIMENSOES 2
-//#define C_NUM_WORK_GROUPS_DIM_0 64
-//#define C_NUM_WORK_GROUPS_DIM_1 64
-//#define C_NUM_WORK_ITEMS_DIM_0  32
-//#define C_NUM_WORK_ITEMS_DIM_1  32
 
 #define CL_CHECK(_expr)\
     do {\
@@ -17,7 +13,7 @@
             break;\
         fprintf(stderr, "[%d@%s] OpenCL Error: '%s' returned %d(%s)!\n", \
                 __LINE__,__FILE__,#_expr, (int)_err,\
-                ErroCLtoStr((int)_err));\
+                error_cl_str((int)_err));\
         system("pause");\
         exit(1);\
     } while (0)
@@ -26,38 +22,37 @@
 
 void print_platform_info(cl_platform_id *platform_id)
 {
-
     int j;
     char *info;
-    size_t infoSize;
-    const char *attributeNames[5] = { "Name", "Vendor",
+    size_t info_size;
+    const char *attribute_names[5] = { "Name", "Vendor",
                                       "Version", "Profile", "Extensions"
                                     };
-    const cl_platform_info attributeTypes[5] = { CL_PLATFORM_NAME, CL_PLATFORM_VENDOR,
+    const cl_platform_info attribute_types[5] = { CL_PLATFORM_NAME, CL_PLATFORM_VENDOR,
                                                  CL_PLATFORM_VERSION, CL_PLATFORM_PROFILE, CL_PLATFORM_EXTENSIONS
                                                };
-    const int attributeCount = sizeof(attributeNames) / sizeof(char *);
+    const int attribute_count = sizeof(attribute_names) / sizeof(char *);
 
-    for (j = 0; j < attributeCount; j++)
+    for (j = 0; j < attribute_count; j++)
     {
 
         // get platform attribute value size
-        clGetPlatformInfo(platform_id[0], attributeTypes[j], 0, NULL, &infoSize);
-        info = (char *) malloc(infoSize);
+        clGetPlatformInfo(platform_id[0], attribute_types[j], 0, NULL, &info_size);
+        info = (char *) malloc(info_size);
 
         // get platform attribute value
-        clGetPlatformInfo(platform_id[0], attributeTypes[j], infoSize, info, NULL);
+        clGetPlatformInfo(platform_id[0], attribute_types[j], info_size, info, NULL);
 
-        printf("  %d.%d %-11s: %s\n", 1, j + 1, attributeNames[j], info);
+        printf("  %d.%d %-11s: %s\n", 1, j + 1, attribute_names[j], info);
         free(info);
     }
     printf("\n");
 }
 
 
-char *ErroCLtoStr(cl_int errorCode)
+char *error_cl_str(cl_int error_code)
 {
-    switch (errorCode)
+    switch (error_code)
     {
     case CL_SUCCESS:
         return "CL_SUCCESS";

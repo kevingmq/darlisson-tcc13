@@ -41,7 +41,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.5\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.5\include\; ../../../utils/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
@@ -66,13 +66,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="nvidia.sobel.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="sobel_kernel.cl" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="cl_utils.h" />
-    <ClInclude Include="pgm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
