@@ -5,7 +5,8 @@
 
 #define SEPARADOR_CHAR   '.'
 #define BARRA_CHAR   '/'
-#define MILISECONDS 1000000
+#define MILISECONDS 1000
+#define MICROSECONDS 1000000
 #define NANOSECONDS 1000000000
 
 __int64 freq;
@@ -19,14 +20,14 @@ typedef struct _image_file_t
 } image_file_t;
 
 
-void save_log_cpu(image_file_t* img_file_t, double total_time, char* log_filename){
+void save_log_cpu(image_file_t* img_file_t, double kernel_time, double total_time, char* log_filename){
 
     FILE *fp;
 
     if (( fp = fopen(log_filename, "a+" )) == NULL) {
         fprintf(stderr, "Failed to open file\n");
     }
-     fprintf(fp,"| %d | %d | %d | %f |\n", img_file_t->res, img_file_t->num, (img_file_t->res*img_file_t->res), total_time);
+     fprintf(fp,"| %d | %d | %d | %f | %f |\n", img_file_t->res, img_file_t->num, (img_file_t->res*img_file_t->res), (double) (kernel_time*MILISECONDS), total_time);
 
      fclose(fp);
 }
@@ -40,7 +41,7 @@ void save_log_gpu(image_file_t* img_file_t, __int64 kernel_time, double rate_wri
     }
      fprintf(fp,"| %d | %d | %d | %f | %f | %f | %f |\n",
      img_file_t->res, img_file_t->num, (img_file_t->res*img_file_t->res),
-     (double) kernel_time/(double) MILISECONDS, (double) rate_write,(double) rate_read, total_time);
+     (double) kernel_time/(double) MICROSECONDS, (double) rate_write,(double) rate_read, total_time);
      fclose(fp);
 }
 

@@ -19,12 +19,16 @@ int main(int argc, char *argv[])
     int i, j, s, sum, sum_x, sum_y, m, n;
     int image_width, image_height;
 
-    double interval;
+    double tempo_kernel;
+    double tempo_total;
     char* output_filename;
 
     size_t image_size;
     pgm_t ipgm, opgm;
     image_file_t *image_filename;
+
+    timer_reset();
+    timer_start();
 
     if (argc < 2)
     {
@@ -47,8 +51,10 @@ int main(int argc, char *argv[])
     opgm.height = ipgm.height;
     opgm.buf = (unsigned char *) malloc(image_size);
 
-    //====== Performance Test - start =======================================
+    timer_stop();
+    tempo_total = get_elapsed_time();
 
+    //====== Performance Test - start =======================================
     timer_reset();
     timer_start();
 
@@ -69,18 +75,19 @@ int main(int argc, char *argv[])
         }
 
     timer_stop();
+    tempo_kernel = get_elapsed_time();
 
-    interval = get_elapsed_time();
+    tempo_total += tempo_kernel;
 
     //====== Performance Test - end ============================================
 
-    save_log_cpu(image_filename, interval, LOG_NAME);
+    save_log_cpu(image_filename, tempo_kernel, tempo_total, LOG_NAME);
 
     escrever_pgm(&opgm, output_filename);
     destruir_pgm(&ipgm);
     destruir_pgm(&opgm);
     free(image_filename);
     free(output_filename);
-	//_CrtDumpMemoryLeaks();
-	return 0;
+    //_CrtDumpMemoryLeaks();
+    return 0;
 }
