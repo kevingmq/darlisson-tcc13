@@ -1,10 +1,15 @@
 #define _CRT_SECURE_NO_DEPRECATE
-#include <stdio.h>
+/*#define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
-#include <time.h>
-#include <windows.h>
+#include <crtdbg.h>
+*/
 #include "pgm.h"
 #include "utils.h"
+
+#define EXTENSAO "pgm"
+#define APP_TYPE "sobel"
+#define LOG_NAME "global.log"
+#define ENV_TYPE "CPU"
 
 int main(int argc, char *argv[])
 {
@@ -13,15 +18,13 @@ int main(int argc, char *argv[])
 
     int i, j, s, sum, sum_x, sum_y, m, n;
     int image_width, image_height;
-    LARGE_INTEGER frequency;
-    LARGE_INTEGER start;
-    LARGE_INTEGER end;
 
-    char* output_filename;
     double interval;
+    char* output_filename;
+
     size_t image_size;
     pgm_t ipgm, opgm;
-    imageFile_t* image;
+    image_file_t *image_filename;
 
     if (argc < 2)
     {
@@ -29,13 +32,14 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    image = (imageFile_t *) malloc(sizeof(imageFile_t));
-    splitImageFileName(image, argv[1]);
+    image_filename = (image_file_t *) malloc(sizeof(image_file_t));
+    split_image_filename(image_filename, argv[1]);
     output_filename = (char *) malloc(40*sizeof(char));
-    sprintf(output_filename, "%d.%d.%s.%s.%s", image->res, image->num, ENV_TYPE, APP_TYPE, EXTENSAO);
+    sprintf(output_filename, "%d.%d.%s.%s.%s", image_filename->res, image_filename->num, ENV_TYPE, APP_TYPE, EXTENSAO);
 
-    if( readPGM(&ipgm, argv[1]) == -1)
-		exit(EXIT_FAILURE);
+    if( ler_pgm(&ipgm, argv[1]) == -1)
+        exit(EXIT_FAILURE);
+
     image_width = ipgm.width;
     image_height = ipgm.height;
     image_size = image_width * image_height * sizeof(unsigned char);
@@ -44,8 +48,9 @@ int main(int argc, char *argv[])
     opgm.buf = (unsigned char *) malloc(image_size);
 
     //====== Performance Test - start =======================================
-    QueryPerformanceFrequency(&frequency);
-    QueryPerformanceCounter(&start);
+
+    timer_reset();
+    timer_start();
 
     for (i = 1; i < image_height - 1; i++)
         for (j = 1; j < image_width - 1; j++)
@@ -63,19 +68,19 @@ int main(int argc, char *argv[])
             opgm.buf[i * image_width + j] = (sum > 255) ? 255 : sum;
         }
 
-    QueryPerformanceCounter(&end);
+    timer_stop();
 
-    interval = (double) (end.QuadPart - start.QuadPart) / frequency.QuadPart;
+    interval = get_elapsed_time();
 
     //====== Performance Test - end ============================================
 
-	saveOnLog(image, interval);
+    save_log_cpu(image_filename, interval, LOG_NAME);
 
-    writePGM(&opgm, output_filename);
-    destroyPGM(&ipgm);
-    destroyPGM(&opgm);
-    free(image);
+    escrever_pgm(&opgm, output_filename);
+    destruir_pgm(&ipgm);
+    destruir_pgm(&opgm);
+    free(image_filename);
     free(output_filename);
-
-    return 0;
+	//_CrtDumpMemoryLeaks();
+	return 0;
 }
