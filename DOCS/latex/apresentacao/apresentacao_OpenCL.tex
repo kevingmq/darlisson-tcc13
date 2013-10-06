@@ -16,6 +16,10 @@
 \usepackage[portuguese,algoruled,longend,linesnumbered]{algorithm2e}
 \usepackage{graphicx}
 \usepackage{graphics}
+\usepackage{subfigure}
+%\usepackage{titlesec}
+%\usepackage[hidelinks]{hyperref}
+%\usepackage{amsmath}
 %\usepackage{epsfig}
 %\usepackage{beamerthemebars}
 %\usepackage[headheight=12pt,footheight=12pt]{beamerthemeboxes}
@@ -67,27 +71,22 @@
 \title{}
 \author{Darlisson Marinho de Jesus}
 \institute{Universidade do Estado do Amazonas - UEA}
-\title[Analise comparativa com OpenCL na GPU Nvidia e ATI]{Análise comparativa do desempenho de filtros digitais de imagens com a linguagem OpenCL na GPU Nvidia e ATI}
-\author[Jesus D.M.]{%
+%\title[Analise comparativa com OpenCL na GPU Nvidia e ATI]{Análise Comparativa do Desempenho da Linguagem OpenCL sob o Ponto de Vista de Unidades de Processamento Gráfico Nvidia e ATI}
+\title[Análise Comparativa das GPUs Nvidia e ATI com filtros digitais de imagens]{Análise Comparativa do Desempenho de Unidades de Processamento Gráfico Nvidia e ATI através de filtros digitais de imagens}
+
+\author[Jesus, D.M.]{%
   Darlisson Marinho de Jesus\inst{1}\\
   Raimundo Corrêa de Oliveira\inst{1} }
 
 \institute[UEA]{
  \inst{1}%
-  	 Engenharia da Computação\\
+  	 Engenharia de Computação\\
      Universidade do Estado do Amazonas - UEA}
 
 % Se comentar a linha abaixo, irá aparecer a data quando foi compilada a apresentação  
 \date{Julho - 2013}
 
-%\pgfdeclareimage[height=0.4cm]{das}{figs/ufpe.jpg}
-\pgfdeclareimage[height=1cm]{uea}{logo_uea.png}
-
-% pode-se colocar o LOGO assim
-%\logo{\pgfuseimage{ufpe}}
-
-% ou...
-\logo{\vbox{\hbox to 1cm{\hfil\pgfuseimage{uea}}}}
+\titlegraphic{\includegraphics[width=1.2cm]{logo_uea.png}\hspace*{12cm}}
 
 \begin{document}
 \frame{\titlepage}
@@ -103,20 +102,15 @@
 			\item Objetivos Específicos
 		\end{itemize}
 		\item Metodologia
-		\begin{itemize}
-			\item Metodologia de Projeto
-			\item Arquitetura Geral
-			\item Cronograma
-		\end{itemize}
 		\item Desenvolvimento
 		\begin{itemize}
-			\item Módulo Embarcado
-			\item Módulo Servidor
-			\item Módulo Cliente Android
-			\item Integração dos Módulos
+			\item Arquitetura da GPU Moderna
+			\item A Linguagem OpenCL
+			\item Filtro Sobel
+			\item Filtro Passa-baixa
 		\end{itemize}
 		\item Resultados
-		\item Conclusão
+		\item Referências
 	\end{itemize}
 }
 
@@ -128,66 +122,8 @@
 {
 	\frametitle{Descrição do Problema}
 	\begin{itemize}
-		\item O \textbf{\textcolor{Blue}{transporte coletivo}} têm fundamental importância no cotidiano da população.
-		\begin{itemize}
-			\pause
-			\item Mais econômico.
-			\pause
-			\item Contribui com a diminuição da poluição do ar e sonora.
-			\pause						
-			\item Solução para problemas de congestionamento de veículos.
-		\end{itemize}
-	\end{itemize}
-}
-
-\frame
-{
-	\frametitle{Descrição do Problema}
-	\begin{itemize}
-		\item A \textbf{\textcolor{Red}{falta de informação}} sobre o transporte público ainda é um grande problema.
-		\begin{itemize}
-			\pause
-			\item Afeta os \textbf{\textcolor{Blue}{moradores}} da cidade.
-			\pause
-			\item Afeta os \textbf{\textcolor{Blue}{turistas}} que pretendem utilizar o transporte coletivo.
-		\end{itemize}
-		\vskip10pt
-		\pause
-		\item Expectativa de 200 mil turistas durante a Copa em Manaus. (Bernardo Monteiro, coordenador da UGP Copa)
-	\end{itemize}
-}
-
-\frame
-{
-	\frametitle{Descrição do Problema}
-	\begin{itemize}
-		\item \textbf{\textcolor{Red}{Não}} há um lugar onde o usuário possa ter informações básicas sobre o percurso de um ônibus.
-		\pause
-		\item Paradas de ônibus \textbf{\textcolor{Red}{não}} informam as linhas de ônibus que passam por ela.
-	\end{itemize}
-}
-
-\frame
-{
-	\frametitle{Descrição do Problema}
-%	\begin{figure}[!htb]
-%  		\centering
-%   		\includegraphics[width=0.7\textwidth]{parada1.jpg}
-%			\caption{Paradas de Ônibus}
-%	\end{figure}
-}
-
-\frame
-{
-	\frametitle{Descrição do Problema}
-	\begin{itemize}
-		\item O usuário não sabe ao certo o horário em que deve chegar às paradas e nem os horários exatos dos ônibus.
-		\pause
-		\item Muito tempo é \textbf{\textcolor{Red}{perdido}} diariamente esperando um determinado ônibus.
-		\begin{itemize}
-			\pause
-			\item Média de 1 hora e 30 minutos (Pesquisa com 11 usuários de transporte coletivo)
-		\end{itemize}
+		\item Certos problemas, como dinâmica de fluidos, simulação de colisões, processamento sísmico, comparação de imagens e modelagem climáticas, exigem muito dos recursos de cálculo, pois possuem alto custo computacional.
+		\item  Essas áreas da computação de alto desempenho estão adotando modernas unidades de processamento gráfico para resolver problemas de cálculo em grande escala \cite{ArchComp}. 
 	\end{itemize}
 }
 
@@ -196,7 +132,8 @@
 {
 	\frametitle{Justificativa}
 	\begin{itemize}
-		\item Contribuir para a criação de um modelo de transporte mais eficiente e de melhor \textbf{\textcolor{Blue}{qualidade}}, uma vez que o transporte público está passando por um processo de \textbf{\textcolor{Red}{descrédito}} cada vez maior junto ao público alvo.
+		\item Diante disso, como auxiliar engenheiros e cientistas a escolherem as GPUs que forneçam o melhor desempenho?
+		\item É necessário avaliar quais GPUs fornecem o melhor desempenho para soluções de computação paralela, e assim, auxiliar no projeto das soluções para a computação de alta performance. 
 	\end{itemize}
 }
 
@@ -205,13 +142,7 @@
 {
 	\frametitle{Objetivo Geral}
 	\begin{itemize}
-		\item Desenvolver um sistema \textit{back-end} e \textit{front-end} que permita a visualização das informações do transporte coletivo em um aplicativo para plataforma Android.
-		\begin{itemize}
-				\pause
-				\item Percusos das linhas de ônibus da cidade.
-				\pause
-				\item Visualização em tempo real de uma determinada linha de ônibus.
-		\end{itemize}
+		\item Comparar o desempenho das Unidades de Processamento Gráfico das fabricantes NVIDIA e ATI, através do Processamento Digital de Imagens com os filtros Passa-baixa e o filtro Sobel para detecção de borda implementados na linguagem OpenCL.
 	\end{itemize}
 }
 
@@ -220,896 +151,566 @@
 {
 	\frametitle{Objetivos Específicos}
 	\begin{itemize}
-		\item Desenvolver um \textbf{\textcolor{Blue}{Sistema Embarcado}}, no qual irá utilizar as tecnologias GPS e GSM/GPRS com o objetivo de enviar informações em tempo real da localização do ônibus para um serviço web.
-		\pause
-		\item Desenvolver um \textbf{\textcolor{Blue}{Aplicativo Android}} que fornecerá informações detalhadas do percurso de determinada linha de ônibus e sua posição em tempo real para o usuário.
-		\pause
-		\item Desenvolver um \textbf{\textcolor{Blue}{Serviço Web}} que irá gerenciar as requisições provenientes dos módulos embarcados e módulos clientes.
+	\pause
+	\item Determinar os indicadores de desempenho que permitam avaliar as rotinas destes filtros no contexto das Unidades de Processamento Gráfico;\\
+	\pause	
+	\item Avaliar a arquitetura das GPUs da Nvidia e ATI, buscando identificar as diferenças que podem afetar no desempenho das implementações;\\
+	\item Implementar o algoritmo do filtro Passa-Baixa na linguagem OpenCL e obter os dados de desempenho das GPUs Nvidia e ATI;
+	\pause
+	\item Implementar o algoritmo do filtro para detecção de borda Sobel na linguagem OpenCL e obter dados de desempenho das GPU Nvidia e ATI;\\
 	\end{itemize}
 }
 
 \section{Metodologia}
-\subsection{Metodologia de Projeto}
+\subsubsection{Métodos}
 \frame
 {
-	\frametitle{Metodologia de Projeto}
+\frametitle{Métodos}
+\begin{itemize}
+\pause
+\item Revisão bibliográfica;
+\pause
+\item Análise e experimentação da linguagem OpenCL;
+\pause
+\item Desenvolvimento dos Filtros Digitais (Sobel e Passa-baixa);
+\pause
+\item Coleta das imagens para serem processadas;
+\pause
+\item Coleta e análise dos dados;
+\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Métodos - medidas de desempenho}
 	\begin{itemize}
-		\item Observação e Análise
-		\pause
-		\begin{itemize}
-			\item Descrição do Problema.
-			\pause
-			\item Verificar a viabilidade de desenvolvimento do projeto no prazo estabelecido (4 meses).
-			\pause
-			\item Definição do Cronograma.
-		\end{itemize}
-		\pause
-		\item Planejamento
-		\begin{itemize}
-			\pause
-			\item Definir a arquitetura do Sistema.
-			\pause
-			\item Definir as tecnologias que serão utilizadas.
-		\end{itemize}
-		\pause
-		\item Execução
-		\begin{itemize}
-			\pause
-			\item Desenvolver e testar os módulos separados.
-			\pause
-			\item Integrar os módulos desenvolvidos.
-		\end{itemize}
+		\item \textbf{Tempo Médio de Execução do Kernel} - corresponde ao tempo, em milisegundos, em que o \textit{kernel} permanence em execução na GPU
+		\vspace{1cm}
+		\item \textbf{Taxa Média de Transferência Dados da Memória} - corresponde ao número de bytes por unidade de tempo transmitidos entre a memória do computador e a memória da placa gráfica de forma bi-direcional.
 	\end{itemize}
 }
 
-\subsection{Arquitetura Geral}
+\subsection{Materiais do Experimento}
 \frame
 {
-	\frametitle{Arquitetura Geral}
-%	\begin{figure}[h]
-%  		\centering
-%   		\includegraphics[width=0.9\textwidth]{arquitetura.jpg}
-%			\caption{Arquitetura Geral}
-%			\label{1}
-%	\end{figure}
+	\frametitle{Materiais}
+	Equipamentos: \vspace{0.5cm}
+	\begin{itemize}
+		\item Três PC/x64 com Sistema Operacional Microsoft Windows 7 Professional 64 Bits, Processador \textit{Intel\textregistered{} Core\texttrademark{} 2 Duo E7400} 2.80GHz e 4 GB de memória RAM.\vspace{0.5cm}
+		\item Três Unidades de processamento gráfico. A Tabela \ref{tab:tab1} apresenta as especificações de hardware detalhados dessas GPUs.	
+	\end{itemize}
 }
 
-\subsection{Cronograma}
 \frame
 {
-	\frametitle{Cronograma}
-%	\begin{figure}[h]
-%  		\centering
-%   		\includegraphics[width=1.0\textwidth]{cronograma.png}
-%	\end{figure}
+	\frametitle{Materiais Cont.}
+\begin{table}
+\begin{center}
+\begin{footnotesize}
+\begin{tabular}{|l|c|c|c|}
+%\hline
+%\multicolumn{4}{|c|}{\textbf{Resumo das especificações das GPUs Nvidia e ATI }}\\
+\hline
+Modelo & \textbf{Geforce GT 520} & \textbf{Geforce 210} & \textbf{Radeon HD 6450}\\ 
+\hline
+Processadores de Stream & 48 & 16 & 160  \\ 
+\hline
+Clock do processador& 810 MHz & 589 MHz & 750 MHz \\ 
+\hline
+Arquitetura da GPU & Tesla & Fermi & Caicos\\ 
+\hline
+\textbf{Memória}& --- & --- & --- \\
+\hline
+Clock da memória & 900 MHz & 533 MHz & 1066 MHz \\ 
+\hline
+Tamanho da memória & 1024 MB & 512 MB & 1024 MB \\ 
+\hline
+Interface da memória & 64-bit & 64 -bit & 64-bit \\ 
+\hline
+Largura de Banda (GB/sec)& 14.4 & 8.0 & 8.5 \\ 
+\hline
+Tipo de memória	& DDR3 & DDR3 & DDR3 \\ 
+\hline
+\end{tabular}
+\caption{Resumo das especificações das GPUs Nvidia e ATI}
+\label{tab:tab1}
+\end{footnotesize}
+\end{center}
+\end{table}
+}
+
+\frame
+{
+	\frametitle{Materiais - Desenvolvimento.}
+	As seguintes ferramentas foram utilizadas para compilação dos programas:\vspace{0.5cm}
+	\begin{itemize}
+	\item Microsoft Visual Studio 2010 versão 10.0.30319.1 RTMRel
+	\item Microsoft .NET Framework versão 4.5.50709 RTMRel
+	\item OpenCL-GPU: Pacote AMD APP SDK versão 2.8.1 e driver de vídeo ATI Catalyst versão 12.104 no Windows 7 32 bits.
+	\item OpenCL-GPU: Pacote Nvidia Cuda Toolkit versão 5.0 e driver de vídeo versão 320.18 no windows 7 64 bits.\\
+\end{itemize}
+}
+\frame
+{
+	\frametitle{Materiais - Amostras.}
+	\begin{itemize}
+	\item Usamos 32 imagens no formato \textit{PGM} ( do inglês, \textit{Portable Gray Map}), divididas em 8 amostras para cada uma das seguintes dimensões (em pixels): 256x256, 512x512, 1024x1024 e 2048x2048. 
+	\item Estas imagens foram obtidas no banco de dados de imagens proposto em \cite{MartinFTM01}. 
+\end{itemize}
+}
+\frame
+{
+\frametitle{Materiais - Análise e Coleta dos Dados}
+As seguintes ferramentas foram utilizadas para coleta das métricas de desempenho dos programas e análise:\vspace{1cm}
+\begin{itemize}
+\item Nvidia Nsight Visual Studio Edition versão 3.0
+\item AMD CodeXL versão 1.2
+\item Software R versão 3.0.1
+	\end{itemize}
+}
+
+\frame
+{
+\frametitle{Materiais - Coleta e Análise dos Dados}
+	\begin{itemize}
+	\item CodeXL 1.2 da AMD
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{codexl.png}
+	\caption{AMD CodeXL - Permite o profiler das aplicações em escritas em OpenCL nas GPUs ATI}
+	\label{fig:codexl}
+	\end{figure}
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Materiais - Coleta e Análise dos Dados}
+	\begin{itemize}
+	\item Nvidia Nsight 3.0 
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{nsight.png}
+	\caption{Nvidia Nsight - Permite o profiler das aplicações em escritas em OpenCL nas GPUs Nvidia}
+	\label{fig:codexl}
+	\end{figure}
+	\end{itemize}
 }
 
 \section{Desenvolvimento}
+\subsection{Histórico das GPUs}
 \frame
 {		
-		\frametitle{Desenvolvimento}		
-		\begin{itemize}
-			\item A concretização do projeto consiste no desenvolvimento dos seguintes módulos:
-			\begin{itemize}
-				\pause
-				\item Módulo Embarcado
-				\pause
-				\item Módulo Servidor
-				\pause
-				\item Módulo Cliente Android
-				\pause
-				\item Integração dos Módulos
-			\end{itemize}
-		\end{itemize}
-}
-
-\subsection{Módulo Embarcado}
-\frame
-{
-	\frametitle{Definição}
+\frametitle{Histórico das GPUs}
+\begin{itemize}
+\item \textbf{1981} \textbf{MDA} Monochrome Display Adapter - IBM 
 	\begin{itemize}
-			\item É qualquer dispositivo que inclui um computador programável que é utilizado para desempenhar uma tarefa específica.
-		\vskip13pt		
+	\item \textit{permitiu o PC exibir 80 colunas e 25 linhas no monitor}.
+	\end{itemize}  
+\item \textbf{1988} \textbf{VGA Wonder} - ATI 
+	\begin{itemize}
+	\item \textit{capaz de produzir imagens em 16-bits de cor}.
 	\end{itemize}
-%	\begin{figure}[h]
-%			\centering
-%			\includegraphics[width=0.4\textwidth]{computacao_embarcada.png}
-%			\caption{Exemplos de Sistemas Embarcados}
-%			\label{1}
-%	\end{figure}
-}
-
-\frame
-{
-	\frametitle{Histórico}
-	\begin{itemize}
-			\item WhirlWind: Desenvolvido pelo MIT entre 1940 e 1950, foi o primeiro computador designado para uma operação em tempo real.
-			\item Originalmente desenvolvido para controlar um simulador de aeronaves.				
+\item  \textbf{1996} \textbf{Voodoo 1} - 3DFX
+\begin{itemize}
+	\item  \textit{primeira a fornecer uma interface de programação}.
 	\end{itemize}
-	\vskip13pt
-%	\begin{figure}[h]
-%			\centering
-%			\includegraphics[width=0.4\textwidth]{primeiro_computador.png}
-%			\caption{Primeiro Computador Embarcado}
-%			\label{1}
-%	\end{figure}
-}
-
-\frame
-{
-	\frametitle{Histórico}
-	\begin{itemize}
-			\item Intel 4004 (1971): O primeiro chip a conter em si todos os componentes de uma CPU: nascia o microprocessador.						
+\item  \textbf{1997} \textbf{Riva 128} - Nvidia
+\begin{itemize}
+	\item \textit{primeira placa com suporte a Direct 3D}.
 	\end{itemize}
-	\vskip13pt	
-%	\begin{figure}[h]
-%			\centering
-%			\includegraphics[width=0.9\textwidth]{4004.png}
-%			\caption{Intel 4004}
-%			\label{1}
-%	\end{figure}
-}
-
-\frame
-{
-	\frametitle{Microcontrolador}
-	\vskip13pt	
-	\begin{itemize}
-			\item Os Microcontroladores integram elementos adicionais em sua estrutura interna.
-			\begin{itemize}
-				\pause
-				\item Memória de leitura e escrita para armazenamento de dados.
-				\pause
-				\item Memória somente de leitura para armazenamento de programas.
-				\pause
-				\item EEPROM para armazenamento permanente de dados.
-				\pause
-				\item Conversores A/D e D/A
-				\pause
-				\item Interfaces de entrada e saída de dados.
-			\end{itemize}
+\item  \textbf{1998} \textbf{Voodoo 2} - 3DFX
+\begin{itemize}
+	\item  \textit{suporte a processamento paralelo com SLI (Scan-Line Interleave)}.
 	\end{itemize}
-}
-
-\frame
-{
-	\frametitle{Microcontrolador Atmega328}
-	\vskip13pt	
-	\begin{itemize}
-			\item O microcontrolador utilizado foi o ATMEGA328 da fabricante ATMEL.
-			\item Características
-			\begin{itemize}
-				\item CPU: 8-bit
-				\item Flash: 32Kb
-				\item SRAM: 2Kb
-				\item Pinos de I/O: 32
-				\item Interfaces de entrada e saída de dados.
-				\item Máxima frequência: 20MHz
-			\end{itemize}
+\item  \textbf{1999} \textbf{GeForce 256 DDR} - Nvidia, 
+\begin{itemize}
+	\item \textit{primeira placa 3D com suporte total a DirectX 7, primeira GPU de fato}.
 	\end{itemize}
-}
-
-\frame
-{
-	\frametitle{Microcontrolador Atmega328}
-	\begin{itemize}
-			\item Vantagens
-			\begin{itemize}
-				\pause
-				\item Popular em plataformas de código aberto.
-				\pause
-				\item Baixo Custo.
-			\end{itemize}
-			\pause
-			\item Desvantagens
-			\begin{itemize}
-				\pause
-				\item Baixa capacidade de processamento.
-			\end{itemize}
+\item  \textbf{2001} \textbf{GeForce 3} - Nvidia
+\begin{itemize}
+	\item \textit{primeira GPU totalmente programável}.
 	\end{itemize}
+\end{itemize}
+				
 }
 
-
 \frame
-{
-	\frametitle{GPS - Funcionamento}
-	\begin{itemize}
-				\item O segmento espacial é constituido por 24 satélites distribuidos em 6 planos orbitais.
-				\item Garantia de no mínimo 4 satélites visíveis em qualquer ponto da superfície terrestre.
-				\vskip13pt	
-%				\begin{figure}[h]
-%					\centering
-%					\includegraphics[width=0.3\textwidth]{constelacao.jpg}
-%					\caption{Constelação de Satélites GPS}
-%					\label{1}
-%				\end{figure}
+{		
+\frametitle{Histórico das GPUs}
+\begin{itemize}
+\item  \textbf{2006} \textbf{GeForce 8800} - Nvidia
+\begin{itemize}
+	\item \textit{o CUDA é lançado e a era da GPGPU começa}.
 	\end{itemize}
-}
-
-\frame
-{
-	\frametitle{GPS - Funcionamento}
-%				\begin{figure}[h]
-%					\centering
-%					\includegraphics[width=0.9\textwidth]{gps_funcionamento1.png}
-%					\label{1}
-%				\end{figure}
-}
-
-\frame
-{
-	\frametitle{GPS - Funcionamento}
-%				\begin{figure}[h]
-%					\centering
-%					\includegraphics[width=0.9\textwidth]{gps_funcionamento2.png}
-%					\label{1}
-%				\end{figure}
-}
-
-\frame
-{
-	\frametitle{GPS - Funcionamento}
-%				\begin{figure}[h]
-%					\centering
-%					\includegraphics[width=0.9\textwidth]{gps_funcionamento3.png}
-%					\label{1}
-%				\end{figure}
-}
-
-\frame
-{
-	\frametitle{GPS - Funcionamento}
-%				\begin{figure}[h]
-%					\centering
-%					\includegraphics[width=0.9\textwidth]{gps_funcionamento4.png}
-%					\label{1}
-%				\end{figure}
-}
-
-\frame
-{
-	\frametitle{GPS - Funcionamento}
-%				\begin{figure}[h]
-%					\centering
-%					\includegraphics[width=0.9\textwidth]{gps_funcionamento5.png}
-%					\label{1}
-%				\end{figure}
-}
-
-\frame
-{
-	\frametitle{Funcionamento}
-%				\begin{figure}[h]
-%					\centering
-%					\includegraphics[width=0.9\textwidth]{gps_funcionamento6.png}
-%					\label{1}
-%				\end{figure}
-}
-
-\frame
-{
-	\frametitle{GPS - Funcionamento}
-%				\begin{figure}[h]
-%					\centering
-%					\includegraphics[width=0.9\textwidth]{gps_funcionamento7.png}
-%					\label{1}
-%				\end{figure}
-}
-
-\frame
-{
-	\frametitle{Módulo GPS ME-1000RW}
-	\begin{itemize}
-				\item O módulo GPS utilizado foi o ME-1000RW.
-				\item Características.
-				\begin{itemize}
-					\item 65 canais de aquisição
-					\item	Precisão de 5 metros
-					\item	Antena Embutida
-					\item Start-up a frio em 29 seg. 
-					\item Baixo Consumo de Energia (23mA @ 3.3V)
-					\item Interface serial RS232 e LVTTL
-				\end{itemize}
+\item  \textbf{2009} \textbf{Radeon HD 5970} - ATI
+\begin{itemize}
+	\item \textit{implementou a tecnologia CrossFireX com suporte para até 4 GPU}.
 	\end{itemize}
-	\vskip13pt	
-%	\begin{figure}[h]
-%		\centering
-%		\includegraphics[width=0.2\textwidth]{modulo_gps.jpg}
-%		\caption{Módulo ME-1000RW}
-%		\label{1}
-%	\end{figure}
-}
-
-\frame
-{
-	\frametitle{Módulo GPS ME-1000RW}
-	\begin{itemize}
-				\item O protocolo transmitido pela interface serial é baseado na interface \textit{National Marine Eletronics Association's} NMEA 0183 ACII, versão 3.01.
-				\vskip13pt	
-				\item GPGSA - GPS DOP AND ACTIVE SATELLITES
-				\item	GPGGA - GLOBAL POSITIONING SYSTEM FIX DATA
-				\item \textbf{\textcolor{Blue}{GPRMC - RECOMMANDED MINIMUM SPECIFIC GPS/TRANSIT DATA}}
-				\item GPVT  - COURSE OVER GROUND AND GROUND SPEED
-				\item GPGSV - GPS SATELLITE IN VIEW
+\item  \textbf{2013} \textbf{GeForce GTX 690} - Nvidia
+\begin{itemize}
+	\item  \textit{placa gráfica  mais rápida já criada, 2 GPUs kepler e 3.072 cuda cores}.
 	\end{itemize}
-}
+\end{itemize}
 
+}
+\subsection{Arquitetura da GPU Moderna}
 \frame
 {
-	\frametitle{Módulo GPS ME-1000RW}
+	\frametitle{CPU X GPU}
+	\begin{figure}
+	\includegraphics[width=0.9\textwidth]{cpu_gpu.png} 
+	\end{figure}
+	\begin{columns} 
+	\begin{column}{0.5\textwidth} 
 	\begin{itemize}
-				\item Mensagem GPRMC
-%				\begin{figure}[h]
-%					\centering
-%					\includegraphics[width=0.9\textwidth]{gprmc.png}
-%				\end{figure}			
-	\end{itemize}
-	
-	\begin{tabular}{|c|c|c|c|}
-		{\scriptsize \textbf{Campo}} &	{\scriptsize \textbf{Nome}} & {\scriptsize \textbf{Exemplo}} & {\scriptsize \textbf{Descrição}}\\
-		\hline
-		1 & {\scriptsize Tempo UTC} & {\scriptsize 060932.448} & {\scriptsize Horário UTC no formato hhmmss.sss}\\
-		\hline
-		2 & {\scriptsize Status} & {\scriptsize A} & {\scriptsize 'V' = GPS Aquecendo; 'A' = Dados Válidos}\\
-		\hline
-		3 & {\scriptsize Latitude} & {\scriptsize 2447.0959} & {\scriptsize Latitude no formato ddmm.mmmm}\\
-		\hline
-		4 & {\scriptsize Indicador N/S} & {\scriptsize N} & {\scriptsize Hemisfério, 'N' = Norte, 'S' = Sul}\\
-		\hline
-		5 & {\scriptsize Longitude} & {\scriptsize 12100.5204} & {\scriptsize Longitude no formato dddmm.mmmm} \\
-		\hline
-		6 & {\scriptsize Indicador E/W}  & {\scriptsize E} & {\scriptsize Hemisfério, 'E' = Leste, 'W' = Oeste} \\
-		\hline
-		7 & {\scriptsize Velocidade}  & {\scriptsize 000.0} & {\scriptsize Velocidade em nós (000.0 ~ 999.9)} \\
-		\hline
-		8 & {\scriptsize Data UTC} & {\scriptsize 211200} & {\scriptsize Data UTC de uma posição fixa no formato, ddmmyy}\\
-	\end{tabular}
-}
-
-\frame
-{
-	\frametitle{Módulo GSM/GPRS}
-	\begin{itemize}
-				\item O GPRS ({\it General Packet Radio Service}) é uma tecnologia de transferência de dados nas redes de celulares GSM({\it Global System for Mobile Communications})
-				\begin{itemize}
-					\item 56Kbps para transmissão \\
-					\item 28Kbps para recepção \\
-				\end{itemize}
-				\pause
-				\item Recursos somente serão utilizados quando for necessário enviar ou receber dados.
-				\pause
-				\item Vantagens
-				\begin{itemize}
-					\item Utilização de voz e dados ao mesmo tempo.
-					\item Ampla Cobertura
-					\item Redução de Custos. Com apenas o GSM a tarifação seria efetuada por tempo de conexão.
-				\end{itemize}
-	\end{itemize}
-}
-
-\frame
-{
-	\frametitle{Módulo SIM900}
-	\begin{itemize}
-		\item O módulo GSM/GPRS utilizado foi o SIM900, fabricado pela SIMCom Wireless Solutions.
-		\pause
-		\item Características:
-		\begin{itemize}
-			\item Quad-Band 850/900/1800/1900 MHz
-			\item Controle via comandos AT
-			\item Alimentação: 3,2 .. 4,8V
-			\item Baixo consumo: 1, 0mA (\textit{sleep} mode)
-		\end{itemize}
-		\pause
-		\item A motivação para o uso do modulo:
-		\begin{itemize}
-			\item Interface Serial
-			\item Alta Gama de frequências de operação
-		\end{itemize}
-	\end{itemize}
-	
-}
-
-\frame
-{
-	\frametitle{Módulo SIM900}
-%				\begin{figure}[h]
-%					\centering
-%					\includegraphics[width=0.7\textwidth]{sim900.jpg}
-%					\caption{Módulo SIM900}
-%					\label{1}
-%				\end{figure}
-}
-
-\frame
-{
-	\frametitle{Diagrama em Blocos}
-	\vskip13pt	
-%	\begin{figure}[h]
-%			\centering
-%			\includegraphics[width=0.6\textwidth]{arquitetura_embarcada.png}
-%			\caption{Arquitetura do Módulo Embarcado}
-%			\label{1}
-%	\end{figure}
-}
-
-\frame
-{
-	\frametitle{Módulo Embarcado - Esquema Elétrico}
-%				\begin{figure}[h]
-%					\centering
-%					\includegraphics[width=0.5\textwidth]{esquema_atmega.png}
-%					  \caption{{\scriptsize Esquema Elétrico do Microcontrolador ATMEGA328}}
-%					\label{1}
-%				\end{figure}
-}
-
-\frame
-{
-	\frametitle{Módulo Embarcado - Esquema Elétrico}
-%				\begin{figure}[h]
-%					\centering
-%					\includegraphics[width=0.8\textwidth]{esquema_sim900.png}
-%					  \caption{{\scriptsize Esquema Elétrico SIM900 e ME-1000RW}}
-%					\label{1}
-%				\end{figure}
-}
-
-\frame
-{
-	\frametitle{Módulo Embarcado - Firmware}
-%				\begin{figure}[h]
-%					\centering
-%					\includegraphics[width=0.9\textwidth]{diagrama_estados.png}
-%					  \caption{{\scriptsize Diagrama de Estados}}
-%					\label{1}
-%				\end{figure}
-}
-
-\frame
-{
-	\frametitle{Módulo Embarcado - Firmware}
-%				\begin{figure}[h]
-%					\centering
-%					\includegraphics[width=0.8\textwidth]{firmware_diagrama.jpg}
-%					  \caption{{\scriptsize Diagrama de classes}}
-%					\label{1}
-%				\end{figure}
-}
-
-\frame
-{
-	\frametitle{Interface Módulo Embarcado - Servidor}
-	\begin{itemize}
-		\item Os módulos embarcado se comunicam com o servidor através do método GET especificado no HTTP.
-		\item Motivação:
-		\begin{itemize}
-			\item Cabeçalhos opcionais
-			\item Parâmetros são enviados para o servidor através da URL.
-		\end{itemize}
-	\end{itemize}
-%	\begin{figure}[h]
-%		\centering
-%		\includegraphics[width=0.7\textwidth]{requisicao_http.png}
-%			\caption{{\scriptsize Requisição HTTP}}
-%		  \label{1}
-%	\end{figure}
-		
-}
-
-\subsection{Módulo Servidor}
-\frame
-{
-	\frametitle{Definição WebService}
-	\begin{itemize}
-			\item Solução utilizada na integração de sistemas e na comunicação entre aplicações diferentes
-			\item O objetivo dos webservices é a comunicação de aplicações através da internet.
-			\begin{itemize}
-				\item Formato dos dados:  \textbf{\textcolor{Blue}{JSON}} ou XML
-				\item Mecanismo de transporte: HTTP
-			\end{itemize}
-			\item Linguagem e banco de dados utilizados
-			\begin{itemize}
-				\item PHP
-				\item MySQL
-			\end{itemize}
-			
-	\end{itemize}
-}
-
-
-
-\frame
-{
-	\frametitle{Modelo em Camadas}
-%		\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=0.9\textwidth]{camadas_2.png}
-%		\end{figure}
-}
-
-\frame
-{
-	\frametitle{Modelo em Camadas}
-%		\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=0.9\textwidth]{camadas_3.png}
-%		\end{figure}
-}
-
-\frame
-{
-	\frametitle{Modelo em Camadas}
-%		\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=0.9\textwidth]{camadas_4.png}
-%	\end{figure}
-}
-
-\frame
-{
-	\frametitle{Modelo em Camadas}
-%		\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=0.9\textwidth]{camadas_5.png}
-%		\end{figure}
-}
-
-\subsection{Módulo Cliente}
-\frame
-{
-	\frametitle{Módulo Cliente}
-	\begin{itemize}
-			\item O módulo cliente é a interface para que o usuário possa visualizar as informações
-			\begin{itemize}
-				\item Visualização em tempo real das linhas de ônibus.
-				\item Itinerários das linhas de ônibus selecionadas.
-			\end{itemize}
-	\end{itemize}
-}
-
-\frame
-{
-	\frametitle{Plataforma}
-	\begin{itemize}
-			\item O módulo cliente foi desenvolvido para a o sistema operacional Android a partir da versão 2.3
-			\pause
-			\item Tecnologias utilizadas:
-			\begin{itemize}
-				\pause
-				\item SDK oficial da plataforma.
-				\pause
-				\item IDE Eclipse Juno.
-				\pause
-				\item API Google Maps.
-				\pause
-				\item Banco de Dados SQLite.
-			\end{itemize}
-	\end{itemize}
-}
-
-\frame
-{
-	\frametitle{Plataforma}
-%		\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=0.8\textwidth]{ios_android.png}
-%							\caption{{\scriptsize iOS vs Android}}
-%						\label{1}
-%		\end{figure}
-}
-
-\frame
-{
-	\frametitle{Vantagens Android}
-	\begin{itemize}
-			\item As vantagens da utilização da plataforma Android para o projeto foram:
-			\pause
-			\begin{itemize}
-				\pause
-				\item Sistema operacional móvel mais popular.
-				\pause
-				\item Ferramentas opensource para desenvolvimento.
-			\end{itemize}
-		\end{itemize}		
-}
-
-\frame
-{
-	\frametitle{Plataforma}
-%		\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=0.7\textwidth]{grafico_android.jpg}
-%							\caption{{\scriptsize S.O Móveis}}
-%						\label{1}
-%		\end{figure}
-}
-
-\frame
-{
-	\frametitle{Arquitetura Android}
-	\begin{itemize}
-			\item A arquitetura do sistema operacional Android é dividida em camadas, onde cada parte é reponsável por gerenciar os seus respectivos processos.
-		\end{itemize}		
-}
-
-\frame
-{
-	\frametitle{Arquitetura Android}
-%		\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=0.7\textwidth]{arquitetura_android.png}
-%							\caption{{\scriptsize Arquitetura Android}}
-%						\label{1}
-%		\end{figure}
-}
-
-\frame
-{
-	\frametitle{Aplicativo Cliente}
-	\begin{itemize}
-			\item Funcionalidades
-			\vskip9pt	
-			\begin{itemize}
-				\pause
-				\item Itinerário Completo
-				\vskip9pt	
-				\pause
-				\item Qual ônibus pegar?
-				\vskip9pt	
-				\pause
-				\item Visualização em tempo real das linhas de ônibus no mapa
-			\end{itemize}
+	\item Própria para tarefas sequenciais
+	\item Cache eficiente
+	\item Maior quantidade de memória principal
+	\item Número de cores de 1 ordem de grandeza
+	\item 1, 2 threads por core
 	\end{itemize}		
-}
-
-\frame
-{
-	\frametitle{Aplicativo Cliente}
+	\end{column} 
+ 	\begin{column}{0.5\textwidth} 
 	\begin{itemize}
-			\item Funcionalidades
-			\vskip9pt	
-			\begin{itemize}
-				\item \textbf{\textcolor{Blue}{Itinerário Completo}}
-				\vskip9pt	
-				\item \textbf{\textcolor{Blue}{Qual ônibus pegar?}}
-				\vskip9pt	
-				\item \textbf{\textcolor{Blue}{Diferentes tipos de busca}}
-				\begin{itemize}
-					\item \textbf{\textcolor{Blue}{Através de uma Linha específica}}
-					\item \textbf{\textcolor{Blue}{Por origem e destino}}
-				\end{itemize}	
-				\vskip9pt	
-				\item \textbf{\textcolor{Red}{Visualização em tempo real das linhas de ônibus no mapa}}
-			\end{itemize}
-	\end{itemize}		
+	\item Própria para tarefas com paralelismo de dados
+	\item Maior (capacidade) operações de  ponto flutuante por segundo
+	\item Alto throughput de memória
+	\item Dezenas de multiprocessors
+	\item Múltiplas threads por core
+	\end{itemize}
+	\end{column} 
+	\end{columns} 
+}
+\frame
+{		
+\frametitle{Visão geral da arquitetura Nvidia Tesla}
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{tesla.png}
+\caption{Visão Geral da arquitetura Nvidia Tesla.Fonte:(\cite{NvidiaTesla})}
+\label{fig:tesla}
+\end{figure}
+}
+
+\frame
+{		
+\frametitle{Detalhes da arquitetura Nvidia Tesla}
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.6\textwidth]{tesla_details.png}
+\caption{Detalhes da arquitetura Nvidia Tesla.Fonte:(\cite{NvidiaTesla})}
+\label{fig:tesla}
+\end{figure}
+}
+
+\frame
+{		
+\frametitle{Visão geral da arquitetura Nvidia Fermi}
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{fermi_2.png}
+\caption{Visão geral da arquitetura Nvidia Fermi}
+\label{fig:fermi}
+\end{figure}
+}
+
+\frame
+{		
+\frametitle{Detalhes da arquitetura Nvidia Fermi}
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{fermi_details.png}
+\caption{Detalhes da arquitetura Nvidia Fermi}
+\label{fig:fermi}
+\end{figure}
+}
+
+\frame
+{		
+\frametitle{Diferenças Fermi x Tesla}
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.5\textwidth]{fermi_1.png}
+\caption{Diferenças entre a Fermi e a Tesla}
+\label{fig:fermi}
+\end{figure}
+}
+
+\frame
+{		
+\frametitle{Visão geral da  arquitetura  ATI Caicos}
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.5\textwidth]{caicos.jpg}
+\caption{Visão geral da arquitetura ATI Caicos}
+\label{fig:caicos}
+\end{figure}
+}
+
+\frame
+{		
+\frametitle{GPGPU}	
+\begin{itemize}
+\item \textbf{General-purpose computing on  Graphics Processing  Units}
+\begin{itemize}
+ \item Técnica de uso de GPU para computação de propósito geral
+\end{itemize}
+\vspace{1cm}
+\item Linguagens/API's
+\begin{itemize}
+\item Brook
+\item Brook+
+\item OpenCL
+\item CUDA
+\end{itemize}	
+\end{itemize}
 }
 
 \frame
 {
-	\frametitle{Banco de Dados SQLite}
-%		\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=0.7\textwidth]{modelo_relacional_sqlite.png}
-%							\caption{{\scriptsize Modelo Relacional banco SQLite}}
-%						\label{1}
-%		\end{figure}
+	\frametitle{OpenCL - Open Computing Language}
+	\begin{columns} 
+		\begin{column}{0.5\textwidth} 
+		\includegraphics{opencl_2.png}
+		\end{column} 
+	\begin{column}{0.5\textwidth} 
+	\textbf{"Padrão aberto para a programação paralela de sistemas heterogêneos"}
+	\end{column} 
+	\end{columns} 
 }
 
 \frame
 {
-	\frametitle{Diagrama de Caso de Uso}
-%		\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=0.7\textwidth]{caso_uso_android.png}
-%							\caption{{\scriptsize Diagrama de Caso de Uso do módulo Cliente}}
-%						\label{1}
-%		\end{figure}
-}
-
-\frame
-{
-	\frametitle{Diagrama de Classes}
-		\begin{itemize}
-			\item O diagrama está contido na página 12 do Artigo Proposta.
-		\end{itemize}
-%		\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=0.6\textwidth]{classe_android.png}
-%							\caption{{\scriptsize Diagrama de Classes do módulo Cliente}}
-%						\label{1}
-%		\end{figure}
-		
-}
-
-\subsection{Integração dos Módulos}
-\frame
-{
-	\frametitle{Integração dos Módulos}
-%		\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=0.7\textwidth]{integracao.png}
-%							\caption{{\scriptsize Integração dos Módulos}}
-%						\label{1}
-%		\end{figure}
-}
-
-\frame
-{
-	\frametitle{Placa GBoard}
+	\frametitle{OpenCL - Open Computing Language}
+	\textbf{Principais características:}
 	\begin{itemize}
-			\item Para validar a idéia utilizamos a placa GBoard.
-			\item Contém os principais componentes utilizados no módulo embarcado
-			\begin{itemize}
-				\item Atmega328 (Compatível com Arduino Duemilanove)
-				\item Chip SIM900
-			\end{itemize}
+	\item Provê interface homogênea para a exploração da computação paralela heterogênea 
+     \begin{itemize}
+     \item Abstração do hardware 
+     \item CPU's (AMD, ARM, IBM, Intel), GPU's (AMD, ARM, Intel, Nvidia), APU's, CBE, DSP's, FPGA's
+     \end{itemize}
+    \item Padrão aberto 
+     	 \begin{itemize}
+     	\item Especificação mantida por vários membros gerenciada pelo grupo  Khronos 
+     	\end{itemize}
+     \item Alto desempenho 
+     \begin{itemize}
+     \item Possui diretivas de baixo nível para uso eficiente dos dispositivos
+     \item Alto grau de flexibilidade   
+     \end{itemize}
 	\end{itemize}
-%	\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=0.4\textwidth]{gboard.png}
-%							\caption{{\scriptsize Placa GBoard}}
-%						\label{1}
-%		\end{figure}
 }
 
 \frame
 {
-	\frametitle{Integração com o módulo Servidor}
-%		\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=0.7\textwidth]{integracao_embarcado.png}
-%							\caption{{\scriptsize Integração dos Módulos}}
-%						\label{1}
-%		\end{figure}
+	\frametitle{OpenCL - Características}
+	\begin{itemize}
+	 \item Multi-plataforma
+     \begin{itemize}
+     \item Disponível em várias classes de hardware e sistemas operacionais
+     \end{itemize}
+     \item Código portável entre arquiteturas e gerações
+	\item Especificação baseada nas linguagens C e C++   
+	\end{itemize}
 }
 
 \frame
 {
-	\frametitle{Servidor Web}
-		\begin{itemize}
-			\item A aplicação web foi hospedada provisoriamente em um computador doméstico.
-			\begin{itemize}
-				\item Ubuntu 13.04
-				\item Apache HTTP WebServer 2.4
-				\item MySQL 5.5
-				\item \textbf{\textcolor{Blue}{No-IP Dynamic DNS}}
-			\end{itemize}
-			\item Endereço do servidor: \textbf{\textcolor{Blue}{http://whatbus.no-ip.org:8185/apimobile}}
+	\frametitle{OpenCL - História}
+	\textbf{História}
+	\begin{itemize}
+	 \item \textbf{~2003}: GPUs começam a adquirir características de propósito geral: a era da programabilidade
+	\item \textbf{2003-2008}: Cenário GP-GPU fragmentado, com várias soluções proprietárias
+	\item \textbf{2008}: Apple elabora o rascunho inicial da especificação do OpenCL
+	\begin{figure}
+	\includegraphics[width=9cm]{opencl_timeline.png}
+	\end{figure}
+	\item \textbf{2013}: OpenCL 2.0 é lançado
 	\end{itemize}
 }
+
+\frame
+{
+	\frametitle{OpenCL - Contribuidores}
+	\begin{figure}
+	\includegraphics[width=10cm]{members.png}
+	\caption{Contribuidores para o OpenCL em 2013}
+	\end{figure}
+}
+
+\subsection{Filtro Sobel}
+\frame
+{
+	\frametitle{Filtro Sobel}
+	O filtro Sobel calcula o gradiente da intensidade da imagem em cada ponto, dando a direcção da maior variação de claro para escuro e a quantidade de variação nessa direcção, através de duas matrizes 3x3, que são convoluídas com a imagem original para calcular aproximações das derivadas - uma para as variações horizontais $Gx$ e uma para as verticais $Gy$.
+\begin{block}{Máscara de Sobel 3x3}
+$$
+Gx=\left[\begin{array}{rrr}
+-1&0&+1\\
+-2&0&+2 \\
+-1&0&+1
+\end{array}\right]\quad
+Gy=\left[\begin{array}{ccc}
+-1&-2&-1\\
+ 0& 0& 0 \\
++1&+2&+1
+\end{array}\right]
+$$
+\end{block}
+A magnitude do gradiente é dado por:
+
+$$
+|G|=\sqrt{Gx^2 + Gy^2}
+$$	
+}
+\frame{
+\frametitle{Código Fonte em OpenCL}
+
+\textit{Ver item \textbf{A.1} do Apêndice A}
+
+}
+\subsection{Filtro Passa Baixa}
+\frame
+{
+	\frametitle{Filtro Passa Baixa no domínio da Frequência}
+Filtro passa-baixas ideal - Um filtro passa-baixas 2-D ideal é aquele cuja função de transferência satisfaz a relação:
+
+$$
+H(u,v)=\begin{cases}
+1,	&\mbox{se}\quad D(u,v)\le Do,\\
+0,	&\mbox{se}\quad D(u,v)x>Do.
+\end{cases}
+$$
+
+onde $Do$ é um valor não-negativo (corresponde à frequência de corte de um filtro 1-D), e $D(u,v)$ é a 
+distância do ponto $(u,v)$ à origem do plano de frequência; isto é, 
+
+$$
+D(u,v) = \sqrt{(u - P/2)^2 + (v - Q/2)^2}
+$$
+onde, $P$ e $Q$ são, respectivamente, a largura e a altura da imagem. Quanto menor o raio $Do$, menor a frequência de corte e, portanto, maior o grau de borramento da imagem resultante. 	
+}
+
+\frame{
+\frametitle{Código Fonte em OpenCL}
+\textit{Ver item \textbf{A.2} do Apêndice A}
+
+}
+
 
 \section{Resultados}
+\subsection{Filtro Sobel}
 \frame
 {
-	\frametitle{Resultados Obtidos}
-	\begin{itemize}
-		\item Será apresentada as principais telas do aplicativo cliente android desenvolvido.
-		\item Os resultados obtidos a partir de um teste de campo.		
-	\end{itemize}
+	\frametitle{Filtro Sobel}
+	\begin{figure}[!ht]
+	\centering
+	\subfigure[Imagem original]{
+	\includegraphics[width=4cm]{lena_normal.png}
+	\label{fig:subfig_a}
+	}
+	\subfigure[Imagem após a aplicação do filtro Sobel]{
+	\includegraphics[width=4cm]{lena_sobel.png}
+	\label{fig:subfig_b}
+	}
+	\label{fig:sobel_filtro}
+	\caption{Resultado da aplicação filtro Sobel para detecção de borda}
+	\end{figure}
+	}
+
+\frame
+{
+	\frametitle{Filtro Sobel - Tempo médio de execução}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{sobel_tempo_medio_exec.pdf}
+	\caption{Sobel - Tempo médio de execução}
+	\label{fig:sobel_tempo}
+	\end{figure}
+
 }
 
 \frame
 {
-	\frametitle{Telas do Aplicativo}
-%	\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=1.0\textwidth]{telas.png}
-%							\caption{{\scriptsize Telas do Aplicativo Android}}
-%						\label{1}
-%		\end{figure}
+	\frametitle{Filtro Sobel - Taxa média de transferência}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=6cm]{sobel_taxa_media_transfer_escrita.pdf}
+	\label{fig:subfig_c}
+	\caption{Taxa média de transferência do Host para o device}
+	\end{figure}
 }
-
-\subsection{Testes de Campo}
 \frame
 {
-	\frametitle{Testes Realizados em Campo}
-	\begin{itemize}
-		\item Com base em testes realizados em campo, foroam feitos percursos com o módulo rastreador embarcado em um veículo.
-	\end{itemize}
-%		\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=0.5\textwidth]{modulo_campo.jpg}
-%							\caption{{\scriptsize Protótipo do Módulo Embarcado}}
-%						\label{1}
-%		\end{figure}
+	\frametitle{Filtro Sobel - Taxa média de transferência}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=6cm]{sobel_taxa_media_transfer_leitura.pdf}
+	\label{fig:subfig_d}
+	\caption{Taxa média de transferência do Device para o host}
+	\end{figure}
 }
 
+\subsection{Filtro Passa-baixa}
 \frame
 {
-	\frametitle{Dados Coletados}
-	\begin{itemize}
-		\item Após os testes de campo, foram coletadas amostras das coordenadas enviadas para o servidor web.
-	\end{itemize}
-%		\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=0.5\textwidth]{amostra_dados.png}
-%							\caption{{\scriptsize Amostra de coordenadas armazenadas}}
-%						\label{1}
-%		\end{figure}
-}
-
-\frame
-{
-	\frametitle{Amostragem dos dados coletados}
-%		\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=1.0\textwidth]{grafico.png}
-%							\caption{{\scriptsize Gráfico dos dados coletados}}
-%						\label{1}
-%		\end{figure}
-}
+	\frametitle{Filtro Passa-baixa}
+	\begin{figure}[!ht]
+	\centering
+	\subfigure[Imagem original]{
+	\includegraphics[width=4cm]{lena_normal.png}
+	\label{fig:subfig_e}
+	}
+	\subfigure[Imagem após a aplicação do filtro Passa-baixa]{
+	\includegraphics[width=4cm]{lena_passa_baixa.png}
+	\label{fig:subfig_f}
+	}
+	\label{fig:passa_baixa}
+	\caption{Resultado da aplicação do filtro Passa-baixa}
+	\end{figure}
+	}
 
 \frame
 {
-	\frametitle{Amostra de percurso}
-	\begin{itemize}
-		\item O trajeto equivalente aos dados coletados foi traçado a fim de verificar se os dados foram enviados corretamente. 
-	\end{itemize}
-%		\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=0.3\textwidth]{percurso.png}
-%							\caption{{\scriptsize Percurso gerado através das coordenadas coletadas}}
-%						\label{1}
-%		\end{figure}
+	\frametitle{Filtro Passa-baixa- Tempo médio de execução}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{fft_tempo_medio_exec.pdf}
+	\caption{Passa-Baixa - Tempo médio de execução}
+	\label{fig:passa_tempo}
+	\end{figure}
 }
 
 \frame
 {
-	\frametitle{Vídeo Demonstrativo}
-%		\begin{figure}[h]
-%						\centering
-%						\includegraphics[width=0.7\textwidth]{video.jpg}
-%		\end{figure}
+	\frametitle{Filtro Passa-baixa - Taxa média de transferência}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=6cm]{fft_taxa_media_transfer_escrita.pdf}
+	\label{fig:subfig_g}
+	\caption{Taxa média de transferência do Host para o device}
+	\end{figure}
 }
-
-\section{Conclusão}
 \frame
 {
-	\frametitle{Conclusão}
-	\begin{itemize}
-		\item O projeto aqui apresentado foi capaz de mostrar a viabilidade de se implementar uma \textbf{\textcolor{Blue}{solução tecnológica}} que permite apresentar ao usuário o posicionamento da rota em tempo real e também informações básicas do \textbf{\textcolor{Blue}{transporte coletivo}}.
-
-	\end{itemize}
+	\frametitle{Filtro Passa-baixa - Taxa média de transferência}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=6cm]{fft_taxa_media_transfer_leitura.pdf}
+	\label{fig:subfig_h}
+	\caption{Taxa média de transferência do Device para o host}
+	\end{figure}
 }
 
 \section{Referências}
 \frame
 {
 	\frametitle{Referências}
-	[1] Page, A. H Arduino. Link de acesso referente ao site do fabricante sobre arduino. Acessado em 16/05/2012. Disponível em http://www.arduino.cc.
-	\newline
-	[2] WAYNE WOLF. Computer as Components. 2nd Edition. Burlington: Elsevier Inc; 2008.
-	\newline
-	[3] HENGMING, Fang; IIA, Chen; BIN, Xu. The Interaction Mechanism based on JSON for Android Database Application. Information Technology Journal, v. 12, n. 1, p. 224-228, 2013.
-	\newline
-	[4] NURSEITOV, Nurzhan et al. Comparison of JSON and XML data interchange formats: A case study. In: ISCA 22nd International Conference on Computers and Their Applications in Industry and Engineering. 2009. p. 157-62.
-	\newline
-	[5] Lecheta, Ricardo R. Google Android-aprenda a criar aplicações para dispositivos móveis com o Android SDK. NovatecEditora, 2009.
+	\bibliography{refs}
+	\bibliographystyle{plain}
 
 }
-
-\frame
-{
-	\frametitle{Referências}
-	[6] THONSON, Laura; WELLING, Luke. PHP e MySQL: Desenvolvimento Web. 2005.
-	\newline
-	[7] COMACHIO, Vanderson. Funcionamento de banco de dados em Android: um estudo experimental utilizando SQlite. 2012.
-	\newline
-	[8] MARTINS, Leandro Borges. Sistema antifurto integrado ao monitoramento de presença de crianças no interior de veículos utilizando GPRS. 2010.
-	\newline
-	[9] ATMEL INC. Atmel Microcontroller with 4/8/16/32K Bytes In-Stytem Programmable Flash ATMEGA328P-P. Atmel, 2011. 567
-	\newline
-	[10] ME Componentes eletrônicos, 2009. MÓDULO GPS COM ANTENA ACOPLADA ROM ME-1000RW. 14 p.
-}
-
-\frame
-{
-	\frametitle{Frase Final}
-		"Uma cidade desenvolvida não é aquela que o pobre anda de carro, mas onde o rico anda de ônibus."
-(Enrique Peñalosa, ex-prefeito de Bogotá)
-}
-
 
 \end{document}
 
