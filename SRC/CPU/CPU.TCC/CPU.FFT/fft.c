@@ -26,23 +26,23 @@
  ******************************************************************************/
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <math.h>
+#include "fft.h"
 
 /* macros */
 #define TWO_PI (6.2831853071795864769252867665590057683943L)
 
 /* function prototypes */
-void fft(int N, double (*x)[2], double (*X)[2]);
+/*void fft(int N, float (*x)[2], float (*X)[2]);
 void fft_rec(int N, int offset, int delta,
-             double (*x)[2], double (*X)[2], double (*XX)[2]);
-void ifft(int N, double (*x)[2], double (*X)[2]);
-
+             float (*x)[2], float (*X)[2], float (*XX)[2]);
+void ifft(int N, float (*x)[2], float (*X)[2]);
+*/
 /* FFT */
-void fft(int N, double (*x)[2], double (*X)[2])
+void fft(int N, float (*x)[2], float (*X)[2])
 {
   /* Declare a pointer to scratch space. */
-  double (*XX)[2] = malloc(2 * N * sizeof(double));
+  float (*XX)[2] = malloc(2 * N * sizeof(float));
 
   /* Calculate FFT by a recursion. */
   fft_rec(N, 0, 1, x, X, XX);
@@ -53,13 +53,13 @@ void fft(int N, double (*x)[2], double (*X)[2])
 
 /* FFT recursion */
 void fft_rec(int N, int offset, int delta,
-             double (*x)[2], double (*X)[2], double (*XX)[2])
+             float (*x)[2], float (*X)[2], float (*XX)[2])
 {
   int N2 = N/2;            /* half the number of points in FFT */
   int k;                   /* generic index */
-  double cs, sn;           /* cosine and sine */
+  float cs, sn;           /* cosine and sine */
   int k00, k01, k10, k11;  /* indices for butterflies */
-  double tmp0, tmp1;       /* temporary storage */
+  float tmp0, tmp1;       /* temporary storage */
 
   if(N != 2)  /* Perform recursive step. */
     {
@@ -72,7 +72,7 @@ void fft_rec(int N, int offset, int delta,
         {
           k00 = offset + k*delta;    k01 = k00 + N2*delta;
           k10 = offset + 2*k*delta;  k11 = k10 + delta;
-          cs = cos(TWO_PI*k/(double)N); sn = sin(TWO_PI*k/(double)N);
+          cs = cos(TWO_PI*k/(float)N); sn = sin(TWO_PI*k/(float)N);
           tmp0 = cs * XX[k11][0] + sn * XX[k11][1];
           tmp1 = cs * XX[k11][1] - sn * XX[k11][0];
           X[k01][0] = XX[k10][0] - tmp0;
@@ -92,11 +92,11 @@ void fft_rec(int N, int offset, int delta,
 }
 
 /* IFFT */
-void ifft(int N, double (*x)[2], double (*X)[2])
+void ifft(int N, float (*x)[2], float (*X)[2])
 {
   int N2 = N/2;       /* half the number of points in IFFT */
   int i;              /* generic index */
-  double tmp0, tmp1;  /* temporary storage */
+  float tmp0, tmp1;  /* temporary storage */
 
   /* Calculate IFFT via reciprocity property of DFT. */
   fft(N, X, x);
