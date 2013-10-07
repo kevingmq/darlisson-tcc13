@@ -83,7 +83,7 @@ __kernel void lowpass_filter(__global float2* image, int n, int raio)
     unsigned int xid = get_global_id(0);
     unsigned int yid = get_global_id(1);
 
-    int2 n_2 = (int2)(n/2, n/21);
+    int2 n_2 = (int2)(n/2, n/2);
     int2 mask = (int2)(n-1, n-1);
 
     int2 gid = ((int2)(xid, yid) + n_2) & mask;
