@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 */
-#include "pgm.h"
-#include "utils.h"
+#include "../../../utils/pgm.h"
+#include "../../../utils/utils.h"
 
 #define EXTENSAO "pgm"
 #define APP_TYPE "sobel"
