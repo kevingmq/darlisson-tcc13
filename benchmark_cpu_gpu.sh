@@ -24,6 +24,7 @@ RESULTS_DIR=${CURRENT_DIR}"/RESULTS"
 NVIDIA_DIR=${CURRENT_DIR}"/SRC/NVIDIA/Nvidia.TCC"
 ATI_DIR=${CURRENT_DIR}"/SRC/ATI/ATI.TCC"
 CPU_DIR=${CURRENT_DIR}"/SRC/CPU/CPU.TCC"
+KERNEL_DIR=${CURRENT_DIR}"/SRC/utils/kernels"
 SCRIPT_NAME=$(basename $0)
 
 SCRIPT_ARGS="$@"
@@ -79,29 +80,27 @@ do
                 case "$USE_VENDOR" in
                         "Nvidia")
 
-                                LOG_APP=${NVIDIA_DIR}/"Debug/global.log"
-                                DEBUG_DIR=${NVIDIA_DIR}/"Debug"
+                                LOG_APP=${NVIDIA_DIR}/"x64/Debug/global.log"
+                                DEBUG_DIR=${NVIDIA_DIR}/"x64/Debug"
                                 if [[ "$(ls -l ${DEBUG_DIR}/*.cl  2>/dev/null| wc -l)"  < 2 ]]
                                     then
                                     echo "$(date +%H:%M:%S) INFO: Copiando *.cl kernel para Debug/."
-                                    cp ${NVIDIA_DIR}/"${USE_VENDOR}.FFT/"*.cl ${DEBUG_DIR}/
-                                    cp ${NVIDIA_DIR}/"${USE_VENDOR}.Sobel/"*.cl ${DEBUG_DIR}/
+                                    cp ${KERNEL_DIR}/*.cl ${DEBUG_DIR}/
                                 fi
                             ;;
                         "ATI")
 
-                                LOG_APP=${ATI_DIR}/"Debug/global.log"
-                                DEBUG_DIR=${ATI_DIR}/"Debug"
+                                LOG_APP=${ATI_DIR}/"x64/Debug/global.log"
+                                DEBUG_DIR=${ATI_DIR}/"x64/Debug"
                                 if [[ "$(ls -l ${DEBUG_DIR}/*.cl  2>/dev/null| wc -l)"  < 2 ]]
                                     then
                                     echo "$(date +%H:%M:%S) INFO: Copiando *.cl kernel para Debug/."
-                                    cp ${NVIDIA_DIR}/"${USE_VENDOR}.FFT/"*.cl ${DEBUG_DIR}/
-                                    cp ${NVIDIA_DIR}/"${USE_VENDOR}.Sobel/"*.cl ${DEBUG_DIR}/
+                                    cp ${KERNEL_DIR}/*.cl ${DEBUG_DIR}/
                                 fi
                             ;;
                         "CPU")
-                                LOG_APP=${CPU_DIR}/"Debug/global.log"
-                                DEBUG_DIR=${CPU_DIR}/"Debug"
+                                LOG_APP=${CPU_DIR}/"x64/Debug/global.log"
+                                DEBUG_DIR=${CPU_DIR}/"x64/Debug"
                             ;;
                         *)
                              echo "$(date +%H:%M:%S) INFO: '${USE_VENDOR}' opção desconhecida para  -p, --platform"
@@ -227,14 +226,14 @@ echo "+-------------------------------------------------------------------------
 
 
 # criando pastas necessarias se elas nao existirem
-echo "$(date +%H:%M:%S) INFO: Criando os diretorios LOGS/ e ORIGINAIS/."
+echo "$(date +%H:%M:%S) INFO: Criando os diretorios LOGS/ e IMG_ORIGINAIS/."
 mkdir -p ${IMG_ORIGINAIS_DIR}
 mkdir -p ${LOGS_DIR}
 mkdir -p ${RESULTS_DIR}
 
 # fazendo uma copia das imagens originias para um dieretorio seguro
-TOTAL_IMAGES=$( ls -l ${IMG_DB_DIR}/*.pgm | wc -l)
-if [[ $(ls -l ${IMG_ORIGINAIS_DIR}/*.pgm 2>/dev/null| wc -l) -lt "${TOTAL_IMAGES}" ]]
+TOTAL_IMAGES=$( ls -l ${IMG_DB_DIR}/*.pgm 2>/dev/null | wc -l)
+if [[ $(ls -l ${IMG_ORIGINAIS_DIR}/*.pgm 2>/dev/null | wc -l) -lt "${TOTAL_IMAGES}" ]]
     then
     echo "$(date +%H:%M:%S) INFO: Copiando imagens para a diretorios ORIGINAIS/."
     cp ${IMG_DB_DIR}/*.pgm ${IMG_ORIGINAIS_DIR}/
@@ -282,11 +281,11 @@ else
 fi
 
 # salvando arquivo de log
-cp ${LOG_APP} ${LOGS_DIR}"/${USE_VENDOR}.${USE_CARD}.${USE_APP}.${CURR_DATE}.dat"
+cp ${LOG_APP} ${LOGS_DIR}"/${USE_VENDOR}.${USE_CARD}.${USE_APP}.dat"
 
 echo "+--------------------------------------------------------------------------+"
 echo "| Imagens processadas : $(ls -l ${RES_DIR}/*.pgm | wc -l )                 |"
-echo "| log: ${LOGS_DIR}/${USE_VENDOR}.${USE_CARD}.${USE_APP}.${CURR_DATE}.dat   |"
+echo "| log: ${LOGS_DIR}/${USE_VENDOR}.${USE_CARD}.${USE_APP}.dat   |"
 echo "+----------------------------------------------------------------------------------+"
 
 echo -e "\n"
