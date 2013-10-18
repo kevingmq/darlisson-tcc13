@@ -1,17 +1,20 @@
 #define _CRT_SECURE_NO_DEPRECATE
-#define CL_VERSION_1_1
+//#define CL_VERSION_1_1
 /*#define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
 */
 #include <CL/cl.h>
-#include "cl_utils.h"
-#include "utils.h"
-#include "pgm.h"
+#include "../../../utils/cl_utils.h"
+#include "../../../utils/utils.h"
+#include "../../../utils/pgm.h"
 
 #define USE_NVIDIA_CARD         1
 #define MAX_PLATFORM_ID         2
 #define MAX_SOURCE_SIZE         (0x100000)
+
+#define MAX_WORK_GROUP_ITEM_SIZE_DIM_1 16
+#define MAX_WORK_GROUP_ITEM_SIZE_DIM_2 16
 
 #define EXTENSAO                "pgm"
 #define APP_TYPE                "sobel"
@@ -180,8 +183,8 @@ int main(int argc, char *argv[])
 
     work_global[0] = image_width;
     work_global[1] = image_height;
-    work_local[0] = 32;
-    work_local[1] = 32;
+    work_local[0] = MAX_WORK_GROUP_ITEM_SIZE_DIM_1;
+    work_local[1] = MAX_WORK_GROUP_ITEM_SIZE_DIM_2;
     //===================================================================================================
 
     CL_CHECK(clEnqueueNDRangeKernel(commands, kernel_sobel, 2, NULL, work_global, work_local, 0, NULL,  &kernel_event) );
@@ -226,6 +229,9 @@ int main(int argc, char *argv[])
 
     //===================================================================================================
     CL_CHECK(clReleaseMemObject(image_in_mem));
+	CL_CHECK(clReleaseEvent(kernel_event));
+    CL_CHECK(clReleaseEvent(read_dev_host_event));
+    CL_CHECK(clReleaseEvent(write_host_dev_event));
     CL_CHECK(clReleaseMemObject(image_out_mem));
     CL_CHECK(clReleaseProgram(program));
     CL_CHECK(clReleaseKernel(kernel_sobel));

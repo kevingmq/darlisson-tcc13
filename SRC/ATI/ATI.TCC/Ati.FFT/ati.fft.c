@@ -6,13 +6,16 @@
 */
 #include <CL/cl.h>
 #include <math.h>
-#include "cl_utils.h"
-#include "utils.h"
-#include "pgm.h"
+#include "../../../utils/cl_utils.h"
+#include "../../../utils/utils.h"
+#include "../../../utils/pgm.h"
 
 #define PI 3.14159265358979
 #define MAX_PLATFORM_ID         2
 #define MAX_SOURCE_SIZE (0x100000)
+
+#define MAX_WORK_GROUP_ITEM_SIZE_DIM_1 16
+#define MAX_WORK_GROUP_ITEM_SIZE_DIM_2 16
 
 #define AMP(a, b) (sqrt((a)*(a)+(b)*(b)))
 
@@ -51,8 +54,8 @@ int config_workgroup_size(size_t* global_wg, size_t* local_wg, cl_int dim_1, cl_
     default:
         global_wg[0] = dim_1;
         global_wg[1] = dim_2;
-        local_wg[0]  = 32;
-        local_wg[1]  = 32;
+        local_wg[0]  = MAX_WORK_GROUP_ITEM_SIZE_DIM_1;
+        local_wg[1]  = MAX_WORK_GROUP_ITEM_SIZE_DIM_2;
         break;
     }
 
@@ -136,7 +139,6 @@ int main(int argc, char *argv[])
     cl_mem              image_out_mem = NULL;
     cl_mem              twiddle_factors_mem = NULL;
     cl_float2           *image_in_host;
-    cl_float2           *image_out_host;
     cl_float2           *twiddle_factors_host;
 
     cl_kernel           kernel_twiddle_factors;
@@ -219,13 +221,12 @@ int main(int argc, char *argv[])
     m = (cl_int)(log((double)n)/log(2.0));
 
     image_in_host = (cl_float2 *)malloc(n * n * sizeof(cl_float2));
-    image_out_host = (cl_float2 *)malloc(n * n * sizeof(cl_float2));
     twiddle_factors_host = (cl_float2 *)malloc(n / 2 * sizeof(cl_float2));
 
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
-            ((float*)image_in_host)[(2*n*j)+2*i+0] = (float)ipgm.buf[n*j+i];
-            ((float*)image_in_host)[(2*n*j)+2*i+1] = (float)0;
+            image_in_host[n*i + j].s[0] = (float)ipgm.buf[n*i + j];
+            image_in_host[n*i + j].s[1] = (float)0;
         }
     }
 
@@ -333,7 +334,7 @@ int main(int argc, char *argv[])
     fft_main(image_in_mem, image_out_mem, twiddle_factors_mem, m, inversa, &fft_events[3]);
     //===================================================================================================
 
-    CL_CHECK(clEnqueueReadBuffer(cmd_queue, image_in_mem, CL_TRUE, 0, n*n*sizeof(cl_float2), image_out_host, 0, NULL, &read_dev_host_event));
+    CL_CHECK(clEnqueueReadBuffer(cmd_queue, image_in_mem, CL_TRUE, 0, n*n*sizeof(cl_float2), image_in_host, 0, NULL, &read_dev_host_event));
     //===================================================================================================
 
     //== Total time elapsed ============================================================================
@@ -399,7 +400,7 @@ int main(int argc, char *argv[])
     image_amplitudes = (float*)malloc(n*n*sizeof(float));
     for (i=0; i < n; i++) {
         for (j=0; j < n; j++) {
-            image_amplitudes[n*((i))+((j))] = (float) (AMP(((float*)image_out_host)[(2*n*i)+2*j], ((float*)image_out_host)[(2*n*i)+2*j+1]));
+            image_amplitudes[n*j + i] = (float) (AMP(((float*)image_in_host)[(2*n*j)+2*i], ((float*)image_in_host)[(2*n*j)+2*i+1]));
         }
     }
 
@@ -412,6 +413,7 @@ int main(int argc, char *argv[])
     escrever_pgm(&opgm, output_filename);
 
     //===================================================================================================
+	clFinish(cmd_queue);
     clReleaseKernel(kernel_twiddle_factors);
     clReleaseKernel(kernel_matriz_transpose);
     clReleaseKernel(kernel_lowpass_filter);
@@ -421,12 +423,17 @@ int main(int argc, char *argv[])
     clReleaseMemObject(twiddle_factors_mem);
     clReleaseCommandQueue(cmd_queue);
     clReleaseContext(context);
+	clReleaseEvent(read_dev_host_event);
+	clReleaseEvent(write_host_dev_event);
+	clReleaseEvent(kernels_events_out_fft[0]);
+	clReleaseEvent(kernels_events_out_fft[1]);
+	clReleaseEvent(kernels_events_out_fft[2]);
+	clReleaseEvent(kernels_events_out_fft[3]);
     destruir_pgm(&ipgm);
     destruir_pgm(&opgm);
     free(image_amplitudes);
     free(source_str);
     free(image_in_host);
-    free(image_out_host);
     free(image_filename);
     free(twiddle_factors_host);
     free(output_filename);
