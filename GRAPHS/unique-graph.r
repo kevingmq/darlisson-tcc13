@@ -23,8 +23,9 @@ kCopyHost2Dev <- 6
 kCopyDev2Host <- 7
 
 # Metric to plot Average or Standard Deviation
-kMean <- 1
 kSd <- 0
+kMean <- 1
+kVar <- 2
 
 # Graph plot type, linear or bar
 kLinearPlot <- 1
@@ -59,7 +60,7 @@ files.names <- c(
 )
 
 # graphs definitions
-graph.xlabel <- "Dimensão das amostras [px]"
+graph.xlabel <- "Tamanho das amostras em Megapixels"
 graph.pch <- c(15,16,17)
 graph.font.label <- 2
 graph.lwd <- 3
@@ -68,6 +69,7 @@ graph.line.types <- c("solid", "dotted", "dashed")
 graph.colors <- c("#E41A1C", "#377EB8","#4DAF4A")
 graph.axis.at <- c(256, 512, 1024, 2048, 4096, 8192)
 #graph.axis.labels <- c("256x256", "512x512", "1024x1024", "2048x2048", "4096x4096", "8192x8192")
+graph.axis.labels <- c("0.06", "0.26", "1.00", "4.19", "16.77", "67.10")
 graph.legend.title.gpu <- "Modelo de GPU"
 graph.legend.values.gpu <- c("NVIDIA GT 520", "NVIDIA GT 210", "ATI HD 6450")
 graph.legend.title.cpu <- "Modelo de CPU"
@@ -78,12 +80,31 @@ graph.legend.values.cpu <- c("Intel Core 2 Duo - 1", "Intel Core 2 Duo - 2", "In
 graph.titles <- list(
 c("Tempo Médio de execução do kernel", "Tempo médio em milisegundos", kMean, kLinearPlot),
 c("Desvio Padrão do tempo médio", "Tempo em milisegundos", kSd, kLinearPlot),
+c("Variância do tempo médio", "Tempo em milisegundos", kVar, kLinearPlot),
 c("Tempo Médio de execução total", "Tempo médio em segundos", kMean, kLinearPlot),
 c("Desvio Padrão do tempo total", "Tempo em segundos", kSd, kLinearPlot ),
+c("Variância do tempo total", "Tempo em milisegundos", kVar, kLinearPlot),
 c("Taxa Média de transferência do host para o device", "Taxa média de transferência em MB/s", kMean, kBarPlot),
 c("Taxa Média de transferência do device para o host", "Taxa média de transferência em MB/s", kMean, kBarPlot),
 c("Desvio Padrão da taxa transferência do host para o device", "Taxa de transferência em MB/s", kSd, kLinearPlot),
-c("Desvio Padrão da taxa transferência do device para o host", "Taxa de transferência em MB/s", kSd, kLinearPlot))
+c("Desvio Padrão da taxa transferência do device para o host", "Taxa de transferência em MB/s", kSd, kLinearPlot),
+c("Variância da taxa transferência do host para o device", "Taxa de transferência em MB/s", kVar, kLinearPlot),
+c("Variância da taxa transferência do device para o host", "Taxa de transferência em MB/s", kVar, kLinearPlot))
+
+graph.pdf.names <- list(
+c("Tempo_Medio_de_execucao_do_kernel"),
+c("Desvio_Padrao_do_tempo_medio"),
+c("Variancia_do_tempo_medio"),
+c("Tempo_Medio_de_execucao_total"),
+c("Desvio_Padrao_do_tempo_total"),
+c("Variancia_do_tempo_total"),
+c("Taxa_Media_de_transferencia_do_host_para_o_device"),
+c("Taxa_Media_de_transferencia_do_device_para_o_host"),
+c("Desvio_Padrao_da_taxa_transferencia_do_host_para_o_device"),
+c("Desvio_Padrao_da_taxa_transferencia_do_device_para_o_host"),
+c("Variancia_da_taxa_transferencia_do_host_para_o_device"),
+c("Variancia_da_taxa_transferencia_do_device_para_o_host"))
+
 
 # load files data as table object
 # data structure  e.g |123|321|456|
@@ -105,7 +126,7 @@ platform.type <- kGPU
 graph.choice <- 1
 
 if (platform.type == kCPU) {
-  graph.total <- 4
+  graph.total <- 6
   graph.legend.title <- graph.legend.title.cpu
   graph.legend.values <- graph.legend.values.cpu
   if (app.type == kSobel){
@@ -118,7 +139,7 @@ if (platform.type == kCPU) {
                    cpu.6450.fft.data)
     }
 } else {
-  graph.total <- 8
+  graph.total <- 12
   graph.legend.title <- graph.legend.title.gpu
   graph.legend.values <- graph.legend.values.gpu
 
@@ -137,32 +158,41 @@ if (platform.type == kCPU) {
 if (platform.type == kCPU) {
   column.data <- switch(
   toString(graph.choice),
-  "1" = kTempoKernel.cpu,
-  "2" = kTempoTotal.cpu,
-  "3" = kTempoKernel.cpu,
-  "4" = kTempoTotal.cpu)
+      "1" = kTempoKernel.cpu,
+      "2" = kTempoKernel.cpu,
+      "3" = kTempoKernel.cpu,
+      "4" = kTempoTotal.cpu,
+	    "5" = kTempoTotal.cpu,
+	    "6" = kTempoTotal.cpu)
 
 } else {
-  column.data <- switch(
-  toString(graph.choice),
-  "1" = kTempoKernel.gpu,
-  "2" = kTempoTotal.gpu,
-  "3" = kTempoKernel.gpu,
-  "4" = kTempoTotal.gpu,
-  "5" = kCopyHost2Dev,
-  "6" = kCopyDev2Host,
-  "7" = kCopyHost2Dev,
-  "8" = kCopyDev2Host)
-}
+      column.data <- switch(
+      toString(graph.choice),
+      "1"  = kTempoKernel.gpu,
+      "2"  = kTempoKernel.gpu,
+      "3"  = kTempoKernel.gpu,
+      "4"  = kTempoTotal.gpu,
+      "5"  = kTempoTotal.gpu,
+      "6"  = kTempoTotal.gpu,
+      "7"  = kCopyHost2Dev,
+      "8"  = kCopyDev2Host,
+	    "9"  = kCopyHost2Dev,
+	    "10" = kCopyDev2Host,
+	    "11" = kCopyHost2Dev,
+	    "12" = kCopyDev2Host
+	  )
+    }
 
 graph.type <- as.integer(graph.titles[[graph.choice]][4])
 graph.metric <- as.integer(graph.titles[[graph.choice]][3])
 graph.ylabel <- graph.titles[[graph.choice]][2]
 graph.title <- paste(platforms[platform.type], kApp.types[app.type], graph.titles[[graph.choice]][1], sep=" - ")
+	  graph.filename <- paste(platforms[platform.type], kApp.types[app.type], graph.pdf.names[graph.choice], sep="_")
 
 graph.xlim <- c(128, 8196)
 
-pdf.file = paste(paste(kGraph.path, graph.title, sep="\\"), ".pdf")
+	temp.path <- paste(kGraph.path, platforms[platform.type], kApp.types[app.type], sep="\\")
+    pdf.file = paste(paste(temp.path, graph.filename, sep="\\"), ".pdf", sep="")
 
 pdf(pdf.file, width=9, height=7) # in inch
 # Allocate a vector with 6 spaces
@@ -179,7 +209,7 @@ if (graph.metric == kMean) {
     data.210[n] = mean(graph.data[[2]][[column.data]][((n-1)*8 + 1):(n*8)])
     data.6450[n] = mean(graph.data[[3]][[column.data]][((n-1)*8 + 1):(n*8)])
   }
-} else {
+    } else if( graph.metric == kSd) {
  # loop to calculate the standard deviation of 6 samples in column data
  for (n in 1:6) {
    data.resolucao[n] = mean(graph.data[[3]][[kResolucao]][((n-1)*8 + 1):(n*8)])
@@ -187,18 +217,25 @@ if (graph.metric == kMean) {
    data.210[n] = sd(graph.data[[2]][[column.data]][((n-1)*8 + 1):(n*8)])
    data.6450[n] = sd(graph.data[[3]][[column.data]][((n-1)*8 + 1):(n*8)])
  }
-}
+          } else {
+              for (n in 1:6) {
+                 data.resolucao[n] = mean(graph.data[[3]][[kResolucao]][((n-1)*8 + 1):(n*8)])
+                 data.520[n] = var(graph.data[[1]][[column.data]][((n-1)*8 + 1):(n*8)])
+                 data.210[n] = var(graph.data[[2]][[column.data]][((n-1)*8 + 1):(n*8)])
+                 data.6450[n] = var(graph.data[[3]][[column.data]][((n-1)*8 + 1):(n*8)])
+                 }
+           }
 
-errpad.520 <- sd(data.520)/sqrt(length(data.520))
-iconfianca.520 <- errpad.520
+    # errpad.520 <- sd(data.520)/sqrt(length(data.520))
+    # iconfianca.520 <- errpad.520
 
-errpad.210 <- sd(data.210)/sqrt(length(data.210))
-iconfianca.210 <- errpad.210
+    # errpad.210 <- sd(data.210)/sqrt(length(data.210))
+    # iconfianca.210 <- errpad.210
 
-errpad.6450 <- sd(data.6450)/sqrt(length(data.6450))
-iconfianca.6450 <- errpad.6450
+    # errpad.6450 <- sd(data.6450)/sqrt(length(data.6450))
+    # iconfianca.6450 <- errpad.6450
 
-iconfianca <- c(iconfianca.520, iconfianca.210, iconfianca.6450)
+    # iconfianca <- c(iconfianca.520, iconfianca.210, iconfianca.6450)
 
 
 # x <- 1:5
@@ -261,11 +298,11 @@ points(x    = data.resolucao,
 abline(v=c(256, 512, 1024, 2048, 4096, 8192), col="gray", lty="dotted")
 abline(h=(seq(0, max.ylim,  max.ylim/10)), col="gray", lty="dotted")
 
-axis(side     = 1,
-     at       = graph.axis.at,
-     labels   = expression(2^16, 2^18, 2^20, 2^22, 2^24, 2^26),
-#     labels   = graph.axis.labels,
-     cex.axis = 0.8)
+    axis(side     = 1,
+         at       = graph.axis.at,
+    #    labels   = expression(2^16, 2^18, 2^20, 2^22, 2^24, 2^26),
+         labels   = graph.axis.labels,
+         cex.axis = 0.8)
 
 title(graph.title)
 
@@ -294,18 +331,18 @@ data.barplot <- matrix(c(data.520, data.210, data.6450), ncol=6, byrow=TRUE)
 colnames(data.barplot) <- data.resolucao
 data.barplot <- as.table(data.barplot)
 
-centros <- barplot(height    = as.matrix(data.barplot),
-        xlab      = graph.xlabel,
-        ylab      = graph.ylabel,
-        font.lab  = graph.font.label,
-        beside    = T,
-        col       = graph.colors,
-        names.arg = expression(2^16, 2^18, 2^20, 2^22, 2^24, 2^26),
-#        names.arg = graph.axis.labels,
-        ylim      = graph.ylim)
+    taxas <- barplot(height    = as.matrix(data.barplot),
+            xlab      = graph.xlabel,
+            ylab      = graph.ylabel,
+            font.lab  = graph.font.label,
+            beside    = T,
+            col       = graph.colors,
+    #        names.arg = expression(2^16, 2^18, 2^20, 2^22, 2^24, 2^26),
+            names.arg = graph.axis.labels,
+            ylim      = graph.ylim)
 
 
-arrows(centros, data.barplot-iconfianca, centros, data.barplot+iconfianca, length=0.1, angle=90, code=3)
+    #arrows(taxas, data.barplot-iconfianca, centros, data.barplot+iconfianca, length=0.1, angle=90, code=3)
 
 title(graph.title)
 
