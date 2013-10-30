@@ -67,7 +67,7 @@ graph.plot.type <- "o"
 graph.line.types <- c("solid", "dotted", "dashed")
 graph.colors <- c("#E41A1C", "#377EB8","#4DAF4A")
 graph.axis.at <- c(256, 512, 1024, 2048, 4096, 8192)
-graph.axis.labels <- c("256", "512", "1024", "2048", "4096", "8192")
+#graph.axis.labels <- c("256x256", "512x512", "1024x1024", "2048x2048", "4096x4096", "8192x8192")
 graph.legend.title.gpu <- "Modelo de GPU"
 graph.legend.values.gpu <- c("NVIDIA GT 520", "NVIDIA GT 210", "ATI HD 6450")
 graph.legend.title.cpu <- "Modelo de CPU"
@@ -102,7 +102,7 @@ ati.6450.fft.data <- read.table(paste(kBase.path, files.names[12], sep="\\"), se
 
 app.type <- kSobel
 platform.type <- kGPU
-graph.choice <- 2
+graph.choice <- 1
 
 if (platform.type == kCPU) {
   graph.total <- 4
@@ -164,7 +164,7 @@ graph.xlim <- c(128, 8196)
 
 pdf.file = paste(paste(kGraph.path, graph.title, sep="\\"), ".pdf")
 
-pdf(pdf.file)
+pdf(pdf.file, width=9, height=7) # in inch
 # Allocate a vector with 6 spaces
 data.resolucao <- rep(NA, 6)
 data.520 <- rep(NA, 6)
@@ -189,6 +189,31 @@ if (graph.metric == kMean) {
  }
 }
 
+errpad.520 <- sd(data.520)/sqrt(length(data.520))
+iconfianca.520 <- errpad.520
+
+errpad.210 <- sd(data.210)/sqrt(length(data.210))
+iconfianca.210 <- errpad.210
+
+errpad.6450 <- sd(data.6450)/sqrt(length(data.6450))
+iconfianca.6450 <- errpad.6450
+
+iconfianca <- c(iconfianca.520, iconfianca.210, iconfianca.6450)
+
+
+# x <- 1:5
+# y1 <- rnorm(5)
+# y2 <- rnorm(5,20)
+# par(mar=c(5,4,4,5)+.1)
+# plot(x,y1,type="l",col="red")
+# par(new=TRUE)
+# plot(x, y2,,type="l",col="blue",xaxt="n",yaxt="n",xlab="",ylab="")
+# axis(4)
+# mtext("y2",side=4,line=3)
+# legend("topleft",col=c("red","blue"),lty=1,legend=c("y1","y2"))
+
+
+
 max.ylim <- max(data.210, na.rm=TRUE)
 
 if (max(data.6450) > max.ylim) {
@@ -199,8 +224,7 @@ if (max(data.520, na.rm=TRUE) > max.ylim) {
   max.ylim <- max(data.520, na.rm=TRUE)
 }
 
-
-graph.ylim <- c(0, max.ylim*(1.2))
+graph.ylim <- c(0, max.ylim*(1.3))
 
 if ( graph.type == kLinearPlot){
 plot(x        = data.resolucao,
@@ -239,7 +263,8 @@ abline(h=(seq(0, max.ylim,  max.ylim/10)), col="gray", lty="dotted")
 
 axis(side     = 1,
      at       = graph.axis.at,
-     labels   = graph.axis.labels,
+     labels   = expression(2^16, 2^18, 2^20, 2^22, 2^24, 2^26),
+#     labels   = graph.axis.labels,
      cex.axis = 0.8)
 
 title(graph.title)
@@ -253,20 +278,34 @@ legend(x = "topleft",
        xpd   = T,
        bg = "white")
 
+add.error.bars <- function(X, Y, SE, w, col)
+{
+  X0 = X; Y0 = (Y-SE); X1=X; Y1 = (Y+SE);
+  arrows(X0, Y0, X1, Y1, code=3, angle=90, length=w, col=col);
+}
+
+# add.error.bars(data.resolucao, data.520,  iconfianca.520, 0.1, col=graph.colors[1]);
+# add.error.bars(data.resolucao, data.210,  iconfianca.210, 0.1, col=graph.colors[2]);
+# add.error.bars(data.resolucao, data.6450, iconfianca.6450, 0.1, col=graph.colors[3]);
+
  } else {
 
 data.barplot <- matrix(c(data.520, data.210, data.6450), ncol=6, byrow=TRUE)
 colnames(data.barplot) <- data.resolucao
 data.barplot <- as.table(data.barplot)
 
-barplot(height    = as.matrix(data.barplot),
+centros <- barplot(height    = as.matrix(data.barplot),
         xlab      = graph.xlabel,
         ylab      = graph.ylabel,
         font.lab  = graph.font.label,
         beside    = T,
         col       = graph.colors,
-        names.arg = graph.axis.labels,
+        names.arg = expression(2^16, 2^18, 2^20, 2^22, 2^24, 2^26),
+#        names.arg = graph.axis.labels,
         ylim      = graph.ylim)
+
+
+arrows(centros, data.barplot-iconfianca, centros, data.barplot+iconfianca, length=0.1, angle=90, code=3)
 
 title(graph.title)
 
