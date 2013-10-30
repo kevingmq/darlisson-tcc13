@@ -79,12 +79,16 @@ graph.legend.values.cpu <- c("Intel Core 2 Duo - 1", "Intel Core 2 Duo - 2", "In
 graph.titles <- list(
 c("Tempo Médio de execução do kernel", "Tempo médio em milisegundos", kMean, kLinearPlot),
 c("Desvio Padrão do tempo médio", "Tempo em milisegundos", kSd, kLinearPlot),
+c("Variância do tempo médio", "Tempo em milisegundos", kVar, kLinearPlot),
 c("Tempo Médio de execução total", "Tempo médio em segundos", kMean, kLinearPlot),
 c("Desvio Padrão do tempo total", "Tempo em segundos", kSd, kLinearPlot ),
+c("Variância do tempo total", "Tempo em milisegundos", kVar, kLinearPlot),
 c("Taxa Média de transferência do host para o device", "Taxa média de transferência em MB/s", kMean, kBarPlot),
 c("Taxa Média de transferência do device para o host", "Taxa média de transferência em MB/s", kMean, kBarPlot),
 c("Desvio Padrão da taxa transferência do host para o device", "Taxa de transferência em MB/s", kSd, kLinearPlot),
-c("Desvio Padrão da taxa transferência do device para o host", "Taxa de transferência em MB/s", kSd, kLinearPlot))
+c("Desvio Padrão da taxa transferência do device para o host", "Taxa de transferência em MB/s", kSd, kLinearPlot),
+c("Variância da taxa transferência do host para o device", "Taxa de transferência em MB/s", kVar, kLinearPlot),
+c("Variância da taxa transferência do device para o host", "Taxa de transferência em MB/s", kVar, kLinearPlot))
 
 # load files data as table object
 # data structure  e.g |123|321|456|
