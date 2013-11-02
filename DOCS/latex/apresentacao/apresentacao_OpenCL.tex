@@ -71,7 +71,6 @@
 \title{}
 \author{Darlisson Marinho de Jesus}
 \institute{Universidade do Estado do Amazonas - UEA}
-%\title[Analise comparativa com OpenCL na GPU Nvidia e ATI]{Análise Comparativa do Desempenho da Linguagem OpenCL sob o Ponto de Vista de Unidades de Processamento Gráfico Nvidia e ATI}
 \title[Análise Comparativa das GPUs Nvidia e ATI com filtros digitais de imagens]{Análise Comparativa do Desempenho de Unidades de Processamento Gráfico Nvidia e ATI através de filtros digitais de imagens}
 
 \author[Jesus, D.M.]{%
@@ -84,9 +83,9 @@
      Universidade do Estado do Amazonas - UEA}
 
 % Se comentar a linha abaixo, irá aparecer a data quando foi compilada a apresentação  
-\date{Julho - 2013}
+\date{Novembro - 2013}
 
-\titlegraphic{\includegraphics[width=1.2cm]{logo_uea.png}\hspace*{12cm}}
+\titlegraphic{\includegraphics[width=1.2cm]{imagens/logo_uea.png}\hspace*{12cm}}
 
 \begin{document}
 \frame{\titlepage}
@@ -109,6 +108,7 @@
 			\item Filtro Sobel
 			\item Filtro Passa-baixa
 		\end{itemize}
+		\item Conclusões
 		\item Resultados
 		\item Referências
 	\end{itemize}
@@ -122,8 +122,32 @@
 {
 	\frametitle{Descrição do Problema}
 	\begin{itemize}
-		\item Certos problemas, como dinâmica de fluidos, simulação de colisões, processamento sísmico, comparação de imagens e modelagem climáticas, exigem muito dos recursos de cálculo, pois possuem alto custo computacional.
-		\item  Essas áreas da computação de alto desempenho estão adotando modernas unidades de processamento gráfico para resolver problemas de cálculo em grande escala \cite{ArchComp}. 
+		\item  As áreas da computação de alto desempenho estão adotando modernas unidades de processamento gráfico para resolver problemas de cálculo em grande escala, como comparação de imagens e modelagem climática \cite{ArchComp}. 
+		\item Diante disso, como auxiliar engenheiros e cientistas a escolherem as GPUs que forneçam o melhor desempenho
+		aliado ao menor custo das tecnologias com o passar do tempo?
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Descrição do Problema}
+	\begin{itemize}
+	\item Aceleradores/Co-processadores dos Supercomputadores - Top 500
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{imagens/top500.png}
+	\caption{Fabricante dos co-processadores de Supercomputadores (Fonte: \cite{Top500})}
+	\label{fig:codexl}
+	\end{figure}
+	\end{itemize}	
+}
+
+\frame
+{
+	\frametitle{Descrição do Problema}
+	\begin{itemize}
+		\item É necessário avaliar quais GPUs fornecem o melhor desempenho para soluções de computação paralela, e assim, auxiliar no projeto das soluções para a computação de alta performance. 
+
 	\end{itemize}
 }
 
@@ -132,9 +156,23 @@
 {
 	\frametitle{Justificativa}
 	\begin{itemize}
-		\item Diante disso, como auxiliar engenheiros e cientistas a escolherem as GPUs que forneçam o melhor desempenho?
-		\item É necessário avaliar quais GPUs fornecem o melhor desempenho para soluções de computação paralela, e assim, auxiliar no projeto das soluções para a computação de alta performance. 
+		\item Não foi encontrado registros de trabalhos que fazem uma análise comparativa do desempenho de GPU de diferentes fabricantes usando filtros digitais escritos com a linguagem OpenCL.	
+		\item Este trabalho apresenta o desempenho de GPUs com preços acessíveis.	
 	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Justificativa}
+	\begin{itemize}
+	\item GPU Nvidia Tesla k20 a mais utilizada na computação de alto desempenho.
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{imagens/tesla_preco.png}
+	\caption{Preço em reais da GPU Nvidia Tesla k20}
+	\label{fig:codexl}
+	\end{figure}
+	\end{itemize}	
 }
 
 \subsection{Objetivo Geral}
@@ -142,7 +180,7 @@
 {
 	\frametitle{Objetivo Geral}
 	\begin{itemize}
-		\item Comparar o desempenho das Unidades de Processamento Gráfico das fabricantes NVIDIA e ATI, através do Processamento Digital de Imagens com os filtros Passa-baixa e o filtro Sobel para detecção de borda implementados na linguagem OpenCL.
+		\item Comparar o desempenho das Unidades de Processamento Gráfico das fabricantes NVIDIA e ATI, através do Processamento Digital de Imagens com os filtros Passa-baixa e o filtro Sobel para detecção de borda implementados na linguagem OpenCL. E também, avaliar o quanto o desempenho das GPUs desses fabricantes é superior ao desempenho das CPUs da fabricante Intel.
 	\end{itemize}
 }
 
@@ -152,12 +190,28 @@
 	\frametitle{Objetivos Específicos}
 	\begin{itemize}
 	\pause
-	\item Determinar os indicadores de desempenho que permitam avaliar as rotinas destes filtros no contexto das Unidades de Processamento Gráfico;\\
+	\item Determinar os indicadores de desempenho que permitam avaliar as rotinas destes filtros no contexto das GPUs e CPUs;\\
 	\pause	
 	\item Avaliar a arquitetura das GPUs da Nvidia e ATI, buscando identificar as diferenças que podem afetar no desempenho das implementações;\\
+	\pause
 	\item Implementar o algoritmo do filtro Passa-Baixa na linguagem OpenCL e obter os dados de desempenho das GPUs Nvidia e ATI;
+	\end{itemize}
+}
+
+\frame
+{
+\frametitle{Objetivos Específicos}
+	\begin{itemize}
+	\item Implementar o algoritmo do filtro Passa-Baixa na linguagem C e obter os dados de desempenho das CPUs Intel;
 	\pause
 	\item Implementar o algoritmo do filtro para detecção de borda Sobel na linguagem OpenCL e obter dados de desempenho das GPU Nvidia e ATI;\\
+	\pause
+\item Implementar o algoritmo do filtro para detecção de borda Sobel na linguagem C e obter dados de desempenho das CPUs Intel;\\
+\pause
+\item Comparar o desempenho das GPUs dos fabricantes Nvidia e ATI\\
+\pause
+\item Comparar o desempenho das GPUs Nvidia e ATI com a CPU Intel\\
+\pause
 	\end{itemize}
 }
 
@@ -184,9 +238,11 @@
 {
 	\frametitle{Métodos - medidas de desempenho}
 	\begin{itemize}
-		\item \textbf{Tempo Médio de Execução do Kernel} - corresponde ao tempo, em milisegundos, em que o \textit{kernel} permanence em execução na GPU
+		\item \textbf{Tempo Médio de Execução Total} - corresponde ao tempo total da execução do programa, medida usada para GPU e CPU.
 		\vspace{1cm}
-		\item \textbf{Taxa Média de Transferência Dados da Memória} - corresponde ao número de bytes por unidade de tempo transmitidos entre a memória do computador e a memória da placa gráfica de forma bi-direcional.
+		\item \textbf{Tempo Médio de Execução do Kernel} - corresponde ao tempo de execução da rotina específica do filtro digital, medida usada para GPU e CPU.
+		\vspace{1cm}
+		\item \textbf{Taxa Média de Transferência Dados da Memória} - corresponde ao número de bytes por unidade de tempo transmitidos entre a memória do computador e a memória da placa gráfica, escrita e leitura, mediada usada somente para GPU.
 	\end{itemize}
 }
 
@@ -196,9 +252,23 @@
 	\frametitle{Materiais}
 	Equipamentos: \vspace{0.5cm}
 	\begin{itemize}
-		\item Três PC/x64 com Sistema Operacional Microsoft Windows 7 Professional 64 Bits, Processador \textit{Intel\textregistered{} Core\texttrademark{} 2 Duo E7400} 2.80GHz e 4 GB de memória RAM.\vspace{0.5cm}
+		\item Três PC/x64 com Sistema Operacional Microsoft Windows 8 Professional 64 Bits, Processador \textit{Intel\textregistered{} Core\texttrademark{} 2 Duo E7400} 2.80GHz e 4 GB de memória RAM.\vspace{0.5cm}
 		\item Três Unidades de processamento gráfico. A Tabela \ref{tab:tab1} apresenta as especificações de hardware detalhados dessas GPUs.	
 	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Materiais - Ambiente de teste}
+	\begin{itemize}
+	\item Diagrama do ambiente de teste.
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{imagens/ambiente_gpu_teste.png}
+	\caption{Diagrama do ambiente de teste}
+	\label{fig:codexl}
+	\end{figure}
+	\end{itemize}	
 }
 
 \frame
@@ -246,120 +316,34 @@ Tipo de memória	& DDR3 & DDR3 & DDR3 \\
 	\begin{itemize}
 	\item Microsoft Visual Studio 2010 versão 10.0.30319.1 RTMRel
 	\item Microsoft .NET Framework versão 4.5.50709 RTMRel
-	\item OpenCL-GPU: Pacote AMD APP SDK versão 2.8.1 e driver de vídeo ATI Catalyst versão 12.104 no Windows 7 32 bits.
-	\item OpenCL-GPU: Pacote Nvidia Cuda Toolkit versão 5.0 e driver de vídeo versão 320.18 no windows 7 64 bits.\\
+	\item OpenCL-GPU: Pacote AMD APP SDK versão 2.8.1 e driver de vídeo ATI Catalyst versão 12.104 no Windows 8 64 bits.
+	\item OpenCL-GPU: Pacote Nvidia Cuda Toolkit versão 5.0 e driver de vídeo versão 320.18 no windows 8 64 bits.\\
 \end{itemize}
 }
 \frame
 {
 	\frametitle{Materiais - Amostras.}
 	\begin{itemize}
-	\item Usamos 32 imagens no formato \textit{PGM} ( do inglês, \textit{Portable Gray Map}), divididas em 8 amostras para cada uma das seguintes dimensões (em pixels): 256x256, 512x512, 1024x1024 e 2048x2048. 
-	\item Estas imagens foram obtidas no banco de dados de imagens proposto em \cite{MartinFTM01}. 
+	\item Usamos 48 imagens no formato \textit{PGM} ( do inglês, \textit{Portable Gray Map}), divididas em 8 amostras para cada uma das seguintes dimensões (em pixels): 256x256, 512x512, 1024x1024, 2048x2048, 4096x4096 e 8192x8192.
+	\item A resolução da maior imagem utilizada é de aproximadamente 67 MegaPixels.
 \end{itemize}
 }
 \frame
 {
 \frametitle{Materiais - Análise e Coleta dos Dados}
-As seguintes ferramentas foram utilizadas para coleta das métricas de desempenho dos programas e análise:\vspace{1cm}
+A seguinte ferramenta foi utilizada para geração dos gráficos:\vspace{1cm}
 \begin{itemize}
-\item Nvidia Nsight Visual Studio Edition versão 3.0
-\item AMD CodeXL versão 1.2
 \item Software R versão 3.0.1
 	\end{itemize}
 }
 
-\frame
-{
-\frametitle{Materiais - Coleta e Análise dos Dados}
-	\begin{itemize}
-	\item CodeXL 1.2 da AMD
-	\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=0.8\textwidth]{codexl.png}
-	\caption{AMD CodeXL - Permite o profiler das aplicações em escritas em OpenCL nas GPUs ATI}
-	\label{fig:codexl}
-	\end{figure}
-	\end{itemize}
-}
-
-\frame
-{
-	\frametitle{Materiais - Coleta e Análise dos Dados}
-	\begin{itemize}
-	\item Nvidia Nsight 3.0 
-	\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=0.8\textwidth]{nsight.png}
-	\caption{Nvidia Nsight - Permite o profiler das aplicações em escritas em OpenCL nas GPUs Nvidia}
-	\label{fig:codexl}
-	\end{figure}
-	\end{itemize}
-}
-
 \section{Desenvolvimento}
-\subsection{Histórico das GPUs}
-\frame
-{		
-\frametitle{Histórico das GPUs}
-\begin{itemize}
-\item \textbf{1981} \textbf{MDA} Monochrome Display Adapter - IBM 
-	\begin{itemize}
-	\item \textit{permitiu o PC exibir 80 colunas e 25 linhas no monitor}.
-	\end{itemize}  
-\item \textbf{1988} \textbf{VGA Wonder} - ATI 
-	\begin{itemize}
-	\item \textit{capaz de produzir imagens em 16-bits de cor}.
-	\end{itemize}
-\item  \textbf{1996} \textbf{Voodoo 1} - 3DFX
-\begin{itemize}
-	\item  \textit{primeira a fornecer uma interface de programação}.
-	\end{itemize}
-\item  \textbf{1997} \textbf{Riva 128} - Nvidia
-\begin{itemize}
-	\item \textit{primeira placa com suporte a Direct 3D}.
-	\end{itemize}
-\item  \textbf{1998} \textbf{Voodoo 2} - 3DFX
-\begin{itemize}
-	\item  \textit{suporte a processamento paralelo com SLI (Scan-Line Interleave)}.
-	\end{itemize}
-\item  \textbf{1999} \textbf{GeForce 256 DDR} - Nvidia, 
-\begin{itemize}
-	\item \textit{primeira placa 3D com suporte total a DirectX 7, primeira GPU de fato}.
-	\end{itemize}
-\item  \textbf{2001} \textbf{GeForce 3} - Nvidia
-\begin{itemize}
-	\item \textit{primeira GPU totalmente programável}.
-	\end{itemize}
-\end{itemize}
-				
-}
-
-\frame
-{		
-\frametitle{Histórico das GPUs}
-\begin{itemize}
-\item  \textbf{2006} \textbf{GeForce 8800} - Nvidia
-\begin{itemize}
-	\item \textit{o CUDA é lançado e a era da GPGPU começa}.
-	\end{itemize}
-\item  \textbf{2009} \textbf{Radeon HD 5970} - ATI
-\begin{itemize}
-	\item \textit{implementou a tecnologia CrossFireX com suporte para até 4 GPU}.
-	\end{itemize}
-\item  \textbf{2013} \textbf{GeForce GTX 690} - Nvidia
-\begin{itemize}
-	\item  \textit{placa gráfica  mais rápida já criada, 2 GPUs kepler e 3.072 cuda cores}.
-	\end{itemize}
-\end{itemize}
-
-}
 \subsection{Arquitetura da GPU Moderna}
 \frame
 {
 	\frametitle{CPU X GPU}
 	\begin{figure}
-	\includegraphics[width=0.9\textwidth]{cpu_gpu.png} 
+	\includegraphics[width=0.9\textwidth]{imagens/cpu_gpu.png} 
 	\end{figure}
 	\begin{columns} 
 	\begin{column}{0.5\textwidth} 
@@ -387,7 +371,7 @@ As seguintes ferramentas foram utilizadas para coleta das métricas de desempenho
 \frametitle{Visão geral da arquitetura Nvidia Tesla}
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.7\textwidth]{tesla.png}
+\includegraphics[width=0.7\textwidth]{imagens/tesla.png}
 \caption{Visão Geral da arquitetura Nvidia Tesla.Fonte:(\cite{NvidiaTesla})}
 \label{fig:tesla}
 \end{figure}
@@ -398,7 +382,7 @@ As seguintes ferramentas foram utilizadas para coleta das métricas de desempenho
 \frametitle{Detalhes da arquitetura Nvidia Tesla}
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.6\textwidth]{tesla_details.png}
+\includegraphics[width=0.6\textwidth]{imagens/tesla_details.png}
 \caption{Detalhes da arquitetura Nvidia Tesla.Fonte:(\cite{NvidiaTesla})}
 \label{fig:tesla}
 \end{figure}
@@ -409,7 +393,7 @@ As seguintes ferramentas foram utilizadas para coleta das métricas de desempenho
 \frametitle{Visão geral da arquitetura Nvidia Fermi}
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.7\textwidth]{fermi_2.png}
+\includegraphics[width=0.7\textwidth]{imagens/fermi_2.png}
 \caption{Visão geral da arquitetura Nvidia Fermi}
 \label{fig:fermi}
 \end{figure}
@@ -420,7 +404,7 @@ As seguintes ferramentas foram utilizadas para coleta das métricas de desempenho
 \frametitle{Detalhes da arquitetura Nvidia Fermi}
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.7\textwidth]{fermi_details.png}
+\includegraphics[width=0.7\textwidth]{imagens/fermi_details.png}
 \caption{Detalhes da arquitetura Nvidia Fermi}
 \label{fig:fermi}
 \end{figure}
@@ -431,7 +415,7 @@ As seguintes ferramentas foram utilizadas para coleta das métricas de desempenho
 \frametitle{Diferenças Fermi x Tesla}
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.5\textwidth]{fermi_1.png}
+\includegraphics[width=0.5\textwidth]{imagens/fermi_1.png}
 \caption{Diferenças entre a Fermi e a Tesla}
 \label{fig:fermi}
 \end{figure}
@@ -442,7 +426,7 @@ As seguintes ferramentas foram utilizadas para coleta das métricas de desempenho
 \frametitle{Visão geral da  arquitetura  ATI Caicos}
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.5\textwidth]{caicos.jpg}
+\includegraphics[width=0.5\textwidth]{imagens/caicos.jpg}
 \caption{Visão geral da arquitetura ATI Caicos}
 \label{fig:caicos}
 \end{figure}
@@ -462,7 +446,7 @@ As seguintes ferramentas foram utilizadas para coleta das métricas de desempenho
 \item Brook
 \item Brook+
 \item OpenCL
-\item CUDA
+\item CUDA (Linguagem proprietária da Nvidia, a mais utilizada atualmente em programação de GPUs)
 \end{itemize}	
 \end{itemize}
 }
@@ -472,7 +456,7 @@ As seguintes ferramentas foram utilizadas para coleta das métricas de desempenho
 	\frametitle{OpenCL - Open Computing Language}
 	\begin{columns} 
 		\begin{column}{0.5\textwidth} 
-		\includegraphics{opencl_2.png}
+		\includegraphics{imagens/opencl_2.png}
 		\end{column} 
 	\begin{column}{0.5\textwidth} 
 	\textbf{"Padrão aberto para a programação paralela de sistemas heterogêneos"}
@@ -494,24 +478,12 @@ As seguintes ferramentas foram utilizadas para coleta das métricas de desempenho
      	 \begin{itemize}
      	\item Especificação mantida por vários membros gerenciada pelo grupo  Khronos 
      	\end{itemize}
-     \item Alto desempenho 
-     \begin{itemize}
-     \item Possui diretivas de baixo nível para uso eficiente dos dispositivos
-     \item Alto grau de flexibilidade   
-     \end{itemize}
-	\end{itemize}
-}
-
-\frame
-{
-	\frametitle{OpenCL - Características}
-	\begin{itemize}
 	 \item Multi-plataforma
      \begin{itemize}
      \item Disponível em várias classes de hardware e sistemas operacionais
-     \end{itemize}
      \item Código portável entre arquiteturas e gerações
-	\item Especificação baseada nas linguagens C e C++   
+     \end{itemize}
+     \item Especificação baseada nas linguagens C e C++   
 	\end{itemize}
 }
 
@@ -524,7 +496,7 @@ As seguintes ferramentas foram utilizadas para coleta das métricas de desempenho
 	\item \textbf{2003-2008}: Cenário GP-GPU fragmentado, com várias soluções proprietárias
 	\item \textbf{2008}: Apple elabora o rascunho inicial da especificação do OpenCL
 	\begin{figure}
-	\includegraphics[width=9cm]{opencl_timeline.png}
+	\includegraphics[width=9cm]{imagens/opencl_timeline.png}
 	\end{figure}
 	\item \textbf{2013}: OpenCL 2.0 é lançado
 	\end{itemize}
@@ -534,7 +506,7 @@ As seguintes ferramentas foram utilizadas para coleta das métricas de desempenho
 {
 	\frametitle{OpenCL - Contribuidores}
 	\begin{figure}
-	\includegraphics[width=10cm]{members.png}
+	\includegraphics[width=10cm]{imagens/members.png}
 	\caption{Contribuidores para o OpenCL em 2013}
 	\end{figure}
 }
@@ -564,12 +536,7 @@ $$
 |G|=\sqrt{Gx^2 + Gy^2}
 $$	
 }
-\frame{
-\frametitle{Código Fonte em OpenCL}
 
-\textit{Ver item \textbf{A.1} do Apêndice A}
-
-}
 \subsection{Filtro Passa Baixa}
 \frame
 {
@@ -592,26 +559,19 @@ $$
 onde, $P$ e $Q$ são, respectivamente, a largura e a altura da imagem. Quanto menor o raio $Do$, menor a frequência de corte e, portanto, maior o grau de borramento da imagem resultante. 	
 }
 
-\frame{
-\frametitle{Código Fonte em OpenCL}
-\textit{Ver item \textbf{A.2} do Apêndice A}
-
-}
-
-
 \section{Resultados}
-\subsection{Filtro Sobel}
+\subsection{Filtro Sobel CPU}
 \frame
 {
 	\frametitle{Filtro Sobel}
 	\begin{figure}[!ht]
 	\centering
 	\subfigure[Imagem original]{
-	\includegraphics[width=4cm]{lena_normal.png}
+	\includegraphics[width=4cm]{imagens/lena_normal.png}
 	\label{fig:subfig_a}
 	}
 	\subfigure[Imagem após a aplicação do filtro Sobel]{
-	\includegraphics[width=4cm]{lena_sobel.png}
+	\includegraphics[width=4cm]{imagens/lena_sobel.png}
 	\label{fig:subfig_b}
 	}
 	\label{fig:sobel_filtro}
@@ -621,11 +581,64 @@ onde, $P$ e $Q$ são, respectivamente, a largura e a altura da imagem. Quanto men
 
 \frame
 {
-	\frametitle{Filtro Sobel - Tempo médio de execução}
+	\frametitle{Filtro Sobel CPU - Tempo médio de execução do filtro}
 	\begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.8\textwidth]{sobel_tempo_medio_exec.pdf}
-	\caption{Sobel - Tempo médio de execução}
+	\includegraphics[width=0.8\textwidth]{graficos/CPU_Sobel_Tempo_Medio_de_execucao_do_kernel.pdf}
+	\caption{Sobel - Tempo médio de execução do filtro}
+	\label{fig:sobel_tempo}
+	\end{figure}
+}
+
+\frame
+{
+	\frametitle{Filtro Sobel CPU - Tempo médio de execução total}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{graficos/CPU_Sobel_Tempo_Medio_de_execucao_total.pdf}
+	\caption{Sobel - Tempo médio de execução total}
+	\label{fig:sobel_tempo}
+	\end{figure}
+}
+
+\subsection{Filtro Sobel GPU}
+\frame
+{
+	\frametitle{Filtro Sobel}
+	\begin{figure}[!ht]
+	\centering
+	\subfigure[Imagem original]{
+	\includegraphics[width=4cm]{imagens/lena_normal.png}
+	\label{fig:subfig_a}
+	}
+	\subfigure[Imagem após a aplicação do filtro Sobel]{
+	\includegraphics[width=4cm]{imagens/lena_sobel.png}
+	\label{fig:subfig_b}
+	}
+	\label{fig:sobel_filtro}
+	\caption{Resultado da aplicação filtro Sobel para detecção de borda}
+	\end{figure}
+	}
+
+\frame
+{
+	\frametitle{Filtro Sobel GPU - Tempo médio de execução do filtro}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{graficos/GPU_Sobel_Tempo_Medio_de_execucao_do_kernel.pdf}
+	\caption{Sobel - Tempo médio de execução do filtro}
+	\label{fig:sobel_tempo}
+	\end{figure}
+
+}
+
+\frame
+{
+	\frametitle{Filtro Sobel GPU - Tempo médio de execução total}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{graficos/GPU_Sobel_Tempo_Medio_de_execucao_total.pdf}
+	\caption{Sobel - Tempo médio de execução total}
 	\label{fig:sobel_tempo}
 	\end{figure}
 
@@ -636,7 +649,7 @@ onde, $P$ e $Q$ são, respectivamente, a largura e a altura da imagem. Quanto men
 	\frametitle{Filtro Sobel - Taxa média de transferência}
 	\begin{figure}[!ht]
 	\centering
-	\includegraphics[width=6cm]{sobel_taxa_media_transfer_escrita.pdf}
+	\includegraphics[width=6cm]{graficos/GPU_Sobel_Taxa_Media_de_transferencia_do_host_para_o_device.pdf}
 	\label{fig:subfig_c}
 	\caption{Taxa média de transferência do Host para o device}
 	\end{figure}
@@ -646,24 +659,25 @@ onde, $P$ e $Q$ são, respectivamente, a largura e a altura da imagem. Quanto men
 	\frametitle{Filtro Sobel - Taxa média de transferência}
 	\begin{figure}[!ht]
 	\centering
-	\includegraphics[width=6cm]{sobel_taxa_media_transfer_leitura.pdf}
+	\includegraphics[width=6cm]{graficos/GPU_Sobel_Taxa_Media_de_transferencia_do_device_para_o_host.pdf}
 	\label{fig:subfig_d}
 	\caption{Taxa média de transferência do Device para o host}
 	\end{figure}
 }
 
-\subsection{Filtro Passa-baixa}
+
+\subsection{Filtro Passa-baixa CPU}
 \frame
 {
 	\frametitle{Filtro Passa-baixa}
 	\begin{figure}[!ht]
 	\centering
 	\subfigure[Imagem original]{
-	\includegraphics[width=4cm]{lena_normal.png}
+	\includegraphics[width=4cm]{imagens/lena_normal.png}
 	\label{fig:subfig_e}
 	}
 	\subfigure[Imagem após a aplicação do filtro Passa-baixa]{
-	\includegraphics[width=4cm]{lena_passa_baixa.png}
+	\includegraphics[width=4cm]{imagens/lena_passa_baixa.png}
 	\label{fig:subfig_f}
 	}
 	\label{fig:passa_baixa}
@@ -673,11 +687,65 @@ onde, $P$ e $Q$ são, respectivamente, a largura e a altura da imagem. Quanto men
 
 \frame
 {
-	\frametitle{Filtro Passa-baixa- Tempo médio de execução}
+	\frametitle{Filtro Passa-baixa- Tempo médio de execução do filtro}
 	\begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.8\textwidth]{fft_tempo_medio_exec.pdf}
-	\caption{Passa-Baixa - Tempo médio de execução}
+	\includegraphics[width=0.8\textwidth]{graficos/CPU_FFT_Tempo_Medio_de_execucao_do_kernel.pdf}
+	\caption{Passa-Baixa - Tempo médio de execução do filtro}
+	\label{fig:passa_tempo}
+	\end{figure}
+}
+
+\frame
+{
+	\frametitle{Filtro Passa-baixa- Tempo médio de execução total}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{graficos/CPU_FFT_Tempo_Medio_de_execucao_total.pdf}
+	\caption{Passa-Baixa - Tempo médio de execução total}
+	\label{fig:passa_tempo}
+	\end{figure}
+}
+
+
+
+\subsection{Filtro Passa-baixa GPU}
+\frame
+{
+	\frametitle{Filtro Passa-baixa}
+	\begin{figure}[!ht]
+	\centering
+	\subfigure[Imagem original]{
+	\includegraphics[width=4cm]{imagens/lena_normal.png}
+	\label{fig:subfig_e}
+	}
+	\subfigure[Imagem após a aplicação do filtro Passa-baixa]{
+	\includegraphics[width=4cm]{imagens/lena_passa_baixa.png}
+	\label{fig:subfig_f}
+	}
+	\label{fig:passa_baixa}
+	\caption{Resultado da aplicação do filtro Passa-baixa}
+	\end{figure}
+}
+
+\frame
+{
+	\frametitle{Filtro Passa-baixa- Tempo médio de execução do filtro}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{graficos/GPU_FFT_Tempo_Medio_de_execucao_do_kernel.pdf}
+	\caption{Passa-Baixa - Tempo médio de execução do filtro}
+	\label{fig:passa_tempo}
+	\end{figure}
+}
+
+\frame
+{
+	\frametitle{Filtro Passa-baixa- Tempo médio de execução total}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{graficos/GPU_FFT_Tempo_Medio_de_execucao_total.pdf}
+	\caption{Passa-Baixa - Tempo médio de execução total}
 	\label{fig:passa_tempo}
 	\end{figure}
 }
@@ -687,7 +755,7 @@ onde, $P$ e $Q$ são, respectivamente, a largura e a altura da imagem. Quanto men
 	\frametitle{Filtro Passa-baixa - Taxa média de transferência}
 	\begin{figure}[!ht]
 	\centering
-	\includegraphics[width=6cm]{fft_taxa_media_transfer_escrita.pdf}
+	\includegraphics[width=6cm]{graficos/GPU_FFT_Taxa_Media_de_transferencia_do_host_para_o_device.pdf}
 	\label{fig:subfig_g}
 	\caption{Taxa média de transferência do Host para o device}
 	\end{figure}
@@ -697,10 +765,22 @@ onde, $P$ e $Q$ são, respectivamente, a largura e a altura da imagem. Quanto men
 	\frametitle{Filtro Passa-baixa - Taxa média de transferência}
 	\begin{figure}[!ht]
 	\centering
-	\includegraphics[width=6cm]{fft_taxa_media_transfer_leitura.pdf}
+	\includegraphics[width=6cm]{graficos/GPU_FFT_Taxa_Media_de_transferencia_do_device_para_o_host.pdf}
 	\label{fig:subfig_h}
 	\caption{Taxa média de transferência do Device para o host}
 	\end{figure}
+}
+
+\section{Conclusões}
+\frame
+{
+	\frametitle{Conclusões}
+	\begin{itemize}
+	 \item As GPUs tiveram um desempenho superior ao desempenho da CPU.
+	 \item A GPU Nvidia Geforce GT 520 possui uma arquitetura que favorece as aplicações que exigem altas taxas de transferências.
+	  \item A GPU ATI Radeon HD 6450 possui uma arquitetura que favorece as aplicações em que o processamento dos dados é mais importante.
+	\end{itemize}
+	
 }
 
 \section{Referências}
