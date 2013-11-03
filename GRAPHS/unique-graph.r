@@ -1,7 +1,7 @@
 
 # sets the path of the raw data
 kBase.path <- "C:\\Users\\Darlisson\\Google Drive\\results\\"
-kGraph.path <- paste(kBase.path, "graphs", sep="\\")
+kGraph.path <- paste(kBase.path, "graficos", sep="\\")
 
 # sets the splited files name formation
 kNvidia.520 <- "gt_520"
@@ -18,9 +18,9 @@ kResolucao <- 2
 kTempoKernel.cpu <- 5
 kTempoTotal.cpu <- 6
 kTempoKernel.gpu <- 5
-kTempoTotal.gpu <- 8
 kCopyHost2Dev <- 6
 kCopyDev2Host <- 7
+kTempoTotal.gpu <- 8
 
 # Metric to plot Average or Standard Deviation
 kSd <- 0
@@ -73,28 +73,28 @@ graph.axis.labels <- c("0.06", "0.26", "1.00", "4.19", "16.77", "67.10")
 graph.legend.title.gpu <- "Modelo de GPU"
 graph.legend.values.gpu <- c("NVIDIA GT 520", "NVIDIA GT 210", "ATI HD 6450")
 graph.legend.title.cpu <- "Modelo de CPU"
-graph.legend.values.cpu <- c("Intel Core 2 Duo - 1", "Intel Core 2 Duo - 2", "Intel Core 2 Duo - 3")
+graph.legend.values.cpu <- c("Intel Core 2 Duo")
 
 
 # the title of graphs to plot
 graph.titles <- list(
-c("Tempo Médio de execução do kernel", "Tempo médio em milisegundos", kMean, kLinearPlot),
-c("Desvio Padrão do tempo médio", "Tempo em milisegundos", kSd, kLinearPlot),
-c("Variância do tempo médio", "Tempo em milisegundos", kVar, kLinearPlot),
-c("Tempo Médio de execução total", "Tempo médio em segundos", kMean, kLinearPlot),
-c("Desvio Padrão do tempo total", "Tempo em segundos", kSd, kLinearPlot ),
-c("Variância do tempo total", "Tempo em milisegundos", kVar, kLinearPlot),
-c("Taxa Média de transferência do host para o device", "Taxa média de transferência em MB/s", kMean, kBarPlot),
-c("Taxa Média de transferência do device para o host", "Taxa média de transferência em MB/s", kMean, kBarPlot),
+c("Tempo Médio de execução do filtro", "Tempo em segundos", kMean, kLinearPlot),
+c("Desvio Padrão do tempo de execução do filtro", "Tempo em segundos", kSd, kLinearPlot),
+c("Variância do tempo de execução do filtro", "Tempo em segundos", kVar, kLinearPlot),
+c("Tempo Médio de execução total", "Tempo em segundos", kMean, kLinearPlot),
+c("Desvio Padrão do tempo de execução total", "Tempo em segundos", kSd, kLinearPlot ),
+c("Variância do tempo de execução total", "Tempo em segundos", kVar, kLinearPlot),
+c("Taxa Média de transferência do host para o device", "Taxa de transferência em MB/s", kMean, kBarPlot),
+c("Taxa Média de transferência do device para o host", "Taxa de transferência em MB/s", kMean, kBarPlot),
 c("Desvio Padrão da taxa transferência do host para o device", "Taxa de transferência em MB/s", kSd, kLinearPlot),
 c("Desvio Padrão da taxa transferência do device para o host", "Taxa de transferência em MB/s", kSd, kLinearPlot),
 c("Variância da taxa transferência do host para o device", "Taxa de transferência em MB/s", kVar, kLinearPlot),
 c("Variância da taxa transferência do device para o host", "Taxa de transferência em MB/s", kVar, kLinearPlot))
 
 graph.pdf.names <- list(
-c("Tempo_Medio_de_execucao_do_kernel"),
-c("Desvio_Padrao_do_tempo_medio"),
-c("Variancia_do_tempo_medio"),
+c("Tempo_Medio_de_execucao_do_filtro"),
+c("Desvio_Padrao_do_tempo_filtro"),
+c("Variancia_do_tempo_filtro"),
 c("Tempo_Medio_de_execucao_total"),
 c("Desvio_Padrao_do_tempo_total"),
 c("Variancia_do_tempo_total"),
@@ -104,7 +104,6 @@ c("Desvio_Padrao_da_taxa_transferencia_do_host_para_o_device"),
 c("Desvio_Padrao_da_taxa_transferencia_do_device_para_o_host"),
 c("Variancia_da_taxa_transferencia_do_host_para_o_device"),
 c("Variancia_da_taxa_transferencia_do_device_para_o_host"))
-
 
 # load files data as table object
 # data structure  e.g |123|321|456|
@@ -201,41 +200,88 @@ data.520 <- rep(NA, 6)
 data.210 <- rep(NA, 6)
 data.6450 <- rep(NA, 6)
 
-if (graph.metric == kMean) {
-  # loop to calculate the average of 6 samples in column data
-  for (n in 1:6) {
-    data.resolucao[n] = mean(graph.data[[3]][[kResolucao]][((n-1)*8 + 1):(n*8)])
-    data.520[n] = mean(graph.data[[1]][[column.data]][((n-1)*8 + 1):(n*8)])
-    data.210[n] = mean(graph.data[[2]][[column.data]][((n-1)*8 + 1):(n*8)])
-    data.6450[n] = mean(graph.data[[3]][[column.data]][((n-1)*8 + 1):(n*8)])
-  }
+    #workaround to convert column data from miliseconds to seconds
+    divisor <- 1
+
+    if (column.data %in% c(kTempoKernel.cpu, kTempoKernel.gpu)){
+      divisor <- 1000
+    }
+
+    if (graph.metric == kMean) {
+      # loop to calculate the average of 6 samples in column data
+      for (n in 1:6) {
+        data.resolucao[n] = mean(graph.data[[3]][[kResolucao]][((n-1)*8 + 1):(n*8)])
+        data.520[n] = mean(graph.data[[1]][[column.data]][((n-1)*8 + 1):(n*8)], na.rm=TRUE)/divisor
+        data.210[n] = mean(graph.data[[2]][[column.data]][((n-1)*8 + 1):(n*8)], na.rm=TRUE)/divisor
+        data.6450[n] = mean(graph.data[[3]][[column.data]][((n-1)*8 + 1):(n*8)], na.rm=TRUE)/divisor
+      }
     } else if( graph.metric == kSd) {
- # loop to calculate the standard deviation of 6 samples in column data
- for (n in 1:6) {
-   data.resolucao[n] = mean(graph.data[[3]][[kResolucao]][((n-1)*8 + 1):(n*8)])
-   data.520[n] = sd(graph.data[[1]][[column.data]][((n-1)*8 + 1):(n*8)])
-   data.210[n] = sd(graph.data[[2]][[column.data]][((n-1)*8 + 1):(n*8)])
-   data.6450[n] = sd(graph.data[[3]][[column.data]][((n-1)*8 + 1):(n*8)])
- }
+           # loop to calculate the standard deviation of 6 samples in column data
+           for (n in 1:6) {
+             data.resolucao[n] = mean(graph.data[[3]][[kResolucao]][((n-1)*8 + 1):(n*8)])
+             data.520[n] = sd(graph.data[[1]][[column.data]][((n-1)*8 + 1):(n*8)], na.rm=TRUE)/divisor
+             data.210[n] = sd(graph.data[[2]][[column.data]][((n-1)*8 + 1):(n*8)], na.rm=TRUE)/divisor
+             data.6450[n] = sd(graph.data[[3]][[column.data]][((n-1)*8 + 1):(n*8)], na.rm=TRUE)/divisor
+           }
           } else {
               for (n in 1:6) {
                  data.resolucao[n] = mean(graph.data[[3]][[kResolucao]][((n-1)*8 + 1):(n*8)])
-                 data.520[n] = var(graph.data[[1]][[column.data]][((n-1)*8 + 1):(n*8)])
-                 data.210[n] = var(graph.data[[2]][[column.data]][((n-1)*8 + 1):(n*8)])
-                 data.6450[n] = var(graph.data[[3]][[column.data]][((n-1)*8 + 1):(n*8)])
+
+                 temp.520 <- graph.data[[1]][[column.data]][((n-1)*8 + 1):(n*8)]/divisor
+                 data.520[n] = var(temp.520, na.rm=TRUE)
+
+                 temp.210 <- graph.data[[2]][[column.data]][((n-1)*8 + 1):(n*8)]/divisor
+                 data.210[n] = var(temp.210,na.rm=TRUE)
+
+                 temp.6450 <- graph.data[[3]][[column.data]][((n-1)*8 + 1):(n*8)]/divisor
+                 data.6450[n] = var(temp.6450, na.rm=TRUE)
                  }
            }
 
-    # errpad.520 <- sd(data.520)/sqrt(length(data.520))
-    # iconfianca.520 <- errpad.520
+    if (platform.type == kCPU){
+        data.cpu <- data.520 + data.210 + data.6450
+        data.210 <- data.cpu/3
+    }
 
-    # errpad.210 <- sd(data.210)/sqrt(length(data.210))
-    # iconfianca.210 <- errpad.210
 
-    # errpad.6450 <- sd(data.6450)/sqrt(length(data.6450))
-    # iconfianca.6450 <- errpad.6450
+    # For Debug
+    # print("")
+    # print(graph.filename)
+    # print("520")
+    # print(data.520[1])
+    # print(data.520[2])
+    # print(data.520[3])
+    # print(data.520[4])
+    # print(data.520[5])
+    # print(data.520[6])
+    # print("")
+    # print("210")
+    # print(data.210[1])
+    # print(data.210[2])
+    # print(data.210[3])
+    # print(data.210[4])
+    # print(data.210[5])
+    # print(data.210[6])
+    # print("")
+    # print("6450")
+    # print(data.6450[1])
+    # print(data.6450[2])
+    # print(data.6450[3])
+    # print(data.6450[4])
+    # print(data.6450[5])
+    # print(data.6450[6])
 
-    # iconfianca <- c(iconfianca.520, iconfianca.210, iconfianca.6450)
+
+    errpad.520 <- sd(data.520)
+    iconfianca.520 <- errpad.520
+
+    errpad.210 <- sd(data.210)
+    iconfianca.210 <- errpad.210
+
+    errpad.6450 <- sd(data.6450)
+    iconfianca.6450 <- errpad.6450
+
+    iconfianca <- c(iconfianca.520, iconfianca.210, iconfianca.6450)
 
 
 # x <- 1:5
@@ -263,29 +309,35 @@ if (max(data.520, na.rm=TRUE) > max.ylim) {
 
 graph.ylim <- c(0, max.ylim*(1.3))
 
-if ( graph.type == kLinearPlot){
-plot(x        = data.resolucao,
-     y        = data.210,
-     ylim     = graph.ylim,
-     xlim     = graph.xlim,
-     xaxt     = "n",
-     type     = graph.plot.type,
-     pch      = graph.pch[2],
-     col      = graph.colors[2],
-     lwd      = graph.lwd,
-     lty      = graph.line.types[2],
-     xlab     = graph.xlabel,
-     ylab     = graph.ylabel,
-     font.lab = graph.font.label,
-     cex.axis = 0.8)
+    graph.color.210 <- 2
+    if(platform.type == kCPU){
+      graph.color.210 <- 1
+    }
 
-points(x    = data.resolucao,
-       y    = data.520,
-       type = graph.plot.type,
-       pch  = graph.pch[1],
-       col  = graph.colors[1],
-       lwd  = graph.lwd,
-       lty  = graph.line.types[1])
+    if ( graph.type == kLinearPlot){
+    plot(x        = data.resolucao,
+         y        = data.210,
+         ylim     = graph.ylim,
+         xlim     = graph.xlim,
+         xaxt     = "n",
+         type     = graph.plot.type,
+         pch      = graph.pch[graph.color.210],
+         col      = graph.colors[graph.color.210],
+         lwd      = graph.lwd,
+         lty      = graph.line.types[graph.color.210],
+         xlab     = graph.xlabel,
+         ylab     = graph.ylabel,
+         font.lab = graph.font.label,
+         cex.axis = 0.8)
+
+    if(platform.type != kCPU){
+    points(x    = data.resolucao,
+           y    = data.520,
+           type = graph.plot.type,
+           pch  = graph.pch[1],
+           col  = graph.colors[1],
+           lwd  = graph.lwd,
+           lty  = graph.line.types[1])
 
 points(x    = data.resolucao,
        y    = data.6450,
@@ -321,9 +373,9 @@ add.error.bars <- function(X, Y, SE, w, col)
   arrows(X0, Y0, X1, Y1, code=3, angle=90, length=w, col=col);
 }
 
-# add.error.bars(data.resolucao, data.520,  iconfianca.520, 0.1, col=graph.colors[1]);
-# add.error.bars(data.resolucao, data.210,  iconfianca.210, 0.1, col=graph.colors[2]);
-# add.error.bars(data.resolucao, data.6450, iconfianca.6450, 0.1, col=graph.colors[3]);
+add.error.bars(data.resolucao, data.520,  iconfianca.520, 0.1, col=graph.colors[1]);
+add.error.bars(data.resolucao, data.210,  iconfianca.210, 0.1, col=graph.colors[2]);
+add.error.bars(data.resolucao, data.6450, iconfianca.6450, 0.1, col=graph.colors[3]);
 
  } else {
 
@@ -342,7 +394,7 @@ data.barplot <- as.table(data.barplot)
             ylim      = graph.ylim)
 
 
-    #arrows(taxas, data.barplot-iconfianca, centros, data.barplot+iconfianca, length=0.1, angle=90, code=3)
+    arrows(taxas, data.barplot-iconfianca, centros, data.barplot+iconfianca, length=0.1, angle=90, code=3)
 
 title(graph.title)
 

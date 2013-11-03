@@ -19,6 +19,7 @@ kPlatform.Nvidia <- "Nvidia"
 kPlatform.Ati <- "ATI"
 kApp.Sobel <- "Sobel"
 kApp.FFT <- "FFT"
+kApp.FFT.graph <- "Passa-baixa"
 kLog.ext <- "dat"
 # columns num of data table object
 kResolucao <- 2
@@ -40,6 +41,8 @@ kBarPlot <- 0
 
 # Platforms string names
 kApp.types <- c(kApp.Sobel, kApp.FFT)
+kApp.graph.title <- c(kApp.Sobel, kApp.FFT.graph)
+
 platforms <- c("CPU","GPU")
 
 # Platforms code
@@ -190,7 +193,7 @@ for (app.type in 1:2) {
     graph.type <- as.integer(graph.titles[[graph.choice]][4])
     graph.metric <- as.integer(graph.titles[[graph.choice]][3])
     graph.ylabel <- graph.titles[[graph.choice]][2]
-    graph.title <- paste(platforms[platform.type], kApp.types[app.type], graph.titles[[graph.choice]][1], sep=" - ")
+    graph.title <- paste(kApp.graph.title[app.type], graph.titles[[graph.choice]][1], sep=" - ")
     graph.filename <- paste(platforms[platform.type], kApp.types[app.type], graph.pdf.names[graph.choice], sep="_")
 
     graph.xlim <- c(128, 8196)
@@ -244,51 +247,93 @@ for (app.type in 1:2) {
                  }
            }
 
+    iconfianca.520 <- rep(NA, 6)
+    iconfianca.210 <- rep(NA, 6)
+    iconfianca.6450 <- rep(NA, 6)
+
+    kWith.confianca <- FALSE
+
+# Intervalo de confianca de 95%
+# calculo do valor critico t para p=0,05 com 9 graus de liberdade
+# somente da cauda superior  p/2
+# qt(0.025,9,lower.tail=FALSE)
+qt.upper <- 2.262
+
+    if (graph.choice %in% c(1, 4, 7, 8)){
+      kWith.confianca <- TRUE
+      divisor_2 <- 1
+      for (n in 1:6) {
+         if (graph.choice %in% c(1, 4)){
+
+           if (graph.choice == 1){
+              divisor_2 <- 1000
+            }
+
+            sd.520 <- sd(graph.data[[1]][[column.data]][((n-1)*8 + 1):(n*8)], na.rm=TRUE)/divisor_2
+            errpad.520 <- sd.520/sqrt(length(data.520))
+            iconfianca.520[n] = errpad.520*qt.upper
+
+            sd.210 <- sd(graph.data[[2]][[column.data]][((n-1)*8 + 1):(n*8)], na.rm=TRUE)/divisor_2
+            errpad.210 <- sd.210/sqrt(length(data.210))
+            iconfianca.210[n] = errpad.210*qt.upper
+
+            sd.6450 <- sd(graph.data[[3]][[column.data]][((n-1)*8 + 1):(n*8)], na.rm=TRUE)/divisor_2
+            errpad.6450 <- sd.6450/sqrt(length(data.6450))
+            iconfianca.6450[n] = errpad.6450*qt.upper
+
+      } else {
+
+            sd.520 <- sd(graph.data[[1]][[column.data]][((n-1)*8 + 1):(n*8)], na.rm=TRUE)
+            errpad.520 <- sd.520/sqrt(length(data.520))
+            iconfianca.520[n] = errpad.520*qt.upper
+
+            sd.210 <- sd(graph.data[[2]][[column.data]][((n-1)*8 + 1):(n*8)], na.rm=TRUE)
+            errpad.210 <- sd.210/sqrt(length(data.210))
+            iconfianca.210[n] = errpad.210*qt.upper
+
+            sd.6450 <- sd(graph.data[[3]][[column.data]][((n-1)*8 + 1):(n*8)], na.rm=TRUE)
+            errpad.6450 <- sd.6450/sqrt(length(data.6450))
+            iconfianca.6450[n] = errpad.6450*qt.upper
+      }
+    }
+      iconfianca <- c(iconfianca.520, iconfianca.210, iconfianca.6450)
+    }
+
     if (platform.type == kCPU){
         data.cpu <- data.520 + data.210 + data.6450
         data.210 <- data.cpu/3
+        tmp.conf <- iconfianca.520 + iconfianca.210 + iconfianca.6450
+        iconfianca.210 <- tmp.conf/3
     }
-
 
     # For Debug
     # print("")
-    # print(graph.filename)
-    # print("520")
-    # print(data.520[1])
-    # print(data.520[2])
-    # print(data.520[3])
-    # print(data.520[4])
-    # print(data.520[5])
-    # print(data.520[6])
-    # print("")
-    # print("210")
-    # print(data.210[1])
-    # print(data.210[2])
-    # print(data.210[3])
-    # print(data.210[4])
-    # print(data.210[5])
-    # print(data.210[6])
-    # print("")
-    # print("6450")
-    # print(data.6450[1])
-    # print(data.6450[2])
-    # print(data.6450[3])
-    # print(data.6450[4])
-    # print(data.6450[5])
-    # print(data.6450[6])
-
-
-    # errpad.520 <- sd(data.520)/sqrt(length(data.520))
-    # iconfianca.520 <- errpad.520
-
-    # errpad.210 <- sd(data.210)/sqrt(length(data.210))
-    # iconfianca.210 <- errpad.210
-
-    # errpad.6450 <- sd(data.6450)/sqrt(length(data.6450))
-    # iconfianca.6450 <- errpad.6450
-
-    # iconfianca <- c(iconfianca.520, iconfianca.210, iconfianca.6450)
-
+#     if(graph.choice == 9){
+#     print(graph.filename)
+#     print("520")
+#     print(data.520[1])
+#     print(data.520[2])
+#     print(data.520[3])
+#     print(data.520[4])
+#     print(data.520[5])
+#     print(data.520[6])
+#     print("")
+#     print("210")
+#     print(data.210[1])
+#     print(data.210[2])
+#     print(data.210[3])
+#     print(data.210[4])
+#     print(data.210[5])
+#     print(data.210[6])
+#     print("")
+#     print("6450")
+#     print(data.6450[1])
+#     print(data.6450[2])
+#     print(data.6450[3])
+#     print(data.6450[4])
+#     print(data.6450[5])
+#     print(data.6450[6])
+# }
     max.ylim <- max(data.210, na.rm=TRUE)
 
     if (max(data.6450) > max.ylim) {
@@ -367,10 +412,15 @@ for (app.type in 1:2) {
       arrows(X0, Y0, X1, Y1, code=3, angle=90, length=w, col=col);
     }
 
-    # add.error.bars(data.resolucao, data.520,  iconfianca.520, 0.1, col=graph.colors[1]);
-    # add.error.bars(data.resolucao, data.210,  iconfianca.210, 0.1, col=graph.colors[2]);
-    # add.error.bars(data.resolucao, data.6450, iconfianca.6450, 0.1, col=graph.colors[3]);
-
+    if (kWith.confianca){
+      if(platform.type != kCPU){
+          add.error.bars(data.resolucao, data.520, iconfianca.520, 0.1, col=graph.colors[1]);
+          add.error.bars(data.resolucao, data.210, iconfianca.210, 0.1, col=graph.colors[2]);
+          add.error.bars(data.resolucao, data.6450, iconfianca.6450, 0.1, col=graph.colors[3]);
+        } else {
+          add.error.bars(data.resolucao, data.210, iconfianca.210, 0.1, col=graph.colors[1]);
+          }
+      }
      } else {
 
     data.barplot <- matrix(c(data.520, data.210, data.6450), ncol=6, byrow=TRUE)
@@ -387,8 +437,9 @@ for (app.type in 1:2) {
             names.arg = graph.axis.labels,
             ylim      = graph.ylim)
 
-
-    #arrows(taxas, data.barplot-iconfianca, centros, data.barplot+iconfianca, length=0.1, angle=90, code=3)
+    if (kWith.confianca){
+      arrows(taxas, data.barplot-iconfianca, taxas, data.barplot + iconfianca, length=0.1, angle=90, code=3)
+    }
 
     title(graph.title)
 
@@ -404,7 +455,9 @@ for (app.type in 1:2) {
     rm(data.520)
     rm(data.210)
     rm(data.6450)
-
-      }
+    rm(iconfianca.520)
+    rm(iconfianca.210)
+    rm(iconfianca.6450)
+        }
      }
 }
